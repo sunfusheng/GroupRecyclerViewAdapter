@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#263238</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+
+    <color name="font1">#DF000000</color>
+    <color name="font2">#7A000000</color>
+
+    <color name="divider">#1A000000</color>
+
+    <color name="background_common">#F1F2F5</color>
+    <color name="background_common_dark">#C8CAD1</color>
+    <color name="background_item_pressed">#E3E4E8</color>
+
+</resources>
