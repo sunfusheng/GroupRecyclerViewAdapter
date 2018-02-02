@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,34 +32,65 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     private OnItemClickListener onItemClickListener;
 
     public GroupRecyclerViewAdapter(Context context) {
-        this(context, new ArrayList<List<T>>());
+        this(context, new ArrayList<>());
     }
 
     public GroupRecyclerViewAdapter(Context context, List<List<T>> items) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.items = checkData(items);
+        this.items = items;
+        checkData();
     }
 
-    private List<List<T>> checkData(List<List<T>> data) {
-        List<List<T>> items = new ArrayList<>();
-        if (null != data && 0 < data.size()) {
-            for (int i = 0; i < data.size(); i++) {
-                if (null != data.get(i) && 0 < data.get(i).size()) {
-                    items.add(data.get(i));
-                }
+    public GroupRecyclerViewAdapter(Context context, T[][] items) {
+        this.context = context;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.items = convertData(items);
+        checkData();
+    }
+
+    private void checkData() {
+        if (0 == getGroupCount()) {
+            return;
+        }
+
+        Iterator<List<T>> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            List<T> item = iterator.next();
+            int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
+            if (null == item || 0 == item.size() || minCount > item.size()) {
+                iterator.remove();
+                Log.w(TAG, "Data illegal, already removed item " + item);
             }
         }
-        return items;
+    }
+
+    public List<List<T>> convertData(T[][] items) {
+        List<List<T>> lists = new ArrayList<>();
+        for (T[] item : items) {
+            List<T> list = new ArrayList<>();
+            list.addAll(Arrays.asList(item));
+            lists.add(list);
+        }
+        return lists;
+    }
+
+    public void setItems(T[][] items) {
+        setItems(convertData(items));
+    }
+
+    public void setItems(List<List<T>> items) {
+        this.items = items;
+        checkData();
+        notifyDataSetChanged();
     }
 
     public List<List<T>> getItems() {
         return items;
     }
 
-    public void setItems(List<List<T>> items) {
-        this.items = checkData(items);
-        notifyDataSetChanged();
+    public T getItem(int groupPosition, int childPosition) {
+        return items.get(groupPosition).get(childPosition);
     }
 
     @Override
@@ -73,7 +106,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         int groupPosition = getGroupPosition(position);
         int childPosition = getGroupChildPosition(groupPosition, position);
         T item = items.get(groupPosition).get(childPosition);
-        Log.d("--->", "position: " + position + " groupPosition: " + groupPosition + " childPosition: " + childPosition);
+        Log.d(TAG, "position: " + position + " groupPosition: " + groupPosition + " childPosition: " + childPosition);
 
         if (null != onItemClickListener) {
             holder.itemView.setOnClickListener(view -> {
@@ -144,10 +177,6 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             return getFooterLayoutId();
         }
         return 0;
-    }
-
-    public T getItem(int groupPosition, int childPosition) {
-        return items.get(groupPosition).get(childPosition);
     }
 
     /**

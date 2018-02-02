@@ -1,22 +1,17 @@
-package com.sunfusheng.adapter.sample;
+package com.sunfusheng.adapter.sample.adapter;
 
 import android.content.Context;
 
 import com.sunfusheng.adapter.GroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.GroupViewHolder;
-
-import java.util.List;
+import com.sunfusheng.adapter.sample.R;
 
 /**
  * @author sunfusheng on 2018/2/1.
  */
-public class CommonGroupAdapter extends GroupRecyclerViewAdapter<String> {
+public class HeaderFooterGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
-    public CommonGroupAdapter(Context context) {
-        super(context);
-    }
-
-    public CommonGroupAdapter(Context context, List<List<String>> items) {
+    public HeaderFooterGroupAdapter(Context context, String[][] items) {
         super(context, items);
     }
 
@@ -27,7 +22,7 @@ public class CommonGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
     @Override
     public boolean showFooter() {
-        return false;
+        return true;
     }
 
     @Override
@@ -57,6 +52,6 @@ public class CommonGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, "");
+        holder.setText(R.id.tv_footer_title, item);
     }
 }

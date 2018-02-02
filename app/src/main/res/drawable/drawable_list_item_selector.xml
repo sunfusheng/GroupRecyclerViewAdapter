@@ -7,7 +7,7 @@
           android:state_pressed="false"
           android:state_selected="true"/>
 
-    <item android:drawable="@color/background_item_pressed"
+    <item android:drawable="@color/background_common_dark"
           android:state_enabled="true"
           android:state_pressed="true"/>
 
