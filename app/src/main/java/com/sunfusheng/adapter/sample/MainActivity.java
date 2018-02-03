@@ -1,42 +1,33 @@
 package com.sunfusheng.adapter.sample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.sunfusheng.adapter.sample.adapter.MainGroupAdapter;
+import com.sunfusheng.adapter.sample.util.GroupData;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private MainGroupAdapter mainAdapter;
-
-    private String[][] items = {
-            {"", "组头、组项列表", "组项、组尾列表", "组头、组项、组尾列表"},
-            {"", "增加、删除、刷新组项"},
-            {"", "微信-我"}
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mainAdapter = new MainGroupAdapter(this, items);
+        MainGroupAdapter mainAdapter = new MainGroupAdapter(this, GroupData.mainItems);
         recyclerView.setAdapter(mainAdapter);
 
         mainAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            toast("groupPosition: " + groupPosition + "\nchildPosition: " + childPosition);
+            GroupData.MainItemConfig item = mainAdapter.getItem(groupPosition, childPosition);
+            if (null != item && null != item.intentClass) {
+                startActivity(new Intent(this, item.intentClass));
+            }
         });
 
-    }
-
-    private void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 }

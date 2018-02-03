@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/drawable_list_item_dark_selector"
+    android:background="@drawable/drawable_list_item_header_selector"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
         android:text="header type"
-        android:textColor="@color/font2"
+        android:textColor="@color/white"
         android:textSize="13sp"/>
 
     <include layout="@layout/divider_1px"/>

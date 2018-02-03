@@ -17,4 +17,8 @@
     <color name="background_common">#ebebeb</color>
     <color name="background_common_dark">#d6d6d6</color>
 
+    <color name="blue">#1B88EE</color>
+    <color name="blue_60">#9a1B88EE</color>
+    <color name="blue_30">#4d1B88EE</color>
+
 </resources>

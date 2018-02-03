@@ -1,3 +1,11 @@
 <resources>
+
     <string name="app_name">分组列表</string>
+
+    <string name="header">组头、组项列表</string>
+    <string name="footer">组项、组尾列表</string>
+    <string name="header_footer">组头、组项、组尾列表</string>
+    <string name="add_delete_update">增加、删除、刷新组项</string>
+    <string name="wechat_mine">微信-我</string>
+
 </resources>
