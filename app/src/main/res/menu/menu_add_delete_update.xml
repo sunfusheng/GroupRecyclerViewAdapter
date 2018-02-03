@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_group"
+        android:title="插入整组"/>
+
+    <item
+        android:id="@+id/add_item"
+        android:title="插入一个组项"/>
+
+    <item
+        android:id="@+id/add_items"
+        android:title="插入多个组项"/>
+
+    <item
+        android:id="@+id/delete_group"
+        android:title="移除整组"/>
+
+    <item
+        android:id="@+id/delete_item"
+        android:title="移除一个组项"/>
+
+    <item
+        android:id="@+id/delete_items"
+        android:title="移除多个组项"/>
+
+    <item
+        android:id="@+id/update_group"
+        android:title="更新整组"/>
+
+    <item
+        android:id="@+id/update_item"
+        android:title="更新一个组项"/>
+
+    <item
+        android:id="@+id/update_items"
+        android:title="更新多个组项"/>
+
+</menu>  

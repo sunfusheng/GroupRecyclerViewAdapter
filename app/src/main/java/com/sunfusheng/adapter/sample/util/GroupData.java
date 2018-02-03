@@ -1,5 +1,6 @@
 package com.sunfusheng.adapter.sample.util;
 
+import com.sunfusheng.adapter.sample.AddDeleteUpdateActivity;
 import com.sunfusheng.adapter.sample.FooterActivity;
 import com.sunfusheng.adapter.sample.HeaderActivity;
 import com.sunfusheng.adapter.sample.HeaderFooterActivity;
@@ -32,7 +33,7 @@ public class GroupData {
         HEADER(R.string.header, HeaderActivity.class),
         FOOTER(R.string.footer, FooterActivity.class),
         HEADER_FOOTER(R.string.header_footer, HeaderFooterActivity.class),
-        ADD_DELETE_UPDATE(R.string.add_delete_update, null),
+        ADD_DELETE_UPDATE(R.string.add_delete_update, AddDeleteUpdateActivity.class),
         WECHAT_MINE(R.string.wechat_mine, null);
 
         public int titleId;

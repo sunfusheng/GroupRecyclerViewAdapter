@@ -17,7 +17,7 @@ public class HeaderFooterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_recycler_view);
 
         setTitle(R.string.header_footer);
 

@@ -29,6 +29,10 @@
             android:name=".FooterActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".AddDeleteUpdateActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

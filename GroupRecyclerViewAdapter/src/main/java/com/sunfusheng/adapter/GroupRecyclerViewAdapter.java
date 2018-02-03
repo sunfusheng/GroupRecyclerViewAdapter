@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,16 +37,17 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public GroupRecyclerViewAdapter(Context context, List<List<T>> items) {
-        this.context = context;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.items = items;
-        checkData();
+        init(context, items);
     }
 
     public GroupRecyclerViewAdapter(Context context, T[][] items) {
+        init(context, convertData(items));
+    }
+
+    private void init(Context context, List<List<T>> items) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.items = convertData(items);
+        this.items = items;
         checkData();
     }
 
@@ -58,7 +60,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         while (iterator.hasNext()) {
             List<T> item = iterator.next();
             int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
-            if (null == item || 0 == item.size() || minCount > item.size()) {
+            if (isEmpty(item) || minCount > item.size()) {
                 iterator.remove();
                 Log.w(TAG, "Data illegal, already removed item " + item);
             }
@@ -301,6 +303,61 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return itemCount;
     }
 
+    public boolean insertGroup(int groupPosition, T[] group) {
+        if (isEmpty(group)) {
+            return false;
+        }
+
+        List<T> list = Arrays.asList(group);
+        return insertGroup(groupPosition, new ArrayList<>(list));
+    }
+
+    public boolean insertGroup(int groupPosition, List<T> group) {
+        int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
+        if (isEmpty(group) || minCount > group.size()) {
+            return false;
+        }
+
+        items.add(groupPosition, group);
+        int positionStart = getGroupItemCountRange(0, groupPosition);
+        notifyItemRangeInserted(positionStart, group.size());
+        notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart);
+        return true;
+    }
+
+    public boolean insertItem(int groupPosition, int childPosition, T item) {
+        if (null == item) {
+            return false;
+        }
+
+        items.get(groupPosition).add(childPosition, item);
+        int positionStart = getGroupItemCountRange(0, groupPosition) + childPosition;
+        notifyItemInserted(positionStart);
+        notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart);
+        return true;
+    }
+
+    public boolean insertItems(int groupPosition, int childPosition, T[] items) {
+        if (isEmpty(items)) {
+            return false;
+        }
+
+        List<T> list = Arrays.asList(items);
+        return insertItems(groupPosition, childPosition, new ArrayList<>(list));
+    }
+
+    public boolean insertItems(int groupPosition, int childPosition, List<T> items) {
+        if (isEmpty(items)) {
+            return false;
+        }
+
+        this.items.get(groupPosition).addAll(childPosition, items);
+        int positionStart = getGroupItemCountRange(0, groupPosition) + childPosition;
+        notifyItemRangeInserted(positionStart, items.size());
+        notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart);
+        return true;
+    }
+
     public int getHeaderItemType(int groupPosition) {
         return TYPE_HEADER;
     }
@@ -341,4 +398,11 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         void onItemClick(GroupRecyclerViewAdapter adapter, GroupViewHolder holder, int groupPosition, int childPosition);
     }
 
+    public static boolean isEmpty(Collection<?> collection) {
+        return null == collection || collection.isEmpty();
+    }
+
+    public static <T> boolean isEmpty(T[] array) {
+        return null == array || array.length == 0;
+    }
 }
