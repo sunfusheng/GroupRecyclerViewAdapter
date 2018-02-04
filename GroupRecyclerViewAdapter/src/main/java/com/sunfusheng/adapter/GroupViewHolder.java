@@ -35,15 +35,15 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public GroupViewHolder setText(int viewId, int textRes) {
+    public GroupViewHolder setText(int viewId, int resId) {
         TextView tv = get(viewId);
-        tv.setText(textRes);
+        tv.setText(resId);
         return this;
     }
 
-    public GroupViewHolder setTextColor(int viewId, int textColor) {
+    public GroupViewHolder setTextColor(int viewId, int color) {
         TextView view = get(viewId);
-        view.setTextColor(textColor);
+        view.setTextColor(color);
         return this;
     }
 
@@ -79,9 +79,9 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public GroupViewHolder setBackgroundRes(int viewId, int backgroundRes) {
+    public GroupViewHolder setBackgroundResource(int viewId, int resId) {
         View view = get(viewId);
-        view.setBackgroundResource(backgroundRes);
+        view.setBackgroundResource(resId);
         return this;
     }
 
@@ -91,9 +91,9 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public GroupViewHolder setVisible(int viewId, int visible) {
+    public GroupViewHolder setVisibility(int viewId, int visibility) {
         View view = get(viewId);
-        view.setVisibility(visible);
+        view.setVisibility(visibility);
         return this;
     }
 }

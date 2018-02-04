@@ -30,7 +30,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".AddDeleteUpdateActivity"
+            android:name=".InsertRemoveUpdateActivity"
             android:screenOrientation="portrait"/>
 
     </application>

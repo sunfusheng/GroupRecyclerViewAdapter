@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,54 +34,38 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         this(context, new ArrayList<>());
     }
 
-    public GroupRecyclerViewAdapter(Context context, List<List<T>> items) {
-        init(context, items);
+    public GroupRecyclerViewAdapter(Context context, T[][] items) {
+        checkData(items);
+        init(context, GroupAdapterUtils.convertData(items));
     }
 
-    public GroupRecyclerViewAdapter(Context context, T[][] items) {
-        init(context, convertData(items));
+    public GroupRecyclerViewAdapter(Context context, List<List<T>> items) {
+        init(context, items);
     }
 
     private void init(Context context, List<List<T>> items) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.items = items;
-        checkData();
+        checkData(items);
     }
 
-    private void checkData() {
-        if (0 == getGroupCount()) {
-            return;
-        }
-
-        Iterator<List<T>> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            List<T> item = iterator.next();
-            int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
-            if (isEmpty(item) || minCount > item.size()) {
-                iterator.remove();
-                Log.w(TAG, "Data illegal, already removed item " + item);
-            }
-        }
+    private boolean checkData(T[][] items) {
+        return GroupAdapterUtils.checkData(items, minCountPerGroup());
     }
 
-    public List<List<T>> convertData(T[][] items) {
-        List<List<T>> lists = new ArrayList<>();
-        for (T[] item : items) {
-            List<T> list = new ArrayList<>();
-            list.addAll(Arrays.asList(item));
-            lists.add(list);
-        }
-        return lists;
+    private boolean checkData(List<List<T>> items) {
+        return GroupAdapterUtils.checkData(items, minCountPerGroup());
     }
 
     public void setItems(T[][] items) {
-        setItems(convertData(items));
+        checkData(items);
+        setItems(GroupAdapterUtils.convertData(items));
     }
 
     public void setItems(List<List<T>> items) {
+        checkData(items);
         this.items = items;
-        checkData();
         notifyDataSetChanged();
     }
 
@@ -212,7 +194,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             if (!showHeader()) {
                 return -1;
             }
-            return getGroupItemCountRange(0, groupPosition);
+            return countGroupItemRange(0, groupPosition);
         }
         return -1;
     }
@@ -224,7 +206,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      */
     public int getGroupChildPosition(int groupPosition, int itemPosition) {
         if (groupPosition < getGroupCount()) {
-            int position = itemPosition - getGroupItemCountRange(0, groupPosition);
+            int position = itemPosition - countGroupItemRange(0, groupPosition);
             if (0 <= position) {
                 return position;
             }
@@ -241,7 +223,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             if (!showFooter()) {
                 return -1;
             }
-            return getGroupItemCountRange(0, groupPosition + 1) - 1;
+            return countGroupItemRange(0, groupPosition + 1) - 1;
         }
         return -1;
     }
@@ -251,7 +233,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      */
     @Override
     public int getItemCount() {
-        return getGroupItemCountRange(0, getGroupCount());
+        return countGroupItemRange(0, getGroupCount());
     }
 
     /**
@@ -295,16 +277,12 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      * @param count 组的个数
      * @return 返回多个组的所有项
      */
-    public int getGroupItemCountRange(int start, int count) {
-        int itemCount = 0;
-        for (int i = start, groupCount = getGroupCount(); i < start + count && i < groupCount; i++) {
-            itemCount += getGroupItemCount(i);
-        }
-        return itemCount;
+    public int countGroupItemRange(int start, int count) {
+        return GroupAdapterUtils.countGroupItemRange(items, start, count);
     }
 
     public boolean insertGroup(int groupPosition, T[] group) {
-        if (isEmpty(group)) {
+        if (GroupAdapterUtils.isEmpty(group)) {
             return false;
         }
 
@@ -314,14 +292,36 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     public boolean insertGroup(int groupPosition, List<T> group) {
         int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
-        if (isEmpty(group) || minCount > group.size()) {
+        if (GroupAdapterUtils.isEmpty(group) || minCount > group.size()) {
             return false;
         }
 
         items.add(groupPosition, group);
-        int positionStart = getGroupItemCountRange(0, groupPosition);
+        int positionStart = countGroupItemRange(0, groupPosition);
         notifyItemRangeInserted(positionStart, group.size());
         notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart);
+        return true;
+    }
+
+    public boolean insertGroups(int groupPosition, T[][] groups) {
+        if (!checkData(groups)) {
+            return false;
+        }
+
+        List<List<T>> lists = GroupAdapterUtils.convertData(groups);
+        return insertGroups(groupPosition, lists);
+    }
+
+    public boolean insertGroups(int groupPosition, List<List<T>> groups) {
+        if (!checkData(groups)) {
+            return false;
+        }
+
+        items.addAll(groupPosition, groups);
+        int groupItemCount = GroupAdapterUtils.countGroupItemRange(groups, 0, groups.size());
+        int positionStart = countGroupItemRange(0, groupPosition);
+        notifyItemRangeInserted(positionStart, groupItemCount);
+        notifyItemRangeChanged(positionStart + groupItemCount, getItemCount() - positionStart - groupItemCount);
         return true;
     }
 
@@ -331,14 +331,14 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         }
 
         items.get(groupPosition).add(childPosition, item);
-        int positionStart = getGroupItemCountRange(0, groupPosition) + childPosition;
+        int positionStart = countGroupItemRange(0, groupPosition) + childPosition;
         notifyItemInserted(positionStart);
         notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart);
         return true;
     }
 
     public boolean insertItems(int groupPosition, int childPosition, T[] items) {
-        if (isEmpty(items)) {
+        if (GroupAdapterUtils.isEmpty(items)) {
             return false;
         }
 
@@ -347,12 +347,12 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertItems(int groupPosition, int childPosition, List<T> items) {
-        if (isEmpty(items)) {
+        if (GroupAdapterUtils.isEmpty(items)) {
             return false;
         }
 
         this.items.get(groupPosition).addAll(childPosition, items);
-        int positionStart = getGroupItemCountRange(0, groupPosition) + childPosition;
+        int positionStart = countGroupItemRange(0, groupPosition) + childPosition;
         notifyItemRangeInserted(positionStart, items.size());
         notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart);
         return true;
@@ -368,6 +368,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     public int getFooterItemType(int groupPosition) {
         return TYPE_FOOTER;
+    }
+
+    protected int minCountPerGroup() {
+        return (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
     }
 
     public boolean showHeader() {
@@ -398,11 +402,4 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         void onItemClick(GroupRecyclerViewAdapter adapter, GroupViewHolder holder, int groupPosition, int childPosition);
     }
 
-    public static boolean isEmpty(Collection<?> collection) {
-        return null == collection || collection.isEmpty();
-    }
-
-    public static <T> boolean isEmpty(T[] array) {
-        return null == array || array.length == 0;
-    }
 }

@@ -2,27 +2,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/add_group"
-        android:title="插入整组"/>
+        android:id="@+id/insert_group"
+        android:title="插入一个整组"/>
 
     <item
-        android:id="@+id/add_item"
+        android:id="@+id/insert_groups"
+        android:title="插入多个整组"/>
+
+    <item
+        android:id="@+id/insert_item"
         android:title="插入一个组项"/>
 
     <item
-        android:id="@+id/add_items"
+        android:id="@+id/insert_items"
         android:title="插入多个组项"/>
 
     <item
-        android:id="@+id/delete_group"
+        android:id="@+id/remove_group"
         android:title="移除整组"/>
 
     <item
-        android:id="@+id/delete_item"
+        android:id="@+id/remove_item"
         android:title="移除一个组项"/>
 
     <item
-        android:id="@+id/delete_items"
+        android:id="@+id/remove_items"
         android:title="移除多个组项"/>
 
     <item

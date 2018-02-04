@@ -14,11 +14,15 @@ import com.sunfusheng.adapter.sample.util.Utils;
 /**
  * @author sunfusheng on 2018/2/3.
  */
-public class AddDeleteUpdateActivity extends AppCompatActivity {
+public class InsertRemoveUpdateActivity extends AppCompatActivity {
 
     private HeaderGroupAdapter mAdapter;
 
     private String[] new_insert_group = {"插入的新组", "a", "b", "c"};
+    private String[][] new_insert_groups = {
+            {"插入的新组1", "A", "B", "C"},
+            {"插入的新组2", "a", "b", "c", "d"}
+    };
     private String new_insert_item = "插入的新组项";
     private String[] new_insert_items = {"插入的新组项1", "插入的新组项2", "插入的新组项3"};
 
@@ -31,7 +35,7 @@ public class AddDeleteUpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recycler_view);
 
-        setTitle(R.string.add_delete_update);
+        setTitle(R.string.insert_remove_update);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -50,29 +54,32 @@ public class AddDeleteUpdateActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_delete_update, menu);
+        getMenuInflater().inflate(R.menu.menu_insert_remove_update, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.add_group:
+            case R.id.insert_group:
                 mAdapter.insertGroup(1, new_insert_group);
                 break;
-            case R.id.add_item:
+            case R.id.insert_groups:
+                mAdapter.insertGroups(1, new_insert_groups);
+                break;
+            case R.id.insert_item:
                 mAdapter.insertItem(1, 1, new_insert_item);
                 break;
-            case R.id.add_items:
+            case R.id.insert_items:
                 mAdapter.insertItems(1, 1, new_insert_items);
                 break;
-            case R.id.delete_group:
+            case R.id.remove_group:
 
                 break;
-            case R.id.delete_item:
+            case R.id.remove_item:
 
                 break;
-            case R.id.delete_items:
+            case R.id.remove_items:
 
                 break;
             case R.id.update_group:
