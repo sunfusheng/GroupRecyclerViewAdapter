@@ -19,7 +19,11 @@
 
     <item
         android:id="@+id/remove_group"
-        android:title="移除整组"/>
+        android:title="移除一个整组"/>
+
+    <item
+        android:id="@+id/remove_groups"
+        android:title="移除多个整组"/>
 
     <item
         android:id="@+id/remove_item"
@@ -31,7 +35,11 @@
 
     <item
         android:id="@+id/update_group"
-        android:title="更新整组"/>
+        android:title="更新一个整组"/>
+
+    <item
+        android:id="@+id/update_groups"
+        android:title="更新多个整组"/>
 
     <item
         android:id="@+id/update_item"

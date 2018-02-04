@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -24,9 +23,8 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     private Context context;
     private LayoutInflater inflater;
-    private List<List<T>> items;
+    private List<List<T>> groups;
     private int itemPosition;
-    private int itemType;
 
     private OnItemClickListener onItemClickListener;
 
@@ -34,62 +32,54 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         this(context, new ArrayList<>());
     }
 
-    public GroupRecyclerViewAdapter(Context context, T[][] items) {
-        checkData(items);
-        init(context, GroupAdapterUtils.convertData(items));
+    public GroupRecyclerViewAdapter(Context context, T[][] groups) {
+        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
+        init(context, GroupAdapterUtils.convertGroupsData(groups));
     }
 
-    public GroupRecyclerViewAdapter(Context context, List<List<T>> items) {
-        init(context, items);
+    public GroupRecyclerViewAdapter(Context context, List<List<T>> groups) {
+        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
+        init(context, groups);
     }
 
-    private void init(Context context, List<List<T>> items) {
+    private void init(Context context, List<List<T>> groups) {
         this.context = context;
+        this.groups = groups;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.items = items;
-        checkData(items);
     }
 
-    private boolean checkData(T[][] items) {
-        return GroupAdapterUtils.checkData(items, minCountPerGroup());
-    }
-
-    private boolean checkData(List<List<T>> items) {
-        return GroupAdapterUtils.checkData(items, minCountPerGroup());
-    }
-
-    public void setItems(T[][] items) {
-        checkData(items);
-        setItems(GroupAdapterUtils.convertData(items));
-    }
-
-    public void setItems(List<List<T>> items) {
-        checkData(items);
-        this.items = items;
+    public void setItems(T[][] groups) {
+        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
+        this.groups = GroupAdapterUtils.convertGroupsData(groups);
         notifyDataSetChanged();
     }
 
-    public List<List<T>> getItems() {
-        return items;
+    public void setItems(List<List<T>> groups) {
+        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
+        this.groups = groups;
+        notifyDataSetChanged();
+    }
+
+    public List<List<T>> getGroups() {
+        return this.groups;
     }
 
     public T getItem(int groupPosition, int childPosition) {
-        return items.get(groupPosition).get(childPosition);
+        return this.groups.get(groupPosition).get(childPosition);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(getLayoutId(), parent, false);
-        return new GroupViewHolder(view);
+        return new GroupViewHolder(inflater.inflate(getLayoutId(), parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         GroupViewHolder viewHolder = (GroupViewHolder) holder;
-        int itemType = confirmItemViewType(position);
+        int viewType = confirmItemViewType(position);
         int groupPosition = getGroupPosition(position);
         int childPosition = getGroupChildPosition(groupPosition, position);
-        T item = items.get(groupPosition).get(childPosition);
+        T item = getItem(groupPosition, childPosition);
         Log.d(TAG, "position: " + position + " groupPosition: " + groupPosition + " childPosition: " + childPosition);
 
         if (null != onItemClickListener) {
@@ -100,11 +90,11 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             });
         }
 
-        if (TYPE_HEADER == itemType) {
+        if (TYPE_HEADER == viewType) {
             onBindHeaderViewHolder(viewHolder, item, groupPosition);
-        } else if (TYPE_CHILD == itemType) {
+        } else if (TYPE_CHILD == viewType) {
             onBindChildViewHolder(viewHolder, item, groupPosition, childPosition);
-        } else if (TYPE_FOOTER == itemType) {
+        } else if (TYPE_FOOTER == viewType) {
             onBindFooterViewHolder(viewHolder, item, groupPosition);
         }
     }
@@ -112,23 +102,23 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     @Override
     public int getItemViewType(int position) {
         this.itemPosition = position;
-        this.itemType = confirmItemViewType(position);
+        int viewType = confirmItemViewType(position);
         int groupPosition = getGroupPosition(position);
 
-        if (TYPE_HEADER == itemType) {
-            return getHeaderItemType(groupPosition);
-        } else if (TYPE_CHILD == itemType) {
+        if (TYPE_HEADER == viewType) {
+            return getHeaderItemViewType(groupPosition);
+        } else if (TYPE_CHILD == viewType) {
             int childPosition = getGroupChildPosition(groupPosition, position);
-            return getChildItemType(groupPosition, childPosition);
-        } else if (TYPE_FOOTER == itemType) {
-            return getFooterItemType(groupPosition);
+            return getChildItemViewType(groupPosition, childPosition);
+        } else if (TYPE_FOOTER == viewType) {
+            return getFooterItemViewType(groupPosition);
         }
         return super.getItemViewType(position);
     }
 
     public int confirmItemViewType(int itemPosition) {
         int itemCount = 0;
-        for (int i = 0, groupCount = getGroupCount(); i < groupCount; i++) {
+        for (int i = 0, groupsCount = groupsCount(); i < groupsCount; i++) {
             if (showHeader()) {
                 itemCount += 1;
                 if (itemPosition < itemCount) {
@@ -136,7 +126,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
                 }
             }
 
-            itemCount += getGroupChildCount(i);
+            itemCount += countGroupChildren(i);
             if (itemPosition < itemCount) {
                 return TYPE_CHILD;
             }
@@ -152,12 +142,12 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public int getLayoutId() {
-        int itemType = confirmItemViewType(getItemPosition());
-        if (TYPE_HEADER == itemType) {
+        int viewType = confirmItemViewType(getItemPosition());
+        if (TYPE_HEADER == viewType) {
             return getHeaderLayoutId();
-        } else if (TYPE_CHILD == itemType) {
+        } else if (TYPE_CHILD == viewType) {
             return getChildLayoutId();
-        } else if (TYPE_FOOTER == itemType) {
+        } else if (TYPE_FOOTER == viewType) {
             return getFooterLayoutId();
         }
         return 0;
@@ -176,8 +166,8 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      */
     public int getGroupPosition(int itemPosition) {
         int itemCount = 0;
-        for (int i = 0, groupCount = getGroupCount(); i < groupCount; i++) {
-            itemCount += getGroupItemCount(i);
+        for (int i = 0, groupsCount = groupsCount(); i < groupsCount; i++) {
+            itemCount += countGroupItems(i);
             if (itemPosition < itemCount) {
                 return i;
             }
@@ -190,11 +180,8 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      * @return 返回指定组header的列表下标，如果没有header返回-1
      */
     public int getGroupHeaderPosition(int groupPosition) {
-        if (groupPosition < getGroupCount()) {
-            if (!showHeader()) {
-                return -1;
-            }
-            return countGroupItemRange(0, groupPosition);
+        if (showHeader() && groupPosition < groupsCount()) {
+            return countGroupsItemsRange(0, groupPosition);
         }
         return -1;
     }
@@ -205,8 +192,8 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      * @return 返回所在组的下标
      */
     public int getGroupChildPosition(int groupPosition, int itemPosition) {
-        if (groupPosition < getGroupCount()) {
-            int position = itemPosition - countGroupItemRange(0, groupPosition);
+        if (groupPosition < groupsCount()) {
+            int position = itemPosition - countGroupsItemsRange(0, groupPosition);
             if (0 <= position) {
                 return position;
             }
@@ -219,158 +206,178 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
      * @return 返回指定组footer的列表下标，如果没有footer返回-1
      */
     public int getGroupFooterPosition(int groupPosition) {
-        if (groupPosition < getGroupCount()) {
-            if (!showFooter()) {
-                return -1;
-            }
-            return countGroupItemRange(0, groupPosition + 1) - 1;
+        if (showFooter() && groupPosition < groupsCount()) {
+            return countGroupsItemsRange(0, groupPosition + 1) - 1;
         }
         return -1;
     }
 
-    /**
-     * @return 返回所有组所有项的个数
-     */
     @Override
     public int getItemCount() {
-        return countGroupItemRange(0, getGroupCount());
+        return countGroupsItemsRange(0, groupsCount());
     }
 
-    /**
-     * @return 返回所有组的个数
-     */
-    public int getGroupCount() {
-        return null == items ? 0 : items.size();
+    public int groupsCount() {
+        return GroupAdapterUtils.countGroups(groups);
     }
 
-    /**
-     * @param groupPosition 组下标
-     * @return 返回指定组所有项的个数，包括header、child、footer
-     */
-    public int getGroupItemCount(int groupPosition) {
-        if (0 == getGroupCount()) {
-            return 0;
-        }
-
-        return null == items.get(groupPosition) ? 0 : items.get(groupPosition).size();
+    public int countGroupItems(int groupPosition) {
+        return GroupAdapterUtils.countGroupItems(groups, groupPosition);
     }
 
-    /**
-     * @param groupPosition 组下标
-     * @return 返回指定组所有child项的个数，只含有child，不包括header、footer
-     */
-    public int getGroupChildCount(int groupPosition) {
-        int groupItemCount = getGroupItemCount(groupPosition);
-        if (0 == groupItemCount) {
-            return 0;
-        }
-
-        int childCount = groupItemCount - (showHeader() ? 1 : 0) - (showFooter() ? 1 : 0);
-        if (0 > childCount) {
-            return 0;
-        }
-        return childCount;
+    public int countGroupChildren(int groupPosition) {
+        return GroupAdapterUtils.countGroupChildren(groups, groupPosition, minCountPerGroup());
     }
 
-    /**
-     * @param start 开始的组
-     * @param count 组的个数
-     * @return 返回多个组的所有项
-     */
-    public int countGroupItemRange(int start, int count) {
-        return GroupAdapterUtils.countGroupItemRange(items, start, count);
+    public int countGroupsItemsRange(int start, int count) {
+        return GroupAdapterUtils.countGroupsItemsRange(groups, start, count);
     }
 
     public boolean insertGroup(int groupPosition, T[] group) {
-        if (GroupAdapterUtils.isEmpty(group)) {
-            return false;
+        if (GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+            List<T> list = Arrays.asList(group);
+            return insertGroup(groupPosition, new ArrayList<>(list));
         }
-
-        List<T> list = Arrays.asList(group);
-        return insertGroup(groupPosition, new ArrayList<>(list));
+        return false;
     }
 
     public boolean insertGroup(int groupPosition, List<T> group) {
-        int minCount = (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
-        if (GroupAdapterUtils.isEmpty(group) || minCount > group.size()) {
-            return false;
+        if (GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+            this.groups.add(groupPosition, group);
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            notifyItemRangeInserted(positionStart, group.size());
+            notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart - group.size());
+            return true;
         }
-
-        items.add(groupPosition, group);
-        int positionStart = countGroupItemRange(0, groupPosition);
-        notifyItemRangeInserted(positionStart, group.size());
-        notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart);
-        return true;
+        return false;
     }
 
     public boolean insertGroups(int groupPosition, T[][] groups) {
-        if (!checkData(groups)) {
-            return false;
+        if (GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
+            List<List<T>> lists = GroupAdapterUtils.convertGroupsData(groups);
+            return insertGroups(groupPosition, lists);
         }
-
-        List<List<T>> lists = GroupAdapterUtils.convertData(groups);
-        return insertGroups(groupPosition, lists);
+        return false;
     }
 
     public boolean insertGroups(int groupPosition, List<List<T>> groups) {
-        if (!checkData(groups)) {
-            return false;
+        if (GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
+            this.groups.addAll(groupPosition, groups);
+            int groupItemCount = GroupAdapterUtils.countGroupsItemsRange(groups, 0, groups.size());
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            notifyItemRangeInserted(positionStart, groupItemCount);
+            notifyItemRangeChanged(positionStart + groupItemCount, getItemCount() - positionStart - groupItemCount);
+            return true;
         }
-
-        items.addAll(groupPosition, groups);
-        int groupItemCount = GroupAdapterUtils.countGroupItemRange(groups, 0, groups.size());
-        int positionStart = countGroupItemRange(0, groupPosition);
-        notifyItemRangeInserted(positionStart, groupItemCount);
-        notifyItemRangeChanged(positionStart + groupItemCount, getItemCount() - positionStart - groupItemCount);
-        return true;
+        return false;
     }
 
     public boolean insertItem(int groupPosition, int childPosition, T item) {
-        if (null == item) {
-            return false;
+        if (null != item) {
+            this.groups.get(groupPosition).add(childPosition, item);
+            int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
+            notifyItemInserted(positionStart);
+            notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart - 1);
+            return true;
         }
-
-        items.get(groupPosition).add(childPosition, item);
-        int positionStart = countGroupItemRange(0, groupPosition) + childPosition;
-        notifyItemInserted(positionStart);
-        notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart);
-        return true;
+        return false;
     }
 
     public boolean insertItems(int groupPosition, int childPosition, T[] items) {
-        if (GroupAdapterUtils.isEmpty(items)) {
-            return false;
+        if (!GroupAdapterUtils.isEmpty(items)) {
+            List<T> list = Arrays.asList(items);
+            return insertItems(groupPosition, childPosition, new ArrayList<>(list));
         }
-
-        List<T> list = Arrays.asList(items);
-        return insertItems(groupPosition, childPosition, new ArrayList<>(list));
+        return false;
     }
 
     public boolean insertItems(int groupPosition, int childPosition, List<T> items) {
-        if (GroupAdapterUtils.isEmpty(items)) {
+        if (!GroupAdapterUtils.isEmpty(items)) {
+            this.groups.get(groupPosition).addAll(childPosition, items);
+            int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
+            notifyItemRangeInserted(positionStart, items.size());
+            notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart - items.size());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeGroup(int groupPosition) {
+        if (groupPosition < groupsCount()) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupItems(groupPosition);
+            this.groups.remove(groupPosition);
+            notifyItemRangeRemoved(positionStart, itemCount);
+            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeGroups(int groupPosition, int count) {
+        if (0 == count || groupPosition >= groupsCount()) {
             return false;
         }
 
-        this.items.get(groupPosition).addAll(childPosition, items);
-        int positionStart = countGroupItemRange(0, groupPosition) + childPosition;
-        notifyItemRangeInserted(positionStart, items.size());
-        notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart);
+        int groupsCount = count;
+        if (groupPosition + count > groupsCount()) {
+            groupsCount = groupsCount() - groupPosition;
+        }
+
+        int positionStart = countGroupsItemsRange(0, groupPosition);
+        int itemCount = countGroupsItemsRange(groupPosition, groupsCount);
+        for (int i = 0; i < groupsCount; i++) {
+            this.groups.remove(groupPosition);
+        }
+        notifyItemRangeRemoved(positionStart, itemCount);
+        notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
         return true;
     }
 
-    public int getHeaderItemType(int groupPosition) {
+    public boolean removeItem(int groupPosition, int childPosition) {
+        return removeItems(groupPosition, childPosition, 1);
+    }
+
+    public boolean removeItems(int groupPosition, int childPosition, int count) {
+        if (groupPosition < groupsCount()) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupItems(groupPosition);
+            if (childPosition >= itemCount) {
+                return false;
+            }
+
+            int childCount = count;
+            if (childPosition + count > itemCount) {
+                childCount = itemCount - childPosition;
+            }
+
+            if (itemCount < minCountPerGroup() + childCount) {
+                removeGroup(groupPosition);
+            } else {
+                for (int i = 0; i < childCount; i++) {
+                    this.groups.get(groupPosition).remove(childPosition);
+                }
+                notifyItemRangeRemoved(positionStart + childPosition, childCount);
+                notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public int getHeaderItemViewType(int groupPosition) {
         return TYPE_HEADER;
     }
 
-    public int getChildItemType(int groupPosition, int childPosition) {
+    public int getChildItemViewType(int groupPosition, int childPosition) {
         return TYPE_CHILD;
     }
 
-    public int getFooterItemType(int groupPosition) {
+    public int getFooterItemViewType(int groupPosition) {
         return TYPE_FOOTER;
     }
 
-    protected int minCountPerGroup() {
+    public int minCountPerGroup() {
         return (showHeader() ? 1 : 0) + (showFooter() ? 1 : 0);
     }
 

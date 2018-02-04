@@ -23,35 +23,52 @@ public class GroupAdapterUtils {
         return null == array || array.length == 0;
     }
 
-    public static <T> boolean checkData(T[][] items, int minCountPerGroup) {
-        if (isEmpty(items)) {
-            return false;
+    public static <T> boolean checkGroupData(T[] group, int minCountPerGroup) {
+        if (!isEmpty(group)) {
+            return minCountPerGroup <= group.length;
         }
-
-        return checkData(convertData(items), minCountPerGroup);
+        return false;
     }
 
-    public static <T> boolean checkData(List<List<T>> items, int minCountPerGroup) {
-        if (isEmpty(items)) {
+    public static <T> boolean checkGroupData(List<T> group, int minCountPerGroup) {
+        if (!isEmpty(group)) {
+            return minCountPerGroup <= group.size();
+        }
+        return false;
+    }
+
+    public static <T> boolean checkGroupsData(T[][] groups, int minCountPerGroup) {
+        if (!isEmpty(groups)) {
+            return checkGroupsData(convertGroupsData(groups), minCountPerGroup);
+        }
+        return false;
+    }
+
+    public static <T> boolean checkGroupsData(List<List<T>> groups, int minCountPerGroup) {
+        if (isEmpty(groups)) {
             return false;
         }
 
-        Iterator<List<T>> iterator = items.iterator();
+        Iterator<List<T>> iterator = groups.iterator();
         while (iterator.hasNext()) {
-            List<T> item = iterator.next();
-            if (isEmpty(item) || minCountPerGroup > item.size()) {
+            List<T> group = iterator.next();
+            if (isEmpty(group) || minCountPerGroup > group.size()) {
                 iterator.remove();
-                Log.w(TAG, "data illegal, already removed item " + item);
+                Log.w(TAG, "Data illegal, already removed group = " + group);
             }
         }
-        return !isEmpty(items);
+        return !isEmpty(groups);
     }
 
-    public static <T> List<List<T>> convertData(T[][] items) {
+    public static <T> List<List<T>> convertGroupsData(T[][] groups) {
         List<List<T>> lists = new ArrayList<>();
-        for (T[] item : items) {
+        if (isEmpty(groups)) {
+            return lists;
+        }
+
+        for (T[] group : groups) {
             List<T> list = new ArrayList<>();
-            list.addAll(Arrays.asList(item));
+            list.addAll(Arrays.asList(group));
             lists.add(list);
         }
         return lists;
@@ -60,43 +77,61 @@ public class GroupAdapterUtils {
     /**
      * 返回所有组的个数
      *
-     * @param items
+     * @param groups
      * @param <T>
      * @return
      */
-    public static <T> int getGroupCount(List<List<T>> items) {
-        return isEmpty(items) ? 0 : items.size();
+    public static <T> int countGroups(List<List<T>> groups) {
+        return isEmpty(groups) ? 0 : groups.size();
     }
 
     /**
-     * 返回指定组所有项的个数，包括header、child、footer
+     * 返回指定组的组项的个数，包括header、child、footer
      *
-     * @param items
+     * @param groups
      * @param groupPosition 组下标
      * @param <T>
      * @return
      */
-    public static <T> int getGroupItemCount(List<List<T>> items, int groupPosition) {
-        if (isEmpty(items)) {
-            return 0;
+    public static <T> int countGroupItems(List<List<T>> groups, int groupPosition) {
+        if (!isEmpty(groups)) {
+            return isEmpty(groups.get(groupPosition)) ? 0 : groups.get(groupPosition).size();
         }
-
-        return null == items.get(groupPosition) ? 0 : items.get(groupPosition).size();
+        return 0;
     }
 
     /**
-     * 返回多个组所有项的个数
+     * 返回指定组所有child项的个数，只含有child，不包括header、footer
      *
-     * @param items
+     * @param groupPosition 组下标
+     * @return
+     */
+    public static <T> int countGroupChildren(List<List<T>> groups, int groupPosition, int minCountPerGroup) {
+        int groupItemsCount = countGroupItems(groups, groupPosition);
+        if (0 == groupItemsCount) {
+            return 0;
+        }
+
+        int childCount = groupItemsCount - minCountPerGroup;
+        if (0 > childCount) {
+            return 0;
+        }
+        return childCount;
+    }
+
+    /**
+     * 返回多个组的组项的个数
+     *
+     * @param groups
      * @param start
      * @param count
      * @param <T>
      * @return
      */
-    public static <T> int countGroupItemRange(List<List<T>> items, int start, int count) {
+    public static <T> int countGroupsItemsRange(List<List<T>> groups, int start, int count) {
         int itemCount = 0;
-        for (int i = start, groupCount = getGroupCount(items); i < start + count && i < groupCount; i++) {
-            itemCount += getGroupItemCount(items, i);
+        for (int i = start, groupsCount = countGroups(groups); i < start + count && i < groupsCount; i++) {
+            itemCount += countGroupItems(groups, i);
         }
         return itemCount;
     }
