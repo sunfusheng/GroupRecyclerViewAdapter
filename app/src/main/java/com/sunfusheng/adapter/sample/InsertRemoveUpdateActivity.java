@@ -2,11 +2,11 @@ package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sunfusheng.adapter.GroupLinearLayoutManager;
 import com.sunfusheng.adapter.sample.adapter.HeaderFooterGroupAdapter;
 import com.sunfusheng.adapter.sample.util.GroupData;
 import com.sunfusheng.adapter.sample.util.Utils;
@@ -26,10 +26,10 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
     private String new_insert_item = "插入的新组项";
     private String[] new_insert_items = {"插入的新组项1", "插入的新组项2", "插入的新组项3"};
 
-    private String[] new_update_group = {"更新的新组", "a", "b", "c"};
+    private String[] new_update_group = {"更新的新组", "A", "B", "C", "D", "E"};
     private String[][] new_update_groups = {
             {"更新的新组1", "A", "B", "C"},
-            {"更新的新组2", "a", "b", "c", "d"}
+            {"更新的新组2", "a", "b", "c"}
     };
     private String new_update_item = "更新的新组项";
     private String[] new_update_items = {"更新的新组项1", "更新的新组项2", "更新的新组项3"};
@@ -42,7 +42,7 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
         setTitle(R.string.insert_remove_update);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GroupLinearLayoutManager(this));
         mAdapter = new HeaderFooterGroupAdapter(this, GroupData.items);
         recyclerView.setAdapter(mAdapter);
 
@@ -90,16 +90,16 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
                 mAdapter.removeItems(1, 1, 2);
                 break;
             case R.id.update_group:
-
+                mAdapter.updateGroup(1, new_update_group);
                 break;
             case R.id.update_groups:
-
+                mAdapter.updateGroups(1, new_update_groups);
                 break;
             case R.id.update_item:
-
+                mAdapter.updateItem(1, 1, new_update_item);
                 break;
             case R.id.update_items:
-
+                mAdapter.updateItems(1, 0, new_update_items);
                 break;
         }
         return true;

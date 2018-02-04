@@ -37,11 +37,11 @@ public class FooterGroupAdapter extends FooterGroupRecyclerViewAdapter<String> {
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item);
+        holder.setText(R.id.tv_child_title, item + "、child");
     }
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, item);
+        holder.setText(R.id.tv_footer_title, item + "、footer");
     }
 }

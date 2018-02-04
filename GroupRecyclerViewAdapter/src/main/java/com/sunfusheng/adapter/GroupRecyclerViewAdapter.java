@@ -365,6 +365,97 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return false;
     }
 
+    public boolean updateGroup(int groupPosition, T[] group) {
+        if (groupPosition < groupsCount() && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+            List<T> list = Arrays.asList(group);
+            return updateGroup(groupPosition, new ArrayList<>(list));
+        }
+        return false;
+    }
+
+    public boolean updateGroup(int groupPosition, List<T> group) {
+        if (groupPosition < groupsCount() && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            this.groups.remove(groupPosition);
+            this.groups.add(groupPosition, group);
+            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateGroups(int groupPosition, T[][] groups) {
+        if (!GroupAdapterUtils.isEmpty(groups)) {
+            return updateGroups(groupPosition, GroupAdapterUtils.convertGroupsData(groups));
+        }
+        return false;
+    }
+
+    public boolean updateGroups(int groupPosition, List<List<T>> groups) {
+        if (groupPosition < groupsCount() && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int size = groups.size();
+            if (groupPosition + size > groupsCount()) {
+                size = groupsCount() - groupPosition;
+            }
+
+            for (int i = 0; i < size; i++) {
+                this.groups.remove(groupPosition);
+            }
+            this.groups.addAll(groupPosition, groups.subList(0, size));
+            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItem(int groupPosition, int childPosition, T item) {
+        if (null != item && groupPosition < groupsCount()) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupItems(groupPosition);
+            if (childPosition >= itemCount) {
+                return false;
+            }
+
+            this.groups.get(groupPosition).remove(childPosition);
+            this.groups.get(groupPosition).add(childPosition, item);
+            notifyItemChanged(positionStart + childPosition);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItems(int groupPosition, int childPosition, T[] items) {
+        if (!GroupAdapterUtils.isEmpty(items)) {
+            List<T> list = Arrays.asList(items);
+            return updateItems(groupPosition, childPosition, new ArrayList<>(list));
+        }
+        return false;
+    }
+
+    public boolean updateItems(int groupPosition, int childPosition, List<T> items) {
+        if (groupPosition < groupsCount()) {
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupItems(groupPosition);
+            if (childPosition >= itemCount) {
+                return false;
+            }
+
+            int childCount = items.size();
+            if (childPosition + childCount > itemCount) {
+                childCount = itemCount - childPosition;
+            }
+
+            for (int i = 0; i < childCount; i++) {
+                this.groups.get(groupPosition).remove(childPosition);
+            }
+            this.groups.get(groupPosition).addAll(childPosition, items.subList(0, childCount));
+            notifyItemRangeChanged(positionStart + childPosition, childCount);
+            return true;
+        }
+        return false;
+    }
+
     public int getHeaderItemViewType(int groupPosition) {
         return TYPE_HEADER;
     }
