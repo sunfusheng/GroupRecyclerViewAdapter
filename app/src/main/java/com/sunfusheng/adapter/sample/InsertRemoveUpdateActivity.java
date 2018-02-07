@@ -64,43 +64,48 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        boolean isSuccess = false;
         switch (item.getItemId()) {
             case R.id.insert_group:
-                mAdapter.insertGroup(1, new_insert_group);
+                isSuccess = mAdapter.insertGroup(1, new_insert_group);
                 break;
             case R.id.insert_groups:
-                mAdapter.insertGroups(1, new_insert_groups);
+                isSuccess = mAdapter.insertGroups(1, new_insert_groups);
                 break;
             case R.id.insert_item:
-                mAdapter.insertItem(1, 1, new_insert_item);
+                isSuccess = mAdapter.insertItem(1, 1, new_insert_item);
                 break;
             case R.id.insert_items:
-                mAdapter.insertItems(1, 1, new_insert_items);
+                isSuccess = mAdapter.insertItems(1, 4, new_insert_items);
                 break;
             case R.id.remove_group:
-                mAdapter.removeGroup(0);
+                isSuccess = mAdapter.removeGroup(0);
                 break;
             case R.id.remove_groups:
-                mAdapter.removeGroups(1, 2);
+                isSuccess = mAdapter.removeGroups(1, 2);
                 break;
             case R.id.remove_item:
-                mAdapter.removeItem(1, 1);
+                isSuccess = mAdapter.removeItem(1, 1);
                 break;
             case R.id.remove_items:
-                mAdapter.removeItems(1, 1, 2);
+                isSuccess = mAdapter.removeItems(1, 1, 2);
                 break;
             case R.id.update_group:
-                mAdapter.updateGroup(1, new_update_group);
+                isSuccess = mAdapter.updateGroup(1, new_update_group);
                 break;
             case R.id.update_groups:
-                mAdapter.updateGroups(1, new_update_groups);
+                isSuccess = mAdapter.updateGroups(1, new_update_groups);
                 break;
             case R.id.update_item:
-                mAdapter.updateItem(1, 1, new_update_item);
+                isSuccess = mAdapter.updateItem(1, 1, new_update_item);
                 break;
             case R.id.update_items:
-                mAdapter.updateItems(1, 0, new_update_items);
+                isSuccess = mAdapter.updateItems(1, 0, new_update_items);
                 break;
+        }
+
+        if (!isSuccess) {
+            Utils.toast(this, "操作失败，请检查Data或Position");
         }
         return true;
     }

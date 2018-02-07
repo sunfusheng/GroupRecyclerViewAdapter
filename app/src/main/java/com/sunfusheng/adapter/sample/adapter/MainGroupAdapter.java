@@ -44,5 +44,6 @@ public class MainGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupData.M
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, GroupData.MainItemConfig item, int groupPosition, int childPosition) {
         holder.setText(R.id.tv_child_title, item.titleId);
+        holder.setVisible(R.id.divider, !isGroupLastItem(groupPosition, childPosition));
     }
 }

@@ -17,7 +17,11 @@
         android:textColor="@color/white"
         android:textSize="13sp"/>
 
-    <include layout="@layout/divider_1px"/>
+    <include layout="@layout/divider_1px"
+             android:layout_width="match_parent"
+             android:layout_height="1px"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"/>
 </LinearLayout>
 
 
