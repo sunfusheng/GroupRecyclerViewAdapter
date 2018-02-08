@@ -76,7 +76,7 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
                 isSuccess = mAdapter.insertItem(1, 1, new_insert_item);
                 break;
             case R.id.insert_items:
-                isSuccess = mAdapter.insertItems(1, 4, new_insert_items);
+                isSuccess = mAdapter.insertItems(1, 1, new_insert_items);
                 break;
             case R.id.remove_group:
                 isSuccess = mAdapter.removeGroup(0);
