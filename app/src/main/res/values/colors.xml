@@ -7,6 +7,7 @@
 
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="orange">#ffa500</color>
 
     <color name="font1">#333333</color>
     <color name="font2">#9d9d9d</color>
@@ -17,8 +18,8 @@
     <color name="background_common">#ebebeb</color>
     <color name="background_common_dark">#d6d6d6</color>
 
-    <color name="blue_60">#9a1B88EE</color>
-    <color name="blue_40">#661B88EE</color>
-    <color name="blue_20">#331B88EE</color>
+    <color name="grey1">#9e9e9e</color>
+    <color name="grey2">#bdbdbd</color>
+    <color name="grey3">#e0e0e0</color>
 
 </resources>

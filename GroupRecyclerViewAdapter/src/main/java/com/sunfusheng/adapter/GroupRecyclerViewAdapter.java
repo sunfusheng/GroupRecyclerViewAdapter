@@ -21,12 +21,12 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     public static final int TYPE_CHILD = 1;
     public static final int TYPE_FOOTER = 2;
 
-    private Context context;
-    private LayoutInflater inflater;
-    private List<List<T>> groups;
-    private int itemPosition;
+    protected Context context;
+    protected LayoutInflater inflater;
+    protected List<List<T>> groups;
+    protected int itemPosition;
 
-    private OnItemClickListener onItemClickListener;
+    protected OnItemClickListener onItemClickListener;
 
     public GroupRecyclerViewAdapter(Context context) {
         this(context, new ArrayList<>());
@@ -64,8 +64,37 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return this.groups;
     }
 
+    public List<T> getGroupItems(int groupPosition) {
+        return getGroups().get(groupPosition);
+    }
+
     public T getItem(int groupPosition, int childPosition) {
-        return this.groups.get(groupPosition).get(childPosition);
+        return getGroupItems(groupPosition).get(childPosition);
+    }
+
+    public List<T> getGroupItemsWithoutHeader(int groupPosition) {
+        if (checkGroupPosition(groupPosition)) {
+            List<T> items = new ArrayList<>(getGroups().get(groupPosition));
+            if (showHeader()) {
+                items.remove(0);
+            }
+            return items;
+        }
+        return null;
+    }
+
+    public List<T> getGroupItemsWithoutHeaderFooter(int groupPosition) {
+        if (checkGroupPosition(groupPosition)) {
+            List<T> items = new ArrayList<>(getGroups().get(groupPosition));
+            if (showFooter()) {
+                items.remove(items.size() - 1);
+            }
+            if (showHeader()) {
+                items.remove(0);
+            }
+            return items;
+        }
+        return null;
     }
 
     @Override
@@ -217,12 +246,20 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return countGroupsItemsRange(0, groupsCount());
     }
 
-    public boolean checkGroupPosition(int groupPosition) {
+    protected boolean checkGroupPosition(int groupPosition) {
         return groupPosition >= 0 && groupPosition < groupsCount();
     }
 
-    public boolean checkChildPosition(int childPosition, int groupItemsCount) {
+    protected boolean checkGroupPositionForInsert(int groupPosition) {
+        return groupPosition >= 0 && groupPosition <= groupsCount();
+    }
+
+    protected boolean checkChildPosition(int childPosition, int groupItemsCount) {
         return childPosition >= 0 && childPosition < groupItemsCount;
+    }
+
+    protected boolean checkChildPositionForInsert(int childPosition, int groupItemsCount) {
+        return childPosition >= 0 && childPosition <= groupItemsCount;
     }
 
     public int groupsCount() {
@@ -242,7 +279,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertGroup(int groupPosition, T[] group) {
-        if (checkGroupPosition(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+        if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
             List<T> list = Arrays.asList(group);
             return insertGroup(groupPosition, new ArrayList<>(list));
         }
@@ -250,7 +287,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertGroup(int groupPosition, List<T> group) {
-        if (checkGroupPosition(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
+        if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
             this.groups.add(groupPosition, group);
             int positionStart = countGroupsItemsRange(0, groupPosition);
             notifyItemRangeInserted(positionStart, group.size());
@@ -261,7 +298,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertGroups(int groupPosition, T[][] groups) {
-        if (checkGroupPosition(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
+        if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
             List<List<T>> lists = GroupAdapterUtils.convertGroupsData(groups);
             return insertGroups(groupPosition, lists);
         }
@@ -269,7 +306,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertGroups(int groupPosition, List<List<T>> groups) {
-        if (checkGroupPosition(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
+        if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
             this.groups.addAll(groupPosition, groups);
             int groupItemCount = GroupAdapterUtils.countGroupsItemsRange(groups, 0, groups.size());
             int positionStart = countGroupsItemsRange(0, groupPosition);
@@ -281,13 +318,13 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertItem(int groupPosition, int childPosition, T item) {
-        if (checkGroupPosition(groupPosition) && null != item) {
+        if (checkGroupPositionForInsert(groupPosition) && null != item) {
             int groupItemsCount = countGroupItems(groupPosition);
-            if (!checkChildPosition(childPosition, groupItemsCount)) {
+            if (!checkChildPositionForInsert(childPosition, groupItemsCount)) {
                 return false;
             }
 
-            this.groups.get(groupPosition).add(childPosition, item);
+            getGroupItems(groupPosition).add(childPosition, item);
             int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
             notifyItemInserted(positionStart);
             notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart - 1);
@@ -297,24 +334,36 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertItems(int groupPosition, int childPosition, T[] items) {
-        if (checkGroupPosition(groupPosition) && !GroupAdapterUtils.isEmpty(items)) {
+        return insertItems(groupPosition, childPosition, items, false);
+    }
+
+    public boolean insertItems(int groupPosition, int childPosition, T[] items, boolean withAnim) {
+        if (checkGroupPositionForInsert(groupPosition) && !GroupAdapterUtils.isEmpty(items)) {
             List<T> list = Arrays.asList(items);
-            return insertItems(groupPosition, childPosition, new ArrayList<>(list));
+            return insertItems(groupPosition, childPosition, new ArrayList<>(list), withAnim);
         }
         return false;
     }
 
     public boolean insertItems(int groupPosition, int childPosition, List<T> items) {
-        if (checkGroupPosition(groupPosition) && !GroupAdapterUtils.isEmpty(items)) {
+        return insertItems(groupPosition, childPosition, items, false);
+    }
+
+    public boolean insertItems(int groupPosition, int childPosition, List<T> items, boolean withAnim) {
+        if (checkGroupPositionForInsert(groupPosition) && !GroupAdapterUtils.isEmpty(items)) {
             int groupItemsCount = countGroupItems(groupPosition);
-            if (!checkChildPosition(childPosition, groupItemsCount)) {
+            if (!checkChildPositionForInsert(childPosition, groupItemsCount)) {
                 return false;
             }
 
-            this.groups.get(groupPosition).addAll(childPosition, items);
-            int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
-            notifyItemRangeInserted(positionStart, items.size());
-            notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart - items.size());
+            getGroupItems(groupPosition).addAll(childPosition, items);
+            if (withAnim) {
+                int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
+                notifyItemRangeInserted(positionStart, items.size());
+                notifyItemRangeChanged(positionStart + items.size(), getItemCount() - positionStart - items.size());
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
@@ -332,31 +381,38 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean removeGroups(int groupPosition, int count) {
-        if (0 == count || groupPosition >= groupsCount()) {
-            return false;
-        }
+        if (checkGroupPosition(groupPosition) && count > 0) {
+            int groupsCount = count;
+            if (groupPosition + count > groupsCount()) {
+                groupsCount = groupsCount() - groupPosition;
+            }
 
-        int groupsCount = count;
-        if (groupPosition + count > groupsCount()) {
-            groupsCount = groupsCount() - groupPosition;
+            int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupsItemsRange(groupPosition, groupsCount);
+            for (int i = 0; i < groupsCount; i++) {
+                this.groups.remove(groupPosition);
+            }
+            notifyItemRangeRemoved(positionStart, itemCount);
+            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            return true;
         }
-
-        int positionStart = countGroupsItemsRange(0, groupPosition);
-        int itemCount = countGroupsItemsRange(groupPosition, groupsCount);
-        for (int i = 0; i < groupsCount; i++) {
-            this.groups.remove(groupPosition);
-        }
-        notifyItemRangeRemoved(positionStart, itemCount);
-        notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
-        return true;
+        return false;
     }
 
     public boolean removeItem(int groupPosition, int childPosition) {
-        return removeItems(groupPosition, childPosition, 1);
+        return removeItem(groupPosition, childPosition, false);
+    }
+
+    public boolean removeItem(int groupPosition, int childPosition, boolean withAnim) {
+        return removeItems(groupPosition, childPosition, 1, withAnim);
     }
 
     public boolean removeItems(int groupPosition, int childPosition, int count) {
-        if (checkGroupPosition(groupPosition)) {
+        return removeItems(groupPosition, childPosition, count, false);
+    }
+
+    public boolean removeItems(int groupPosition, int childPosition, int count, boolean withAnim) {
+        if (checkGroupPosition(groupPosition) && count > 0) {
             int positionStart = countGroupsItemsRange(0, groupPosition);
             int groupItemsCount = countGroupItems(groupPosition);
             if (!checkChildPosition(childPosition, groupItemsCount)) {
@@ -372,10 +428,15 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
                 removeGroup(groupPosition);
             } else {
                 for (int i = 0; i < childCount; i++) {
-                    this.groups.get(groupPosition).remove(childPosition);
+                    getGroupItems(groupPosition).remove(childPosition);
                 }
-                notifyItemRangeRemoved(positionStart + childPosition, childCount);
-                notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+
+                if (withAnim) {
+                    notifyItemRangeRemoved(positionStart + childPosition, childCount);
+                    notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+                } else {
+                    notifyDataSetChanged();
+                }
             }
             return true;
         }
@@ -434,8 +495,8 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
                 return false;
             }
 
-            this.groups.get(groupPosition).remove(childPosition);
-            this.groups.get(groupPosition).add(childPosition, item);
+            getGroupItems(groupPosition).remove(childPosition);
+            getGroupItems(groupPosition).add(childPosition, item);
             notifyItemChanged(positionStart + childPosition);
             return true;
         }
@@ -464,9 +525,9 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             }
 
             for (int i = 0; i < childCount; i++) {
-                this.groups.get(groupPosition).remove(childPosition);
+                getGroupItems(groupPosition).remove(childPosition);
             }
-            this.groups.get(groupPosition).addAll(childPosition, items.subList(0, childCount));
+            getGroupItems(groupPosition).addAll(childPosition, items.subList(0, childCount));
             notifyItemRangeChanged(positionStart + childPosition, childCount);
             return true;
         }
@@ -513,7 +574,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean showHeader() {
-        return false;
+        return true;
     }
 
     public boolean showFooter() {

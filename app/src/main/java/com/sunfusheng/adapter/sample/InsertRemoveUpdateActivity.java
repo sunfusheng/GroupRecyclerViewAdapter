@@ -1,7 +1,6 @@
 package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +13,7 @@ import com.sunfusheng.adapter.sample.util.Utils;
 /**
  * @author sunfusheng on 2018/2/3.
  */
-public class InsertRemoveUpdateActivity extends AppCompatActivity {
+public class InsertRemoveUpdateActivity extends BaseActivity {
 
     private HeaderFooterGroupAdapter mAdapter;
 
@@ -39,7 +38,7 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recycler_view);
 
-        setTitle(R.string.insert_remove_update);
+        initActionBar(R.string.insert_remove_update, true);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GroupLinearLayoutManager(this));
@@ -53,7 +52,6 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
                     "\ngroupPosition: " + groupPosition +
                     "\nchildPosition: " + childPosition);
         });
-
     }
 
     @Override
@@ -64,7 +62,7 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean isSuccess = false;
+        boolean isSuccess = true;
         switch (item.getItemId()) {
             case R.id.insert_group:
                 isSuccess = mAdapter.insertGroup(1, new_insert_group);
@@ -107,6 +105,6 @@ public class InsertRemoveUpdateActivity extends AppCompatActivity {
         if (!isSuccess) {
             Utils.toast(this, "操作失败，请检查Data或Position");
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -33,6 +33,10 @@
             android:name=".InsertRemoveUpdateActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".ExpandCollapseActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -12,14 +11,14 @@ import com.sunfusheng.adapter.sample.util.Utils;
 /**
  * @author sunfusheng on 2018/2/3.
  */
-public class FooterActivity extends AppCompatActivity {
+public class FooterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recycler_view);
 
-        setTitle(R.string.footer);
+        initActionBar(R.string.footer, true);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -29,6 +28,5 @@ public class FooterActivity extends AppCompatActivity {
         footerAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
             Utils.toast(this, "groupPosition: " + groupPosition + "\nchildPosition: " + childPosition);
         });
-
     }
 }

@@ -6,6 +6,7 @@
     <string name="footer">组项、组尾列表</string>
     <string name="header_footer">组头、组项、组尾列表</string>
     <string name="insert_remove_update">插入、移除、更新组或组项</string>
+    <string name="expand_collapse">展开、收起</string>
     <string name="wechat_me">微信-我</string>
 
 </resources>
