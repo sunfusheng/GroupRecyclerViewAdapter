@@ -37,12 +37,12 @@ public class HeaderGroupAdapter extends HeaderGroupRecyclerViewAdapter<String> {
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_header_title, item + "、header");
+        holder.setText(R.id.tv_header_title, item);
     }
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item + "、child");
+        holder.setText(R.id.tv_child_title, item);
     }
 
 }

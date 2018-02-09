@@ -41,13 +41,14 @@ public class ExpandCollapseActivity extends BaseActivity {
         recyclerView.setAdapter(groupAdapter);
 
         groupAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            boolean isHeader = adapter.isHeader(groupPosition, childPosition);
-            if (isHeader) {
+            String item = groupAdapter.getItem(groupPosition, childPosition);
+            if (adapter.isHeader(groupPosition, childPosition)) {
                 if (groupAdapter.isExpand(groupPosition)) {
                     groupAdapter.collapseGroup(groupPosition, withAnim);
                 } else {
                     groupAdapter.expandGroup(groupPosition, withAnim);
                 }
+                groupAdapter.updateItem(groupPosition, childPosition, item);
             } else {
                 Utils.toast(this, "groupPosition: " + groupPosition + "\nchildPosition: " + childPosition);
             }

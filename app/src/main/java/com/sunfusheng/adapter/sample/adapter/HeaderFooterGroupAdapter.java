@@ -5,6 +5,7 @@ import android.content.Context;
 import com.sunfusheng.adapter.GroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.GroupViewHolder;
 import com.sunfusheng.adapter.sample.R;
+import com.sunfusheng.adapter.sample.util.GroupData;
 
 /**
  * @author sunfusheng on 2018/2/1.
@@ -42,16 +43,16 @@ public class HeaderFooterGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_header_title, item + "、header");
+        holder.setText(R.id.tv_header_title, item);
     }
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item + "、child");
+        holder.setText(R.id.tv_child_title, item);
     }
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, item + "、footer");
+        holder.setText(R.id.tv_footer_title, item + GroupData.FOOTER_SUFFIX);
     }
 }

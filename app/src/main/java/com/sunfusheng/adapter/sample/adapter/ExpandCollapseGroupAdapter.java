@@ -5,6 +5,7 @@ import android.content.Context;
 import com.sunfusheng.adapter.ExpandableGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.GroupViewHolder;
 import com.sunfusheng.adapter.sample.R;
+import com.sunfusheng.adapter.sample.util.GroupData;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+        holder.setImageResource(R.id.iv_arrow, isExpand(groupPosition) ? R.mipmap.ic_down_arrow : R.mipmap.ic_right_arrow);
         holder.setText(R.id.tv_header_title, item);
     }
 
@@ -62,6 +64,7 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, item + "、footer");
+        holder.setText(R.id.tv_footer_title, item + GroupData.FOOTER_SUFFIX);
     }
+
 }

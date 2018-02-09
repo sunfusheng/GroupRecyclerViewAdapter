@@ -43,6 +43,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     private void init(Context context, List<List<T>> groups) {
+        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
         this.context = context;
         this.groups = groups;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

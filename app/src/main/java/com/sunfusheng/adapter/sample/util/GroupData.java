@@ -12,7 +12,10 @@ import com.sunfusheng.adapter.sample.R;
  */
 public class GroupData {
 
+    public static String FOOTER_SUFFIX = "-footer";
+
     public static String[][] items = {
+            {"第零组"},
             {"第一组", "1"},
             {"第二组", "1", "2"},
             {"第三组", "1", "2", "3"},

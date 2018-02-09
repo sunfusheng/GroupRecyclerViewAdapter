@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:text="footer type"
         android:textColor="@color/white"
-        android:textSize="13sp"/>
+        android:textSize="12sp"/>
 
     <include
         layout="@layout/divider_1px"
