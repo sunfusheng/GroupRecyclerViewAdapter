@@ -37,6 +37,10 @@
             android:name=".ExpandCollapseActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".WeChatMeActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

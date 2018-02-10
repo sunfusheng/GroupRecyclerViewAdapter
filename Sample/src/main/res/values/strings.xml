@@ -9,4 +9,13 @@
     <string name="expand_collapse">展开、收起</string>
     <string name="wechat_me">微信-我</string>
 
+    <string name="wechat_name">孙福生</string>
+    <string name="wechat_id">微信号：sfs321</string>
+    <string name="wallet">钱包</string>
+    <string name="collect">收藏</string>
+    <string name="photo">相册</string>
+    <string name="card">卡包</string>
+    <string name="smile">表情</string>
+    <string name="setting">设置</string>
+
 </resources>

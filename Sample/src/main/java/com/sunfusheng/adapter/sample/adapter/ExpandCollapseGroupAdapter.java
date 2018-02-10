@@ -53,6 +53,7 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+        holder.setVisible(R.id.iv_arrow, true);
         holder.setImageResource(R.id.iv_arrow, isExpand(groupPosition) ? R.mipmap.ic_down_arrow : R.mipmap.ic_right_arrow);
         holder.setText(R.id.tv_header_title, item);
     }

@@ -87,13 +87,17 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
     public GroupViewHolder setVisible(int viewId, boolean visible) {
         View view = get(viewId);
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        if (view != null) {
+            view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
         return this;
     }
 
     public GroupViewHolder setVisibility(int viewId, int visibility) {
         View view = get(viewId);
-        view.setVisibility(visibility);
+        if (view != null) {
+            view.setVisibility(visibility);
+        }
         return this;
     }
 }

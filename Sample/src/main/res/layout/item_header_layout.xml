@@ -26,7 +26,8 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:layout_marginRight="3dp"
-            android:src="@mipmap/ic_right_arrow"/>
+            android:src="@mipmap/ic_down_arrow"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_header_title"

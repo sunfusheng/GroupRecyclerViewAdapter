@@ -1,1 +1,1 @@
-include ':app', ':GroupRecyclerViewAdapter'
+include ':Sample', ':GroupRecyclerViewAdapter'

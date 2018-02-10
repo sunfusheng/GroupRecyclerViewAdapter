@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.sunfusheng.adapter.sample.adapter.ExpandCollapseGroupAdapter;
 import com.sunfusheng.adapter.sample.util.GroupData;
-import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
  * @author sunfusheng on 2018/2/9.
@@ -41,17 +40,17 @@ public class ExpandCollapseActivity extends BaseActivity {
         recyclerView.setAdapter(groupAdapter);
 
         groupAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            String item = groupAdapter.getItem(groupPosition, childPosition);
             if (adapter.isHeader(groupPosition, childPosition)) {
                 if (groupAdapter.isExpand(groupPosition)) {
                     groupAdapter.collapseGroup(groupPosition, withAnim);
                 } else {
                     groupAdapter.expandGroup(groupPosition, withAnim);
                 }
-                groupAdapter.updateItem(groupPosition, childPosition, item);
-            } else {
-                Utils.toast(this, "groupPosition: " + groupPosition + "\nchildPosition: " + childPosition);
+                if (withAnim) {
+                    groupAdapter.updateItem(groupPosition, childPosition, groupAdapter.getItem(groupPosition, childPosition));
+                }
             }
         });
     }
+
 }
