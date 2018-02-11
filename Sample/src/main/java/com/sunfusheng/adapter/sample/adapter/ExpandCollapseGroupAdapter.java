@@ -37,17 +37,17 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
     }
 
     @Override
-    public int getHeaderLayoutId() {
+    public int getHeaderLayoutId(int viewType) {
         return R.layout.item_header_layout;
     }
 
     @Override
-    public int getChildLayoutId() {
+    public int getChildLayoutId(int viewType) {
         return R.layout.item_child_layout;
     }
 
     @Override
-    public int getFooterLayoutId() {
+    public int getFooterLayoutId(int viewType) {
         return R.layout.item_footer_layout;
     }
 
@@ -55,17 +55,17 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
         holder.setVisible(R.id.iv_arrow, true);
         holder.setImageResource(R.id.iv_arrow, isExpand(groupPosition) ? R.mipmap.ic_down_arrow : R.mipmap.ic_right_arrow);
-        holder.setText(R.id.tv_header_title, item);
+        holder.setText(R.id.tv_title, item);
     }
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item);
+        holder.setText(R.id.tv_title, item);
     }
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, item + GroupData.FOOTER_SUFFIX);
+        holder.setText(R.id.tv_title, item + GroupData.FOOTER_SUFFIX);
     }
 
 }

@@ -36,18 +36,18 @@ public class ExpandCollapseActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ExpandCollapseGroupAdapter groupAdapter = new ExpandCollapseGroupAdapter(this, GroupData.items);
-        recyclerView.setAdapter(groupAdapter);
+        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, GroupData.items);
+        recyclerView.setAdapter(expandableAdapter);
 
-        groupAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
+        expandableAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
             if (adapter.isHeader(groupPosition, childPosition)) {
-                if (groupAdapter.isExpand(groupPosition)) {
-                    groupAdapter.collapseGroup(groupPosition, withAnim);
+                if (expandableAdapter.isExpand(groupPosition)) {
+                    expandableAdapter.collapseGroup(groupPosition, withAnim);
                 } else {
-                    groupAdapter.expandGroup(groupPosition, withAnim);
+                    expandableAdapter.expandGroup(groupPosition, withAnim);
                 }
                 if (withAnim) {
-                    groupAdapter.updateItem(groupPosition, childPosition, groupAdapter.getItem(groupPosition, childPosition));
+                    expandableAdapter.updateItem(groupPosition, childPosition, expandableAdapter.getItem(groupPosition, childPosition));
                 }
             }
         });

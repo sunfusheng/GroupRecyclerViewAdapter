@@ -2,7 +2,6 @@ package com.sunfusheng.adapter.sample.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sunfusheng.adapter.GroupViewHolder;
@@ -31,18 +30,20 @@ public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupDa
 
     @Override
     public int getChildItemViewType(int groupPosition, int childPosition) {
-        getItem(groupPosition, childPosition);
-        return super.getChildItemViewType(groupPosition, childPosition);
+        return getItem(groupPosition, childPosition).viewType;
     }
 
     @Override
-    public int getHeaderLayoutId() {
+    public int getHeaderLayoutId(int viewType) {
         return R.layout.divider_20dp;
     }
 
     @Override
-    public int getChildLayoutId() {
-        return getItemPosition() == 1 ? R.layout.item_wechat_me_profile : R.layout.item_wechat_me;
+    public int getChildLayoutId(int viewType) {
+        if (viewType == GroupData.VIEW_TYPE_WECHAT_ME_PROFILE) {
+            return R.layout.item_wechat_me_profile;
+        }
+        return R.layout.item_wechat_me_common;
     }
 
     @Override
@@ -52,12 +53,12 @@ public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupDa
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, GroupData.WeChatMeItemConfig item, int groupPosition, int childPosition) {
-        ImageView ivAvatar = holder.get(R.id.iv_avatar);
+        int viewType = getChildItemViewType(groupPosition, childPosition);
 
-        if (ivAvatar != null) {
-            TextView tvWeChatName = holder.get(R.id.tv_wechat_name);
-            tvWeChatName.setText(item.titleId);
-            ivAvatar.setImageResource(R.mipmap.ic_me_avatar);
+        if (viewType == GroupData.VIEW_TYPE_WECHAT_ME_PROFILE) {
+            TextView tvName = holder.get(R.id.tv_wechat_name);
+            tvName.setText(item.titleId);
+            holder.setImageResource(R.id.iv_avatar, R.mipmap.ic_me_avatar);
         } else {
             TextView tvTitle = holder.get(R.id.tv_title);
             tvTitle.setText(item.titleId);

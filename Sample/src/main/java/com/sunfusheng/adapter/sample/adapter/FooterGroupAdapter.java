@@ -27,22 +27,22 @@ public class FooterGroupAdapter extends FooterGroupRecyclerViewAdapter<String> {
     }
 
     @Override
-    public int getChildLayoutId() {
+    public int getChildLayoutId(int viewType) {
         return R.layout.item_child_layout;
     }
 
     @Override
-    public int getFooterLayoutId() {
+    public int getFooterLayoutId(int viewType) {
         return R.layout.item_footer_layout;
     }
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item);
+        holder.setText(R.id.tv_title, item);
     }
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_footer_title, item + GroupData.FOOTER_SUFFIX);
+        holder.setText(R.id.tv_title, item + GroupData.FOOTER_SUFFIX);
     }
 }

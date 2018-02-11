@@ -13,7 +13,10 @@ import com.sunfusheng.adapter.sample.WeChatMeActivity;
  */
 public class GroupData {
 
-    public static String FOOTER_SUFFIX = "-footer";
+    public static final String FOOTER_SUFFIX = "-footer";
+
+    public static final int VIEW_TYPE_WECHAT_ME_PROFILE = 0x0001;
+    public static final int VIEW_TYPE_WECHAT_ME_COMMON = 0x0002;
 
     public static String[][] items = {
             {"第零组"},
@@ -59,33 +62,35 @@ public class GroupData {
     };
 
     public enum WeChatMeItemConfig {
-        NULL(0, 0, 0, null),
-        PROFILE(R.mipmap.ic_me_avatar, R.string.wechat_name, R.string.wechat_id, R.layout.item_wechat_me_profile, null),
+        NULL(0, 0, 0, 0, null),
+        PROFILE(R.attr.key_wechat_me_profile, R.mipmap.ic_me_avatar, R.string.wechat_name, R.string.wechat_id, VIEW_TYPE_WECHAT_ME_PROFILE, null),
 
-        WALLET(R.mipmap.ic_me_wallet, R.string.wallet, R.layout.item_wechat_me, null),
+        WALLET(R.attr.key_wechat_me_wallet, R.mipmap.ic_me_wallet, R.string.wallet, VIEW_TYPE_WECHAT_ME_COMMON, null),
 
-        COLLECT(R.mipmap.ic_me_collect, R.string.collect, R.layout.item_wechat_me, null),
-        PHOTO(R.mipmap.ic_me_photo, R.string.photo, R.layout.item_wechat_me, null),
-        CARD(R.mipmap.ic_me_card, R.string.card, R.layout.item_wechat_me, null),
-        SMILE(R.mipmap.ic_me_smile, R.string.smile, R.layout.item_wechat_me, null),
+        COLLECT(R.attr.key_wechat_me_collect, R.mipmap.ic_me_collect, R.string.collect, VIEW_TYPE_WECHAT_ME_COMMON, null),
+        PHOTO(R.attr.key_wechat_me_photo, R.mipmap.ic_me_photo, R.string.photo, VIEW_TYPE_WECHAT_ME_COMMON, null),
+        CARD(R.attr.key_wechat_me_card, R.mipmap.ic_me_card, R.string.card, VIEW_TYPE_WECHAT_ME_COMMON, null),
+        SMILE(R.attr.key_wechat_me_smile, R.mipmap.ic_me_smile, R.string.smile, VIEW_TYPE_WECHAT_ME_COMMON, null),
 
-        SETTING(R.mipmap.ic_me_setting, R.string.setting, R.layout.item_wechat_me, null);
+        SETTING(R.attr.key_wechat_me_setting, R.mipmap.ic_me_setting, R.string.setting, VIEW_TYPE_WECHAT_ME_COMMON, null);
 
+        public int key;
         public int imgId;
         public int titleId;
         public int subtitleId;
-        public int layoutId;
+        public int viewType;
         public Class<?> intentClass;
 
-        WeChatMeItemConfig(int imgId, int titleId, int layoutId, Class<?> intentClass) {
-            this(imgId, titleId, 0, layoutId, intentClass);
+        WeChatMeItemConfig(int key, int imgId, int titleId, int viewType, Class<?> intentClass) {
+            this(key, imgId, titleId, 0, viewType, intentClass);
         }
 
-        WeChatMeItemConfig(int imgId, int titleId, int subtitleId, int layoutId, Class<?> intentClass) {
+        WeChatMeItemConfig(int key, int imgId, int titleId, int subtitleId, int viewType, Class<?> intentClass) {
+            this.key = key;
             this.imgId = imgId;
             this.titleId = titleId;
             this.subtitleId = subtitleId;
-            this.layoutId = layoutId;
+            this.viewType = viewType;
             this.intentClass = intentClass;
         }
     }

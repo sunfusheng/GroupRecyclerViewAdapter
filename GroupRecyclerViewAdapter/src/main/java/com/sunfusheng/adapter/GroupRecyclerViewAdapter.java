@@ -100,7 +100,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GroupViewHolder(inflater.inflate(getLayoutId(), parent, false));
+        return new GroupViewHolder(inflater.inflate(getLayoutId(viewType), parent, false));
     }
 
     @Override
@@ -171,14 +171,14 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         throw new IndexOutOfBoundsException("Confirm item type failed, " + "itemPosition = " + itemPosition + ", itemCount = " + itemCount);
     }
 
-    public int getLayoutId() {
-        int viewType = confirmItemViewType(getItemPosition());
-        if (TYPE_HEADER == viewType) {
-            return getHeaderLayoutId();
-        } else if (TYPE_CHILD == viewType) {
-            return getChildLayoutId();
-        } else if (TYPE_FOOTER == viewType) {
-            return getFooterLayoutId();
+    public int getLayoutId(int viewType) {
+        int itemViewType = confirmItemViewType(getItemPosition());
+        if (TYPE_HEADER == itemViewType) {
+            return getHeaderLayoutId(viewType);
+        } else if (TYPE_CHILD == itemViewType) {
+            return getChildLayoutId(viewType);
+        } else if (TYPE_FOOTER == itemViewType) {
+            return getFooterLayoutId(viewType);
         }
         return 0;
     }
@@ -582,11 +582,11 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return false;
     }
 
-    abstract public int getHeaderLayoutId();
+    abstract public int getHeaderLayoutId(int viewType);
 
-    abstract public int getChildLayoutId();
+    abstract public int getChildLayoutId(int viewType);
 
-    abstract public int getFooterLayoutId();
+    abstract public int getFooterLayoutId(int viewType);
 
     abstract public void onBindHeaderViewHolder(GroupViewHolder holder, T item, int groupPosition);
 

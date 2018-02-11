@@ -32,7 +32,7 @@ abstract public class HeaderGroupRecyclerViewAdapter<T> extends GroupRecyclerVie
     }
 
     @Override
-    public int getFooterLayoutId() {
+    public int getFooterLayoutId(int viewType) {
         return 0;
     }
 

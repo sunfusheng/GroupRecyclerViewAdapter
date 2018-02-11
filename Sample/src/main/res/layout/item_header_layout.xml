@@ -15,9 +15,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/list_item_margin_top_bottom_smaller"
+        android:layout_marginLeft="@dimen/list_item_margin_left_right"
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -30,10 +30,10 @@
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/tv_header_title"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="header type"
+            android:text="header item"
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>
@@ -42,8 +42,8 @@
         layout="@layout/divider_1px"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginLeft="@dimen/list_item_margin_left_right"
+        android:layout_marginRight="@dimen/list_item_margin_left_right"/>
 </LinearLayout>
 
 

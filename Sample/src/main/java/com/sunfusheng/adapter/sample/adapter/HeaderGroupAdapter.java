@@ -26,23 +26,23 @@ public class HeaderGroupAdapter extends HeaderGroupRecyclerViewAdapter<String> {
     }
 
     @Override
-    public int getHeaderLayoutId() {
+    public int getHeaderLayoutId(int viewType) {
         return R.layout.item_header_layout;
     }
 
     @Override
-    public int getChildLayoutId() {
+    public int getChildLayoutId(int viewType) {
         return R.layout.item_child_layout;
     }
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_header_title, item);
+        holder.setText(R.id.tv_title, item);
     }
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item);
+        holder.setText(R.id.tv_title, item);
     }
 
 }

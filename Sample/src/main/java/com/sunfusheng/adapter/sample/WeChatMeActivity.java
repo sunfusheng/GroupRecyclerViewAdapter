@@ -13,6 +13,8 @@ import com.sunfusheng.adapter.sample.util.Utils;
  */
 public class WeChatMeActivity extends BaseActivity {
 
+    private int clickProfileCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,11 @@ public class WeChatMeActivity extends BaseActivity {
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            Utils.toast(this, weChatAdapter.getItem(groupPosition, childPosition).titleId);
+            if (R.attr.key_wechat_me_profile == weChatAdapter.getItem(groupPosition, childPosition).key) {
+                Utils.toast(this, "惊喜 +" + (++clickProfileCount));
+            } else {
+                Utils.toast(this, weChatAdapter.getItem(groupPosition, childPosition).titleId);
+            }
         });
     }
 }

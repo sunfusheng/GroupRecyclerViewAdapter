@@ -33,7 +33,7 @@ cache:
 before_install:
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
-- openssl aes-256-cbc -K $encrypted_9a063031b0d7_key -iv $encrypted_9a063031b0d7_iv
+- openssl aes-256-cbc -K $encrypted_634573b3a4f8_key -iv $encrypted_634573b3a4f8_iv
   -in signings/keystore.jks.enc -out signings/keystore.jks -d
 - gem install fir-cli
 
@@ -46,16 +46,16 @@ script:
 deploy:
   provider: releases
   api_key:
-    secure: W8oDAIn5G+QG/xT0AmxJZ5QcGGWdOB8ovF5uRdTZWOhG/p9b5jEjF6cHyFLLh3uAshL/iHouI+3fMr9Vk/Q7jFZKbws1tX/kCK9RezhERTIpWN/Q4+lV61YZi7+8GKo72L4RAAlrGQT5wKrr8cxfmyojmfLXiKjL6Vd0wXNa1mLnFPeAJaD8fQiw4UcJfenwJbqkXnJBkU/BbDQTLrH+IHw1b7SZ7uFYKEYEnQn8ktW7+2J1+EKf24yzkCrsutE4a/cAUOQPW4TBW8qMoXr9cwUvV33b/glIhg6fIfJVe5aIo+P+nNUpXmBfB9oPT7tGKAPLgw5Os4GyupRESUwO73/TJe9YD7kiM/Oml1h809mGj1vQJqv+QbIm1UoUYWw4PsDJXCGm0NhLBEr6YzCW7O+q8Zn5Vj0KTsBRyrpNaUkqQaDmTV5OyO9ViapflQQ5VnICAJCI+FkFda7E7d9nvLivAfQ0vWhANSwMo1KEBsOWqxay+KOO3DHtUVGwn4DXVVdWTQqFgPetS1/u+RLrZ062c6XmMvT9MbhudwCYC9avhim5eMpmjqbPrqVqIDWcw6gL+mYR88KbLlmJZCIM/v7W+WzeE+sSsBmp8WH95jE7rPviassWnspIrRjn9H3sTi5oxfeC4tqHM3hvYRrJ/9Fh9HA3cA0V2lQKpV6gs08=
+    secure: R/OzMXCIDqSGJd+psZAmPtnEVsFNVWuStdqdTZh8yGPv8XeIPxs/njrMwsB5g+4j5uAMH21rc1xFClnwWCS1nHwwDQ6WcCC043aiwQFCQiLBMXNBS2YKaeGvZxshbkjyZo7vJPvXBdls3vBl/DkNFefnIQgCWjPMnZxYbD8hbqYUeprM7RUDcjafAHPedsqqvUB7Ca74RYaAVJHDxnxRTG3VF0zHG/UH3aT5NSglBl+SgCxrV+n4OXhZpBC3kqjsxBYjnMP0sLuSbDyz+i4zJ5nr6JmSBQMygN9Kvsf4bdbAaNkdsq0RqasWIM4ralU1hs2sf4VZi5/v6lD3FFUIaUuaG0JFr8DTMXkLllk5MqiQWpvntYaxlu+Tb+J9pQ6ljKkgrbomSaiNCg34e+nWhRiZBib8aGo0jLGR2wlJGJTVgGMVjss11Zx4Zm4DqvUSJM1J2OGgV10dscI7Y+zz2ANa06m+KW1q5QkCNoNbYKy3bIN2ne1RB9nUcqgo1kMZpUYQd7J6c+DaRPTSMF8QUO/2ggKyfWRjLO2tuWrlYmW7Udu7VCQsLhDOYA8E+5GxzKkquOShJIHn4X0QGZsDFNC6um6Pp4gBBsM/Aghwc2J5YDpbyt8ArycfUMG1EsjMfKdnbp7xxuctkgKk3kMaT/7uuoseZgSYoRurk/y2vqw=
   file: Sample/outputs/GroupAdapter.apk
   skip_cleanup: true
   on:
-    repo: sfsheng0322/GroupAdapter
+    repo: sfsheng0322/GroupRecyclerViewAdapter
     tags: true
     all_branches: true
 
 after_deploy:
-- fir p Sample/outputs/GroupAdapter.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
+- fir p app/outputs/Gank.IO.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
 
 notifications:
   email:

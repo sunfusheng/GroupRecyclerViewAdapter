@@ -12,8 +12,8 @@
         android:id="@+id/iv_avatar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/list_item_margin_left_right"
+        android:layout_marginRight="@dimen/list_item_margin_left_right"
         android:src="@mipmap/ic_me_avatar"/>
 
     <LinearLayout
@@ -46,6 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:src="@mipmap/ic_down_arrow"/>
+        android:layout_marginRight="@dimen/list_item_margin_left_right"
+        android:src="@mipmap/ic_me_qrcode"/>
 </RelativeLayout>

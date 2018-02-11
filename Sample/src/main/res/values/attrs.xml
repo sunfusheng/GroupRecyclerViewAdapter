@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="key_wechat_me_profile">key_wechat_me_profile</attr>
+    <attr name="key_wechat_me_wallet">key_wechat_me_wallet</attr>
+    <attr name="key_wechat_me_collect">key_wechat_me_collect</attr>
+    <attr name="key_wechat_me_photo">key_wechat_me_photo</attr>
+    <attr name="key_wechat_me_card">key_wechat_me_card</attr>
+    <attr name="key_wechat_me_smile">key_wechat_me_smile</attr>
+    <attr name="key_wechat_me_setting">key_wechat_me_setting</attr>
+
+</resources>

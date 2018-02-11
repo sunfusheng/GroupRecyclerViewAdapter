@@ -27,12 +27,12 @@ public class MainGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupData.M
     }
 
     @Override
-    public int getHeaderLayoutId() {
+    public int getHeaderLayoutId(int viewType) {
         return R.layout.divider_20dp;
     }
 
     @Override
-    public int getChildLayoutId() {
+    public int getChildLayoutId(int viewType) {
         return R.layout.item_child_layout;
     }
 
@@ -43,7 +43,7 @@ public class MainGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupData.M
 
     @Override
     public void onBindChildViewHolder(GroupViewHolder holder, GroupData.MainItemConfig item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_child_title, item.titleId);
+        holder.setText(R.id.tv_title, item.titleId);
         holder.setVisible(R.id.divider, !isGroupLastItem(groupPosition, childPosition));
     }
 }
