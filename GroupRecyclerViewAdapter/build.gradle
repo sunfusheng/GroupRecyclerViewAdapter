@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion gradle.compileSdkVersion
+    buildToolsVersion gradle.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion gradle.minSdkVersion
+        targetSdkVersion gradle.targetSdkVersion
+        versionCode gradle.versionCode
+        versionName gradle.versionName
     }
 
     compileOptions {
@@ -25,5 +26,14 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:' + gradle.supportLibraryVersion
+}
+
+publish {
+    userOrg = 'sfsheng0322'
+    groupId = 'com.sunfusheng'
+    artifactId = 'GroupRecyclerViewAdapter'
+    publishVersion = gradle.versionName
+    desc = 'A group adapter for RecyclerView with the data of T[][] or List<List<T>>.'
+    website = 'https://github.com/sfsheng0322/GroupRecyclerViewAdapter'
 }
