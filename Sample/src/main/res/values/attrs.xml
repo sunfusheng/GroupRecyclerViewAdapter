@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="key_wechat_me_profile">key_wechat_me_profile</attr>
-    <attr name="key_wechat_me_wallet">key_wechat_me_wallet</attr>
-    <attr name="key_wechat_me_collect">key_wechat_me_collect</attr>
-    <attr name="key_wechat_me_photo">key_wechat_me_photo</attr>
-    <attr name="key_wechat_me_card">key_wechat_me_card</attr>
-    <attr name="key_wechat_me_smile">key_wechat_me_smile</attr>
-    <attr name="key_wechat_me_setting">key_wechat_me_setting</attr>
+    <attr name="key_profile">key_profile</attr>
+    <attr name="key_wallet">key_wallet</attr>
+    <attr name="key_collect">key_collect</attr>
+    <attr name="key_photo">key_photo</attr>
+    <attr name="key_card">key_card</attr>
+    <attr name="key_smile">key_smile</attr>
+    <attr name="key_setting">key_setting</attr>
+
+    <attr name="key_new_message_notify">key_new_message_notify</attr>
+    <attr name="key_voice_video_notify">key_voice_video_notify</attr>
+    <attr name="key_notify_detail">key_notify_detail</attr>
+    <attr name="key_voice">key_voice</attr>
+    <attr name="key_new_message_voice">key_new_message_voice</attr>
+    <attr name="key_vibrant">key_vibrant</attr>
 
 </resources>

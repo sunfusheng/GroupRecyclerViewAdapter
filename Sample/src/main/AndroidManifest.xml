@@ -41,6 +41,10 @@
             android:name=".WeChatMeActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".WeChatNewMessageActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

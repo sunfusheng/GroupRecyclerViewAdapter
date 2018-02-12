@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/list_item_margin_left_right"
+    android:paddingRight="@dimen/list_item_margin_left_right">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_small">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/notify_detail"
+            android:textColor="@color/font1"
+            android:textSize="16sp"/>
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:checked="true"
+            app:kswBackDrawable="@drawable/drawable_switch_button_background_selector"
+            app:kswThumbColor="@color/white"
+            app:kswThumbHeight="16dp"
+            app:kswThumbRangeRatio="2"
+            app:kswThumbWidth="16dp"
+            tools:ignore="RtlHardcoded"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/notify_detail_subtitle"
+        android:textColor="@color/font2"
+        android:textSize="14sp"/>
+
+    <include
+        layout="@layout/divider_1px"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_small"/>
+
+</LinearLayout>

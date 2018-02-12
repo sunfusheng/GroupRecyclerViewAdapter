@@ -39,7 +39,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
     public GroupViewHolder setText(int viewId, int resId) {
         TextView view = get(viewId);
-        if (view != null) {
+        if (view != null && resId != 0) {
             view.setText(resId);
         }
         return this;
@@ -63,7 +63,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
     public GroupViewHolder setImageResource(int viewId, int resId) {
         ImageView view = get(viewId);
-        if (view != null) {
+        if (view != null && resId != 0) {
             view.setImageResource(resId);
         }
         return this;
@@ -97,7 +97,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
     public GroupViewHolder setBackgroundResource(int viewId, int resId) {
         View view = get(viewId);
-        if (view != null) {
+        if (view != null && resId != 0) {
             view.setBackgroundResource(resId);
         }
         return this;

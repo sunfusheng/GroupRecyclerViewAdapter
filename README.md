@@ -36,7 +36,7 @@
 
 [GitHub: sfsheng0322](https://github.com/sfsheng0322)  
 
-[个人邮箱: sfsheng0322@126.com]()
+[个人邮箱: sfsheng0322@126.com](https://mail.126.com/)
   
 [个人博客: sunfusheng.com](http://sunfusheng.com/)
   

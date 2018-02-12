@@ -4,27 +4,25 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.sunfusheng.adapter.sample.adapter.WeChatMeGroupAdapter;
+import com.sunfusheng.adapter.sample.adapter.WeChatNewMessageGroupAdapter;
 import com.sunfusheng.adapter.sample.util.GroupData;
 import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
- * @author sunfusheng on 2018/2/10.
+ * @author sunfusheng on 2018/2/12.
  */
-public class WeChatMeActivity extends BaseActivity {
-
-    private int clickProfileCount = 0;
+public class WeChatNewMessageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recycler_view);
 
-        initActionBar(R.string.wechat_me, true);
+        initActionBar(R.string.wechat_new_message, true);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, GroupData.weChatMeItems);
+        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(this, GroupData.weChatNewMessageItems);
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
@@ -33,10 +31,8 @@ public class WeChatMeActivity extends BaseActivity {
                 return;
             }
 
-            if (R.attr.key_profile == item.key) {
-                Utils.toast(this, "惊喜 +" + (++clickProfileCount));
-            } else {
-                Utils.toast(this, item.titleId);
+            if (R.attr.key_new_message_voice == item.key) {
+                Utils.toastLong(this, "你是我的小呀小苹果^_^");
             }
         });
     }

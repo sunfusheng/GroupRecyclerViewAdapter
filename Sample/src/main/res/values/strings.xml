@@ -8,6 +8,7 @@
     <string name="insert_remove_update">插入、移除、更新组或组项</string>
     <string name="expand_collapse">展开、收起</string>
     <string name="wechat_me">微信-我</string>
+    <string name="wechat_new_message">微信-新消息提醒</string>
 
     <string name="wechat_name">孙福生</string>
     <string name="wechat_id">微信号：sfs321</string>
@@ -17,5 +18,14 @@
     <string name="card">卡包</string>
     <string name="smile">表情</string>
     <string name="setting">设置</string>
+
+    <string name="new_message_notify">接收新消息通知</string>
+    <string name="voice_video_notify">接收语音和视频通话邀请通知</string>
+    <string name="notify_detail">通知显示消息详情</string>
+    <string name="notify_detail_subtitle">关闭后，当收到微信消息时，通知提示将不显示发信人和内容摘要。</string>
+    <string name="voice">声音</string>
+    <string name="new_message_voice">新消息提示音</string>
+    <string name="little_apple">小苹果</string>
+    <string name="vibrant">震动</string>
 
 </resources>

@@ -319,6 +319,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertItem(int groupPosition, int childPosition, T item) {
+        return insertItem(groupPosition, childPosition, item, true);
+    }
+
+    public boolean insertItem(int groupPosition, int childPosition, T item, boolean withAnim) {
         if (checkGroupPositionForInsert(groupPosition) && null != item) {
             int groupItemsCount = countGroupItems(groupPosition);
             if (!checkChildPositionForInsert(childPosition, groupItemsCount)) {
@@ -326,16 +330,20 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
             }
 
             getGroupItems(groupPosition).add(childPosition, item);
-            int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
-            notifyItemInserted(positionStart);
-            notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart - 1);
+            if (withAnim) {
+                int positionStart = countGroupsItemsRange(0, groupPosition) + childPosition;
+                notifyItemInserted(positionStart);
+                notifyItemRangeChanged(positionStart + 1, getItemCount() - positionStart - 1);
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
     }
 
     public boolean insertItems(int groupPosition, int childPosition, T[] items) {
-        return insertItems(groupPosition, childPosition, items, false);
+        return insertItems(groupPosition, childPosition, items, true);
     }
 
     public boolean insertItems(int groupPosition, int childPosition, T[] items, boolean withAnim) {
@@ -347,7 +355,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean insertItems(int groupPosition, int childPosition, List<T> items) {
-        return insertItems(groupPosition, childPosition, items, false);
+        return insertItems(groupPosition, childPosition, items, true);
     }
 
     public boolean insertItems(int groupPosition, int childPosition, List<T> items, boolean withAnim) {
@@ -401,7 +409,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean removeItem(int groupPosition, int childPosition) {
-        return removeItem(groupPosition, childPosition, false);
+        return removeItem(groupPosition, childPosition, true);
     }
 
     public boolean removeItem(int groupPosition, int childPosition, boolean withAnim) {
@@ -409,7 +417,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public boolean removeItems(int groupPosition, int childPosition, int count) {
-        return removeItems(groupPosition, childPosition, count, false);
+        return removeItems(groupPosition, childPosition, count, true);
     }
 
     public boolean removeItems(int groupPosition, int childPosition, int count, boolean withAnim) {
