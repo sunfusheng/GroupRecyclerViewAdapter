@@ -2,8 +2,8 @@ package com.sunfusheng.adapter.sample.adapter;
 
 import android.content.Context;
 
-import com.sunfusheng.adapter.GroupViewHolder;
-import com.sunfusheng.adapter.HeaderGroupRecyclerViewAdapter;
+import com.sunfusheng.GroupViewHolder;
+import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 
 import java.util.List;

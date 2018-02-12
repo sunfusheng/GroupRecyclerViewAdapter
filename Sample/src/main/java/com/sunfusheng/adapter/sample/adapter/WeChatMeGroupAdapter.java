@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.widget.TextView;
 
-import com.sunfusheng.adapter.GroupViewHolder;
-import com.sunfusheng.adapter.HeaderGroupRecyclerViewAdapter;
+import com.sunfusheng.GroupViewHolder;
+import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.GroupData;
 

@@ -26,6 +26,14 @@
 
 <img src="/resources/wechat.jpg" style="width: 30%;">
 
+<br/>
+
+### 打个赏吧，给作者加点油^_^
+
+<img src="/resources/reward.png" >
+
+<br/>
+
 ### 关于我
 
 [GitHub: sfsheng0322](https://github.com/sfsheng0322)  

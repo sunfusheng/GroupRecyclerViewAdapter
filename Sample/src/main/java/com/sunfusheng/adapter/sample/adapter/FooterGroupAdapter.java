@@ -2,8 +2,8 @@ package com.sunfusheng.adapter.sample.adapter;
 
 import android.content.Context;
 
-import com.sunfusheng.adapter.FooterGroupRecyclerViewAdapter;
-import com.sunfusheng.adapter.GroupViewHolder;
+import com.sunfusheng.FooterGroupRecyclerViewAdapter;
+import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.GroupData;
 

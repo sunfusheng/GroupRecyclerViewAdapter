@@ -1,4 +1,4 @@
-package com.sunfusheng.adapter;
+package com.sunfusheng;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

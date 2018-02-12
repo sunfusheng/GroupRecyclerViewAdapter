@@ -1,4 +1,4 @@
-package com.sunfusheng.adapter;
+package com.sunfusheng;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

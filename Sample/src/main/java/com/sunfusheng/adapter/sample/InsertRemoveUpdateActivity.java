@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sunfusheng.adapter.GroupLinearLayoutManager;
+import com.sunfusheng.GroupLinearLayoutManager;
 import com.sunfusheng.adapter.sample.adapter.HeaderFooterGroupAdapter;
 import com.sunfusheng.adapter.sample.util.GroupData;
 import com.sunfusheng.adapter.sample.util.Utils;
