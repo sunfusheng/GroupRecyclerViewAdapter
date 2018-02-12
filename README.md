@@ -22,17 +22,13 @@
 
 <br/>
 
-### 个人公众号
+### 关注我吧，让我们做朋友^_^
 
-<img src="/resources/wechat.jpg" style="width: 30%;">
-
-<br/>
+<img src="/resources/follow_me.png">
 
 ### 打个赏吧，给作者加点油^_^
 
-<img src="/resources/reward.png" >
-
-<br/>
+<img src="/resources/reward_me.png" >
 
 ### 关于我
 
