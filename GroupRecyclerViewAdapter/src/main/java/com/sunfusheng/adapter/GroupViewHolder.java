@@ -30,58 +30,76 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
     }
 
     public GroupViewHolder setText(int viewId, String text) {
-        TextView tv = get(viewId);
-        tv.setText(text);
+        TextView view = get(viewId);
+        if (view != null) {
+            view.setText(text);
+        }
         return this;
     }
 
     public GroupViewHolder setText(int viewId, int resId) {
-        TextView tv = get(viewId);
-        tv.setText(resId);
+        TextView view = get(viewId);
+        if (view != null) {
+            view.setText(resId);
+        }
         return this;
     }
 
     public GroupViewHolder setTextColor(int viewId, int color) {
         TextView view = get(viewId);
-        view.setTextColor(color);
+        if (view != null) {
+            view.setTextColor(color);
+        }
         return this;
     }
 
     public GroupViewHolder setTextSize(int viewId, int size) {
         TextView view = get(viewId);
-        view.setTextSize(size);
+        if (view != null) {
+            view.setTextSize(size);
+        }
         return this;
     }
 
     public GroupViewHolder setImageResource(int viewId, int resId) {
         ImageView view = get(viewId);
-        view.setImageResource(resId);
+        if (view != null) {
+            view.setImageResource(resId);
+        }
         return this;
     }
 
     public GroupViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = get(viewId);
-        view.setImageBitmap(bitmap);
+        if (view != null) {
+            view.setImageBitmap(bitmap);
+        }
         return this;
     }
 
 
     public GroupViewHolder setImageDrawable(int viewId, Drawable drawable) {
         ImageView view = get(viewId);
-        view.setImageDrawable(drawable);
+        if (view != null) {
+            view.setImageDrawable(drawable);
+        }
         return this;
     }
 
 
     public GroupViewHolder setBackgroundColor(int viewId, int color) {
         View view = get(viewId);
-        view.setBackgroundColor(color);
+        if (view != null) {
+            view.setBackgroundColor(color);
+        }
         return this;
     }
 
     public GroupViewHolder setBackgroundResource(int viewId, int resId) {
         View view = get(viewId);
-        view.setBackgroundResource(resId);
+        if (view != null) {
+            view.setBackgroundResource(resId);
+        }
         return this;
     }
 

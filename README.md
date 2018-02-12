@@ -1,6 +1,18 @@
-## GroupRecyclerViewAdapter
+# GroupRecyclerViewAdapter [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/GroupRecyclerViewAdapter/images/download.svg) ](https://bintray.com/sfsheng0322/maven/GroupRecyclerViewAdapter/_latestVersion)
 
 分组列表
+
+<br/>
+
+### 效果图
+
+<img src="/resources/res.png" >
+
+<br/>
+
+#### Gradle:
+
+    compile 'com.sunfusheng:GroupRecyclerViewAdapter:<latest-version>'
 
 <br/>
 
