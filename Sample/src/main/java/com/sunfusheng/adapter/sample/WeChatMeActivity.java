@@ -28,10 +28,15 @@ public class WeChatMeActivity extends BaseActivity {
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            if (R.attr.key_wechat_me_profile == weChatAdapter.getItem(groupPosition, childPosition).key) {
+            GroupData.WeChatMeItemConfig item = weChatAdapter.getItem(groupPosition, childPosition);
+            if (null == item || 0 == item.key) {
+                return;
+            }
+
+            if (R.attr.key_wechat_me_profile == item.key) {
                 Utils.toast(this, "惊喜 +" + (++clickProfileCount));
             } else {
-                Utils.toast(this, weChatAdapter.getItem(groupPosition, childPosition).titleId);
+                Utils.toast(this, item.titleId);
             }
         });
     }

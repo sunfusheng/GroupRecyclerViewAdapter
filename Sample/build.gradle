@@ -59,7 +59,7 @@ def generateApk(variant) {
     }
 }
 
-def localSourceEnabled = true
+def localSourceEnabled = false
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -68,5 +68,7 @@ dependencies {
 
     if (localSourceEnabled) {
         implementation project(':GroupRecyclerViewAdapter')
+    } else {
+        compile 'com.sunfusheng:GroupRecyclerViewAdapter:' + gradle.versionName
     }
 }

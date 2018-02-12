@@ -14,6 +14,9 @@ public class Utils {
     private static Toast toast;
 
     public static void toast(Context context, @StringRes int resId) {
+        if (-1 == resId || 0 == resId) {
+            return;
+        }
         toastIgnoreEmpty(context, context.getString(resId), true);
     }
 
@@ -22,6 +25,9 @@ public class Utils {
     }
 
     public static void toastLong(Context context, @StringRes int resId) {
+        if (-1 == resId || 0 == resId) {
+            return;
+        }
         toastIgnoreEmpty(context, context.getString(resId), false);
     }
 
