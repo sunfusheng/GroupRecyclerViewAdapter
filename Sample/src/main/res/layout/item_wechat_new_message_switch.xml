@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/list_item_margin_top_bottom_small">
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller">
 
         <TextView
             android:id="@+id/tv_title"
@@ -33,9 +33,9 @@
             android:checked="true"
             app:kswBackDrawable="@drawable/drawable_switch_button_background_selector"
             app:kswThumbColor="@color/white"
-            app:kswThumbHeight="16dp"
+            app:kswThumbHeight="18dp"
             app:kswThumbRangeRatio="2"
-            app:kswThumbWidth="16dp"
+            app:kswThumbWidth="18dp"
             tools:ignore="RtlHardcoded"/>
     </RelativeLayout>
 
@@ -52,6 +52,6 @@
         layout="@layout/divider_1px"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/list_item_margin_top_bottom_small"/>
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller"/>
 
 </LinearLayout>
