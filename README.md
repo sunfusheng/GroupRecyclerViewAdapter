@@ -1,6 +1,6 @@
 # GroupRecyclerViewAdapter [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/GroupRecyclerViewAdapter/images/download.svg) ](https://bintray.com/sfsheng0322/maven/GroupRecyclerViewAdapter/_latestVersion)
 
-分组列表
+可增删改查、可展开收起的分组列表，轻松帮你实现【微信-我】等类似页面，动态可配置
 
 <br/>
 
@@ -10,7 +10,7 @@
 
 <br/>
 
-#### Gradle:
+### Gradle:
 
     compile 'com.sunfusheng:GroupRecyclerViewAdapter:<latest-version>'
 
