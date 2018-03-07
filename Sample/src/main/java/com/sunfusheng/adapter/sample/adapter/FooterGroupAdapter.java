@@ -5,7 +5,7 @@ import android.content.Context;
 import com.sunfusheng.FooterGroupRecyclerViewAdapter;
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.adapter.sample.R;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 
 import java.util.List;
 
@@ -43,6 +43,6 @@ public class FooterGroupAdapter extends FooterGroupRecyclerViewAdapter<String> {
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_title, item + GroupData.FOOTER_SUFFIX);
+        holder.setText(R.id.tv_title, item + DataSource.FOOTER_SUFFIX);
     }
 }

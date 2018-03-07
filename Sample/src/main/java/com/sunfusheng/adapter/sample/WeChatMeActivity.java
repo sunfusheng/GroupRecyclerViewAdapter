@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.adapter.sample.adapter.WeChatMeGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
@@ -24,11 +24,11 @@ public class WeChatMeActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, GroupData.weChatMeItems);
+        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, DataSource.weChatMeItems);
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            GroupData.WeChatItemConfig item = weChatAdapter.getItem(groupPosition, childPosition);
+            DataSource.WeChatItemConfig item = weChatAdapter.getItem(groupPosition, childPosition);
             if (null == item || 0 == item.key) {
                 return;
             }

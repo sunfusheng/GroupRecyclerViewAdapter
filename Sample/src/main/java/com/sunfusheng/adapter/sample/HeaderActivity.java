@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.adapter.sample.adapter.HeaderGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
@@ -22,7 +22,7 @@ public class HeaderActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        HeaderGroupAdapter headerAdapter = new HeaderGroupAdapter(this, GroupData.items);
+        HeaderGroupAdapter headerAdapter = new HeaderGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(headerAdapter);
 
         headerAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {

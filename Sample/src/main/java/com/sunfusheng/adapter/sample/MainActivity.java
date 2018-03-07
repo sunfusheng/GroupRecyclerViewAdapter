@@ -14,7 +14,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.FirUpdater;
 import com.sunfusheng.adapter.sample.adapter.MainGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MainGroupAdapter mainAdapter = new MainGroupAdapter(this, GroupData.mainItems);
+        MainGroupAdapter mainAdapter = new MainGroupAdapter(this, DataSource.mainItems);
         recyclerView.setAdapter(mainAdapter);
 
         mainAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            GroupData.MainItemConfig item = mainAdapter.getItem(groupPosition, childPosition);
+            DataSource.MainItemConfig item = mainAdapter.getItem(groupPosition, childPosition);
             if (null != item && null != item.intentClass) {
                 startActivity(new Intent(this, item.intentClass));
             }

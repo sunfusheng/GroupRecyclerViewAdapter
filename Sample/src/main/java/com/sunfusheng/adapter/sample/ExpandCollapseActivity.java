@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sunfusheng.adapter.sample.adapter.ExpandCollapseGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 
 /**
  * @author sunfusheng on 2018/2/9.
@@ -36,7 +36,7 @@ public class ExpandCollapseActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, GroupData.items);
+        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(expandableAdapter);
 
         expandableAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {

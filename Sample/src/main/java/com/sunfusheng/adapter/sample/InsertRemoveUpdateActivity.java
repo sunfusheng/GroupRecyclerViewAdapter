@@ -1,13 +1,13 @@
 package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sunfusheng.GroupLinearLayoutManager;
 import com.sunfusheng.adapter.sample.adapter.HeaderFooterGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
@@ -17,21 +17,21 @@ public class InsertRemoveUpdateActivity extends BaseActivity {
 
     private HeaderFooterGroupAdapter mAdapter;
 
-    private String[] new_insert_group = {"插入的新组", "a", "b", "c"};
+    private String[] new_insert_group = {"❖ 插入的新组", "A", "B", "C"};
     private String[][] new_insert_groups = {
-            {"插入的新组1", "A", "B", "C"},
-            {"插入的新组2", "a", "b", "c", "d"}
+            {"❖ 插入的新组1", "A", "B", "C"},
+            {"❖ 插入的新组2", "a", "b", "c"}
     };
-    private String new_insert_item = "插入的新组项";
-    private String[] new_insert_items = {"插入的新组项1", "插入的新组项2", "插入的新组项3"};
+    private String new_insert_item = "• 插入的新组项";
+    private String[] new_insert_items = {"• 插入的新组项1", "• 插入的新组项2", "• 插入的新组项3"};
 
-    private String[] new_update_group = {"更新的新组", "A", "B", "C", "D", "E"};
+    private String[] new_update_group = {"❖ 更新的新组", "A", "B", "C", "D", "E"};
     private String[][] new_update_groups = {
-            {"更新的新组1", "A", "B", "C"},
-            {"更新的新组2", "a", "b", "c"}
+            {"❖ 更新的新组1", "A", "B", "C"},
+            {"❖ 更新的新组2", "a", "b", "c"}
     };
-    private String new_update_item = "更新的新组项";
-    private String[] new_update_items = {"更新的新组项1", "更新的新组项2", "更新的新组项3"};
+    private String new_update_item = "• 更新的新组项";
+    private String[] new_update_items = {"• 更新的新组项1", "• 更新的新组项2", "• 更新的新组项3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class InsertRemoveUpdateActivity extends BaseActivity {
         initActionBar(R.string.insert_remove_update, true);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GroupLinearLayoutManager(this));
-        mAdapter = new HeaderFooterGroupAdapter(this, GroupData.items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new HeaderFooterGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
@@ -63,42 +63,51 @@ public class InsertRemoveUpdateActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean isSuccess = true;
+        int insertPosition = 1;
+        int removePosition = 0;
+        int updatePosition = 1;
+
         switch (item.getItemId()) {
+            // todo insert
             case R.id.insert_group:
-                isSuccess = mAdapter.insertGroup(1, new_insert_group);
+                isSuccess = mAdapter.insertGroup(insertPosition, new_insert_group, true);
                 break;
             case R.id.insert_groups:
-                isSuccess = mAdapter.insertGroups(1, new_insert_groups);
+                isSuccess = mAdapter.insertGroups(insertPosition, new_insert_groups, true);
                 break;
             case R.id.insert_item:
-                isSuccess = mAdapter.insertItem(1, 1, new_insert_item);
+                isSuccess = mAdapter.insertItem(insertPosition, 1, new_insert_item);
                 break;
             case R.id.insert_items:
-                isSuccess = mAdapter.insertItems(1, 1, new_insert_items);
+                isSuccess = mAdapter.insertItems(insertPosition, 1, new_insert_items);
                 break;
+
+            //todo remove
             case R.id.remove_group:
-                isSuccess = mAdapter.removeGroup(0);
+                isSuccess = mAdapter.removeGroup(removePosition);
                 break;
             case R.id.remove_groups:
-                isSuccess = mAdapter.removeGroups(1, 2);
+                isSuccess = mAdapter.removeGroups(removePosition, 2);
                 break;
             case R.id.remove_item:
-                isSuccess = mAdapter.removeItem(1, 1);
+                isSuccess = mAdapter.removeItem(removePosition, 0);
                 break;
             case R.id.remove_items:
-                isSuccess = mAdapter.removeItems(1, 1, 2);
+                isSuccess = mAdapter.removeItems(removePosition, 0, 2);
                 break;
+
+            //todo update
             case R.id.update_group:
-                isSuccess = mAdapter.updateGroup(1, new_update_group);
+                isSuccess = mAdapter.updateGroup(updatePosition, new_update_group);
                 break;
             case R.id.update_groups:
-                isSuccess = mAdapter.updateGroups(1, new_update_groups);
+                isSuccess = mAdapter.updateGroups(updatePosition, new_update_groups);
                 break;
             case R.id.update_item:
-                isSuccess = mAdapter.updateItem(1, 1, new_update_item);
+                isSuccess = mAdapter.updateItem(updatePosition, 1, new_update_item);
                 break;
             case R.id.update_items:
-                isSuccess = mAdapter.updateItems(1, 0, new_update_items);
+                isSuccess = mAdapter.updateItems(updatePosition, 0, new_update_items);
                 break;
         }
 

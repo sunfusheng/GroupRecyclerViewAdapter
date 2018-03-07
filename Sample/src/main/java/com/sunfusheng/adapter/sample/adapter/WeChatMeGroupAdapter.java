@@ -7,24 +7,24 @@ import android.widget.TextView;
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 
 import java.util.List;
 
 /**
  * @author sunfusheng on 2018/2/3.
  */
-public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupData.WeChatItemConfig> {
+public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<DataSource.WeChatItemConfig> {
 
     public WeChatMeGroupAdapter(Context context) {
         super(context);
     }
 
-    public WeChatMeGroupAdapter(Context context, List<List<GroupData.WeChatItemConfig>> items) {
+    public WeChatMeGroupAdapter(Context context, List<List<DataSource.WeChatItemConfig>> items) {
         super(context, items);
     }
 
-    public WeChatMeGroupAdapter(Context context, GroupData.WeChatItemConfig[][] items) {
+    public WeChatMeGroupAdapter(Context context, DataSource.WeChatItemConfig[][] items) {
         super(context, items);
     }
 
@@ -40,22 +40,22 @@ public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<GroupDa
 
     @Override
     public int getChildLayoutId(int viewType) {
-        if (viewType == GroupData.VIEW_TYPE_WECHAT_PROFILE) {
+        if (viewType == DataSource.VIEW_TYPE_WECHAT_PROFILE) {
             return R.layout.item_wechat_me_profile;
         }
         return R.layout.item_wechat_me_common;
     }
 
     @Override
-    public void onBindHeaderViewHolder(GroupViewHolder holder, GroupData.WeChatItemConfig item, int groupPosition) {
+    public void onBindHeaderViewHolder(GroupViewHolder holder, DataSource.WeChatItemConfig item, int groupPosition) {
 
     }
 
     @Override
-    public void onBindChildViewHolder(GroupViewHolder holder, GroupData.WeChatItemConfig item, int groupPosition, int childPosition) {
+    public void onBindChildViewHolder(GroupViewHolder holder, DataSource.WeChatItemConfig item, int groupPosition, int childPosition) {
         int viewType = getChildItemViewType(groupPosition, childPosition);
 
-        if (viewType == GroupData.VIEW_TYPE_WECHAT_PROFILE) {
+        if (viewType == DataSource.VIEW_TYPE_WECHAT_PROFILE) {
             TextView tvName = holder.get(R.id.tv_wechat_name);
             tvName.setText(item.titleId);
             holder.setImageResource(R.id.iv_avatar, R.mipmap.ic_me_avatar);

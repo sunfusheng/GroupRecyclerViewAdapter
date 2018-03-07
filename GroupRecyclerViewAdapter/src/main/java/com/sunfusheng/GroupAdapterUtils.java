@@ -39,7 +39,7 @@ public class GroupAdapterUtils {
 
     public static <T> boolean checkGroupsData(T[][] groups, int minCountPerGroup) {
         if (!isEmpty(groups)) {
-            return checkGroupsData(convertGroupsData(groups), minCountPerGroup);
+            return checkGroupsData(convertGroupsData(groups, minCountPerGroup), minCountPerGroup);
         }
         return false;
     }
@@ -52,7 +52,7 @@ public class GroupAdapterUtils {
         Iterator<List<T>> iterator = groups.iterator();
         while (iterator.hasNext()) {
             List<T> group = iterator.next();
-            if (isEmpty(group) || minCountPerGroup > group.size()) {
+            if (isEmpty(group) || group.size() < minCountPerGroup) {
                 iterator.remove();
                 Log.w(TAG, "Data illegal, already removed group = " + group);
             }
@@ -60,16 +60,16 @@ public class GroupAdapterUtils {
         return !isEmpty(groups);
     }
 
-    public static <T> List<List<T>> convertGroupsData(T[][] groups) {
+    public static <T> List<List<T>> convertGroupsData(T[][] groups, int minCountPerGroup) {
         List<List<T>> lists = new ArrayList<>();
-        if (isEmpty(groups)) {
-            return lists;
-        }
-
-        for (T[] group : groups) {
-            List<T> list = new ArrayList<>();
-            list.addAll(Arrays.asList(group));
-            lists.add(list);
+        if (!isEmpty(groups)) {
+            for (T[] group : groups) {
+                if (!isEmpty(group) && group.length >= minCountPerGroup) {
+                    List<T> list = new ArrayList<>();
+                    list.addAll(Arrays.asList(group));
+                    lists.add(list);
+                }
+            }
         }
         return lists;
     }

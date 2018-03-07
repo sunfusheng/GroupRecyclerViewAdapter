@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.adapter.sample.adapter.FooterGroupAdapter;
-import com.sunfusheng.adapter.sample.util.GroupData;
+import com.sunfusheng.adapter.sample.util.DataSource;
 import com.sunfusheng.adapter.sample.util.Utils;
 
 /**
@@ -22,7 +22,7 @@ public class FooterActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        FooterGroupAdapter footerAdapter = new FooterGroupAdapter(this, GroupData.items);
+        FooterGroupAdapter footerAdapter = new FooterGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(footerAdapter);
 
         footerAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {

@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/drawable_list_item_footer_selector"
+    android:background="@drawable/drawable_list_item_selector"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/list_item_margin_top_bottom_smaller"
+        android:layout_marginBottom="@dimen/list_item_margin_top_bottom"
         android:layout_marginLeft="@dimen/list_item_margin_left_right"
-        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller"
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom"
         android:text="footer item"
-        android:textColor="@color/white"
-        android:textSize="12sp"/>
+        android:textColor="@color/font1"
+        android:textSize="16sp"/>
 
     <include
         layout="@layout/divider_1px"

@@ -1,6 +1,5 @@
 package com.sunfusheng;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.Map;
  */
 abstract public class ExpandableGroupRecyclerViewAdapter<T> extends GroupRecyclerViewAdapter<T> {
 
-    @SuppressLint("UseSparseArrays")
     private Map<Integer, List<T>> cache = new HashMap<>();
 
     public ExpandableGroupRecyclerViewAdapter(Context context) {

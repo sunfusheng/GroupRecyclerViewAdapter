@@ -12,9 +12,9 @@ import com.sunfusheng.adapter.sample.WeChatNewMessageActivity;
 /**
  * @author sunfusheng on 2018/2/2.
  */
-public class GroupData {
+public class DataSource {
 
-    public static final String FOOTER_SUFFIX = "-footer";
+    public static final String FOOTER_SUFFIX = " • footer";
 
     public static final int VIEW_TYPE_WECHAT_PROFILE = 0x0001;
     public static final int VIEW_TYPE_WECHAT_COMMON = 0x0002;

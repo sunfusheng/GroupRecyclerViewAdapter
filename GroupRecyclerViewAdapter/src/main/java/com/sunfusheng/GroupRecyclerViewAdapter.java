@@ -2,7 +2,6 @@ package com.sunfusheng;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -33,12 +32,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     public GroupRecyclerViewAdapter(Context context, T[][] groups) {
-        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
-        init(context, GroupAdapterUtils.convertGroupsData(groups));
+        init(context, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
     }
 
     public GroupRecyclerViewAdapter(Context context, List<List<T>> groups) {
-        GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
         init(context, groups);
     }
 
@@ -49,13 +46,13 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setItems(T[][] groups) {
+    public void setGroups(T[][] groups) {
         GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
-        this.groups = GroupAdapterUtils.convertGroupsData(groups);
+        this.groups = GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup());
         notifyDataSetChanged();
     }
 
-    public void setItems(List<List<T>> groups) {
+    public void setGroups(List<List<T>> groups) {
         GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
         this.groups = groups;
         notifyDataSetChanged();
@@ -110,7 +107,6 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         int groupPosition = getGroupPosition(position);
         int childPosition = getGroupChildPosition(groupPosition, position);
         T item = getItem(groupPosition, childPosition);
-        Log.d(TAG, "position: " + position + " groupPosition: " + groupPosition + " childPosition: " + childPosition);
 
         if (null != onItemClickListener) {
             holder.itemView.setOnClickListener(view -> {
@@ -279,40 +275,68 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return GroupAdapterUtils.countGroupsItemsRange(groups, start, count);
     }
 
+    /****************************************************************
+     * insert operation
+     ***************************************************************/
+
     public boolean insertGroup(int groupPosition, T[] group) {
+        return insertGroup(groupPosition, group, true);
+    }
+
+    public boolean insertGroup(int groupPosition, T[] group, boolean withAnim) {
         if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
             List<T> list = Arrays.asList(group);
-            return insertGroup(groupPosition, new ArrayList<>(list));
+            return insertGroup(groupPosition, new ArrayList<>(list), withAnim);
         }
         return false;
     }
 
     public boolean insertGroup(int groupPosition, List<T> group) {
+        return insertGroup(groupPosition, group, true);
+    }
+
+    public boolean insertGroup(int groupPosition, List<T> group, boolean withAnim) {
         if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
             this.groups.add(groupPosition, group);
-            int positionStart = countGroupsItemsRange(0, groupPosition);
-            notifyItemRangeInserted(positionStart, group.size());
-            notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart - group.size());
+            if (withAnim) {
+                int positionStart = countGroupsItemsRange(0, groupPosition);
+                notifyItemRangeInserted(positionStart, group.size());
+                notifyItemRangeChanged(positionStart + group.size(), getItemCount() - positionStart - group.size());
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
     }
 
     public boolean insertGroups(int groupPosition, T[][] groups) {
+        return insertGroups(groupPosition, groups, true);
+    }
+
+    public boolean insertGroups(int groupPosition, T[][] groups, boolean withAnim) {
         if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
-            List<List<T>> lists = GroupAdapterUtils.convertGroupsData(groups);
-            return insertGroups(groupPosition, lists);
+            List<List<T>> lists = GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup());
+            return insertGroups(groupPosition, lists, withAnim);
         }
         return false;
     }
 
     public boolean insertGroups(int groupPosition, List<List<T>> groups) {
+        return insertGroups(groupPosition, groups, true);
+    }
+
+    public boolean insertGroups(int groupPosition, List<List<T>> groups, boolean withAnim) {
         if (checkGroupPositionForInsert(groupPosition) && GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup())) {
             this.groups.addAll(groupPosition, groups);
-            int groupItemCount = GroupAdapterUtils.countGroupsItemsRange(groups, 0, groups.size());
-            int positionStart = countGroupsItemsRange(0, groupPosition);
-            notifyItemRangeInserted(positionStart, groupItemCount);
-            notifyItemRangeChanged(positionStart + groupItemCount, getItemCount() - positionStart - groupItemCount);
+            if (withAnim) {
+                int groupItemCount = GroupAdapterUtils.countGroupsItemsRange(groups, 0, groups.size());
+                int positionStart = countGroupsItemsRange(0, groupPosition);
+                notifyItemRangeInserted(positionStart, groupItemCount);
+                notifyItemRangeChanged(positionStart + groupItemCount, getItemCount() - positionStart - groupItemCount);
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
@@ -378,18 +402,35 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return false;
     }
 
+    /****************************************************************
+     * remove operation
+     ***************************************************************/
+
     public boolean removeGroup(int groupPosition) {
+        return removeGroup(groupPosition, true);
+    }
+
+    public boolean removeGroup(int groupPosition, boolean withAnim) {
         if (checkGroupPosition(groupPosition)) {
             int positionStart = countGroupsItemsRange(0, groupPosition);
+            int itemCount = countGroupItems(groupPosition);
             this.groups.remove(groupPosition);
-            notifyItemRangeRemoved(positionStart, countGroupItems(groupPosition));
-            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            if (withAnim) {
+                notifyItemRangeRemoved(positionStart, itemCount);
+                notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
     }
 
     public boolean removeGroups(int groupPosition, int count) {
+        return removeGroups(groupPosition, count, true);
+    }
+
+    public boolean removeGroups(int groupPosition, int count, boolean withAnim) {
         if (checkGroupPosition(groupPosition) && count > 0) {
             int groupsCount = count;
             if (groupPosition + count > groupsCount()) {
@@ -398,11 +439,17 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
             int positionStart = countGroupsItemsRange(0, groupPosition);
             int itemCount = countGroupsItemsRange(groupPosition, groupsCount);
+
             for (int i = 0; i < groupsCount; i++) {
                 this.groups.remove(groupPosition);
             }
-            notifyItemRangeRemoved(positionStart, itemCount);
-            notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+
+            if (withAnim) {
+                notifyItemRangeRemoved(positionStart, itemCount);
+                notifyItemRangeChanged(positionStart, getItemCount() - positionStart);
+            } else {
+                notifyDataSetChanged();
+            }
             return true;
         }
         return false;
@@ -452,6 +499,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return false;
     }
 
+    /****************************************************************
+     * update operation
+     ***************************************************************/
+
     public boolean updateGroup(int groupPosition, T[] group) {
         if (checkGroupPosition(groupPosition) && GroupAdapterUtils.checkGroupData(group, minCountPerGroup())) {
             List<T> list = Arrays.asList(group);
@@ -473,7 +524,7 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     public boolean updateGroups(int groupPosition, T[][] groups) {
         if (!GroupAdapterUtils.isEmpty(groups)) {
-            return updateGroups(groupPosition, GroupAdapterUtils.convertGroupsData(groups));
+            return updateGroups(groupPosition, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
         }
         return false;
     }
@@ -590,6 +641,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
         return false;
     }
 
+    /****************************************************************
+     * abstract method
+     ***************************************************************/
+
     abstract public int getHeaderLayoutId(int viewType);
 
     abstract public int getChildLayoutId(int viewType);
@@ -605,6 +660,10 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
+    /****************************************************************
+     * interface
+     ***************************************************************/
 
     public interface OnItemClickListener {
         void onItemClick(GroupRecyclerViewAdapter adapter, GroupViewHolder holder, int groupPosition, int childPosition);
