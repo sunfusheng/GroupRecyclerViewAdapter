@@ -1,11 +1,9 @@
 package com.sunfusheng.adapter.sample.util;
 
 import com.sunfusheng.adapter.sample.ExpandCollapseActivity;
-import com.sunfusheng.adapter.sample.FooterActivity;
-import com.sunfusheng.adapter.sample.HeaderActivity;
-import com.sunfusheng.adapter.sample.HeaderFooterActivity;
 import com.sunfusheng.adapter.sample.InsertRemoveUpdateActivity;
 import com.sunfusheng.adapter.sample.R;
+import com.sunfusheng.adapter.sample.StickyActivity;
 import com.sunfusheng.adapter.sample.WeChatMeActivity;
 import com.sunfusheng.adapter.sample.WeChatNewMessageActivity;
 
@@ -34,18 +32,15 @@ public class DataSource {
     };
 
     public static MainItemConfig[][] mainItems = {
-            {MainItemConfig.NULL, MainItemConfig.HEADER, MainItemConfig.FOOTER, MainItemConfig.HEADER_FOOTER},
-            {MainItemConfig.NULL, MainItemConfig.INSERT_REMOVE_UPDATE, MainItemConfig.EXPAND_COLLAPSE},
+            {MainItemConfig.NULL, MainItemConfig.INSERT_REMOVE_UPDATE, MainItemConfig.EXPAND_COLLAPSE, MainItemConfig.STICKY},
             {MainItemConfig.NULL, MainItemConfig.WECHAT_ME, MainItemConfig.WECHAT_NEW_MESSAGE}
     };
 
     public enum MainItemConfig {
         NULL(0, null),
-        HEADER(R.string.header, HeaderActivity.class),
-        FOOTER(R.string.footer, FooterActivity.class),
-        HEADER_FOOTER(R.string.header_footer, HeaderFooterActivity.class),
         INSERT_REMOVE_UPDATE(R.string.insert_remove_update, InsertRemoveUpdateActivity.class),
         EXPAND_COLLAPSE(R.string.expand_collapse, ExpandCollapseActivity.class),
+        STICKY(R.string.sticky, StickyActivity.class),
         WECHAT_ME(R.string.wechat_me, WeChatMeActivity.class),
         WECHAT_NEW_MESSAGE(R.string.wechat_new_message, WeChatNewMessageActivity.class);
 

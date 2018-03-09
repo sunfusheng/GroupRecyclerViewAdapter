@@ -24,19 +24,18 @@ public class WeChatMeActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, DataSource.weChatMeItems);
+        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(recyclerView, DataSource.weChatMeItems);
         recyclerView.setAdapter(weChatAdapter);
 
-        weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            DataSource.WeChatItemConfig item = weChatAdapter.getItem(groupPosition, childPosition);
-            if (null == item || 0 == item.key) {
+        weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+            if (null == data || 0 == data.key) {
                 return;
             }
 
-            if (R.attr.key_profile == item.key) {
+            if (R.attr.key_profile == data.key) {
                 Utils.toast(this, "惊喜 +" + (++clickProfileCount));
             } else {
-                Utils.toast(this, item.titleId);
+                Utils.toast(this, data.titleId);
             }
         });
     }

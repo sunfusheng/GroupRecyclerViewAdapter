@@ -1,28 +1,18 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
-
-import java.util.List;
 
 /**
  * @author sunfusheng on 2018/2/3.
  */
 public class HeaderGroupAdapter extends HeaderGroupRecyclerViewAdapter<String> {
 
-    public HeaderGroupAdapter(Context context) {
-        super(context);
-    }
-
-    public HeaderGroupAdapter(Context context, List<List<String>> items) {
-        super(context, items);
-    }
-
-    public HeaderGroupAdapter(Context context, String[][] items) {
-        super(context, items);
+    public HeaderGroupAdapter(RecyclerView recyclerView, String[][] items) {
+        super(recyclerView, items);
     }
 
     @Override

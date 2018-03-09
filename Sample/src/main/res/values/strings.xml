@@ -2,11 +2,9 @@
 
     <string name="app_name">分组列表</string>
 
-    <string name="header">组头、组项列表</string>
-    <string name="footer">组项、组尾列表</string>
-    <string name="header_footer">组头、组项、组尾列表</string>
     <string name="insert_remove_update">插入、移除、更新组或组项</string>
     <string name="expand_collapse">展开、收起</string>
+    <string name="sticky">吸附、悬浮</string>
     <string name="wechat_me">微信-我</string>
     <string name="wechat_new_message">微信-新消息提醒</string>
 

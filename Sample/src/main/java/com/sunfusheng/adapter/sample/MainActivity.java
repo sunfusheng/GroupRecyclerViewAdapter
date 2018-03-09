@@ -30,13 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MainGroupAdapter mainAdapter = new MainGroupAdapter(this, DataSource.mainItems);
+        MainGroupAdapter mainAdapter = new MainGroupAdapter(recyclerView, DataSource.mainItems);
         recyclerView.setAdapter(mainAdapter);
 
-        mainAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            DataSource.MainItemConfig item = mainAdapter.getItem(groupPosition, childPosition);
-            if (null != item && null != item.intentClass) {
-                startActivity(new Intent(this, item.intentClass));
+        mainAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+            if (null != data && null != data.intentClass) {
+                startActivity(new Intent(this, data.intentClass));
             }
         });
     }

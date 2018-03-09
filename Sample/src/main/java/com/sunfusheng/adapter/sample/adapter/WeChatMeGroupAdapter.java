@@ -1,7 +1,7 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.sunfusheng.GroupViewHolder;
@@ -9,23 +9,13 @@ import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.DataSource;
 
-import java.util.List;
-
 /**
  * @author sunfusheng on 2018/2/3.
  */
 public class WeChatMeGroupAdapter extends HeaderGroupRecyclerViewAdapter<DataSource.WeChatItemConfig> {
 
-    public WeChatMeGroupAdapter(Context context) {
-        super(context);
-    }
-
-    public WeChatMeGroupAdapter(Context context, List<List<DataSource.WeChatItemConfig>> items) {
-        super(context, items);
-    }
-
-    public WeChatMeGroupAdapter(Context context, DataSource.WeChatItemConfig[][] items) {
-        super(context, items);
+    public WeChatMeGroupAdapter(RecyclerView recyclerView, DataSource.WeChatItemConfig[][] items) {
+        super(recyclerView, items);
     }
 
     @Override

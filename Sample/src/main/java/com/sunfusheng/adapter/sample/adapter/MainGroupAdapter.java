@@ -1,29 +1,19 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.DataSource;
 
-import java.util.List;
-
 /**
  * @author sunfusheng on 2018/2/2.
  */
 public class MainGroupAdapter extends HeaderGroupRecyclerViewAdapter<DataSource.MainItemConfig> {
 
-    public MainGroupAdapter(Context context) {
-        super(context);
-    }
-
-    public MainGroupAdapter(Context context, List<List<DataSource.MainItemConfig>> items) {
-        super(context, items);
-    }
-
-    public MainGroupAdapter(Context context, DataSource.MainItemConfig[][] items) {
-        super(context, items);
+    public MainGroupAdapter(RecyclerView recyclerView, DataSource.MainItemConfig[][] items) {
+        super(recyclerView, items);
     }
 
     @Override

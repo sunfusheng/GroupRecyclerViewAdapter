@@ -2,23 +2,17 @@ package com.sunfusheng.adapter.sample.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.sunfusheng.ExpandableGroupRecyclerViewAdapter;
 import com.sunfusheng.GroupViewHolder;
+import com.sunfusheng.StickyGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
-import com.sunfusheng.adapter.sample.util.DataSource;
 
 /**
- * @author sunfusheng on 2018/2/9.
+ * @author sunfusheng on 2018/3/7.
  */
-public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapter<String> {
+public class StickyGroupAdapter extends StickyGroupRecyclerViewAdapter<String> {
 
-    public ExpandCollapseGroupAdapter(RecyclerView recyclerView, String[][] groups) {
+    public StickyGroupAdapter(RecyclerView recyclerView, String[][] groups) {
         super(recyclerView, groups);
-    }
-
-    @Override
-    public boolean showHeader() {
-        return true;
     }
 
     @Override
@@ -38,13 +32,11 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
 
     @Override
     public int getFooterLayoutId(int viewType) {
-        return R.layout.item_footer_layout;
+        return 0;
     }
 
     @Override
     public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setVisible(R.id.iv_arrow, true);
-        holder.setImageResource(R.id.iv_arrow, isExpand(groupPosition) ? R.mipmap.ic_down_arrow : R.mipmap.ic_right_arrow);
         holder.setText(R.id.tv_title, item);
     }
 
@@ -55,7 +47,7 @@ public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapt
 
     @Override
     public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_title, item + DataSource.FOOTER_SUFFIX);
+
     }
 
 }

@@ -10,6 +10,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
+        android:visibility="gone"
         android:background="@color/divider1"/>
 
     <LinearLayout

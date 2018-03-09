@@ -18,23 +18,15 @@
         </activity>
 
         <activity
-            android:name=".HeaderActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".HeaderFooterActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".FooterActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".InsertRemoveUpdateActivity"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ExpandCollapseActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".StickyActivity"
             android:screenOrientation="portrait"/>
 
         <activity

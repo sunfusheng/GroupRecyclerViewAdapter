@@ -22,16 +22,15 @@ public class WeChatNewMessageActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(this, DataSource.weChatNewMessageItems);
+        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(recyclerView, DataSource.weChatNewMessageItems);
         recyclerView.setAdapter(weChatAdapter);
 
-        weChatAdapter.setOnItemClickListener((adapter, holder, groupPosition, childPosition) -> {
-            DataSource.WeChatItemConfig item = weChatAdapter.getItem(groupPosition, childPosition);
-            if (null == item || 0 == item.key) {
+        weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+            if (null == data || 0 == data.key) {
                 return;
             }
 
-            if (R.attr.key_new_message_voice == item.key) {
+            if (R.attr.key_new_message_voice == data.key) {
                 Utils.toastLong(this, "你是我的小呀小苹果^_^");
             }
         });

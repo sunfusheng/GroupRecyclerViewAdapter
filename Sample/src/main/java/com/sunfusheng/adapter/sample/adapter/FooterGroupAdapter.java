@@ -1,29 +1,19 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.sunfusheng.FooterGroupRecyclerViewAdapter;
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.DataSource;
 
-import java.util.List;
-
 /**
  * @author sunfusheng on 2018/2/3.
  */
 public class FooterGroupAdapter extends FooterGroupRecyclerViewAdapter<String> {
 
-    public FooterGroupAdapter(Context context) {
-        super(context);
-    }
-
-    public FooterGroupAdapter(Context context, List<List<String>> items) {
-        super(context, items);
-    }
-
-    public FooterGroupAdapter(Context context, String[][] items) {
-        super(context, items);
+    public FooterGroupAdapter(RecyclerView recyclerView, String[][] items) {
+        super(recyclerView, items);
     }
 
     @Override

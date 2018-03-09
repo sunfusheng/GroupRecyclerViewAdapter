@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author sunfusheng on 2018/2/1.
  */
-abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<GroupViewHolder> {
 
     private static final String TAG = "GroupAdapter";
 
@@ -20,28 +20,28 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     public static final int TYPE_CHILD = 1;
     public static final int TYPE_FOOTER = 2;
 
+    protected RecyclerView recyclerView;
     protected Context context;
     protected LayoutInflater inflater;
     protected List<List<T>> groups;
     protected int itemPosition;
 
-    protected OnItemClickListener onItemClickListener;
-
-    public GroupRecyclerViewAdapter(Context context) {
-        this(context, new ArrayList<>());
+    public GroupRecyclerViewAdapter(RecyclerView recyclerView) {
+        this(recyclerView, new ArrayList<>());
     }
 
-    public GroupRecyclerViewAdapter(Context context, T[][] groups) {
-        init(context, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
+    public GroupRecyclerViewAdapter(RecyclerView recyclerView, T[][] groups) {
+        init(recyclerView, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
     }
 
-    public GroupRecyclerViewAdapter(Context context, List<List<T>> groups) {
-        init(context, groups);
+    public GroupRecyclerViewAdapter(RecyclerView recyclerView, List<List<T>> groups) {
+        init(recyclerView, groups);
     }
 
-    private void init(Context context, List<List<T>> groups) {
+    private void init(RecyclerView recyclerView, List<List<T>> groups) {
         GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
-        this.context = context;
+        this.recyclerView = recyclerView;
+        this.context = recyclerView.getContext();
         this.groups = groups;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -96,32 +96,41 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new GroupViewHolder(inflater.inflate(getLayoutId(viewType), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        GroupViewHolder viewHolder = (GroupViewHolder) holder;
+    public void onBindViewHolder(GroupViewHolder holder, int position) {
         int viewType = confirmItemViewType(position);
         int groupPosition = getGroupPosition(position);
         int childPosition = getGroupChildPosition(groupPosition, position);
         T item = getItem(groupPosition, childPosition);
 
+        if (TYPE_HEADER == viewType) {
+            onBindHeaderViewHolder(holder, item, groupPosition);
+        } else if (TYPE_CHILD == viewType) {
+            onBindChildViewHolder(holder, item, groupPosition, childPosition);
+        } else if (TYPE_FOOTER == viewType) {
+            onBindFooterViewHolder(holder, item, groupPosition);
+        }
+
         if (null != onItemClickListener) {
             holder.itemView.setOnClickListener(view -> {
                 if (null != onItemClickListener) {
-                    onItemClickListener.onItemClick(this, viewHolder, groupPosition, childPosition);
+                    onItemClickListener.onItemClick(this, item, groupPosition, childPosition);
                 }
             });
         }
 
-        if (TYPE_HEADER == viewType) {
-            onBindHeaderViewHolder(viewHolder, item, groupPosition);
-        } else if (TYPE_CHILD == viewType) {
-            onBindChildViewHolder(viewHolder, item, groupPosition, childPosition);
-        } else if (TYPE_FOOTER == viewType) {
-            onBindFooterViewHolder(viewHolder, item, groupPosition);
+        if (null != onItemLongClickListener) {
+            holder.itemView.setOnLongClickListener(view -> {
+                if (null != onItemLongClickListener) {
+                    onItemLongClickListener.onItemLongClick(this, item, groupPosition, childPosition);
+                    return true;
+                }
+                return false;
+            });
         }
     }
 
@@ -657,16 +666,27 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<R
 
     abstract public void onBindFooterViewHolder(GroupViewHolder holder, T item, int groupPosition);
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    /****************************************************************
+     * item click listener
+     ***************************************************************/
+
+    protected OnItemClickListener<T> onItemClickListener;
+    protected OnItemLongClickListener<T> onItemLongClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    /****************************************************************
-     * interface
-     ***************************************************************/
+    public interface OnItemClickListener<T> {
+        void onItemClick(GroupRecyclerViewAdapter adapter, T data, int groupPosition, int childPosition);
+    }
 
-    public interface OnItemClickListener {
-        void onItemClick(GroupRecyclerViewAdapter adapter, GroupViewHolder holder, int groupPosition, int childPosition);
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public interface OnItemLongClickListener<T> {
+        void onItemLongClick(GroupRecyclerViewAdapter adapter, T data, int groupPosition, int childPosition);
     }
 
 }

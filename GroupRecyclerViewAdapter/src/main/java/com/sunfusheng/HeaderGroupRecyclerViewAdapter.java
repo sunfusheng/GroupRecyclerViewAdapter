@@ -1,6 +1,6 @@
 package com.sunfusheng;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 
@@ -9,16 +9,16 @@ import java.util.List;
  */
 abstract public class HeaderGroupRecyclerViewAdapter<T> extends GroupRecyclerViewAdapter<T> {
 
-    public HeaderGroupRecyclerViewAdapter(Context context) {
-        super(context);
+    public HeaderGroupRecyclerViewAdapter(RecyclerView recyclerView) {
+        super(recyclerView);
     }
 
-    public HeaderGroupRecyclerViewAdapter(Context context, List<List<T>> items) {
-        super(context, items);
+    public HeaderGroupRecyclerViewAdapter(RecyclerView recyclerView, List<List<T>> items) {
+        super(recyclerView, items);
     }
 
-    public HeaderGroupRecyclerViewAdapter(Context context, T[][] items) {
-        super(context, items);
+    public HeaderGroupRecyclerViewAdapter(RecyclerView recyclerView, T[][] items) {
+        super(recyclerView, items);
     }
 
     @Override
