@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.sunfusheng.StickyHeaderDecoration;
 import com.sunfusheng.adapter.sample.adapter.StickyGroupAdapter;
 import com.sunfusheng.adapter.sample.util.DataSource;
 import com.sunfusheng.adapter.sample.util.Utils;
@@ -22,7 +23,8 @@ public class StickyActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        StickyGroupAdapter stickyAdapter = new StickyGroupAdapter(recyclerView, DataSource.items);
+        recyclerView.addItemDecoration(new StickyHeaderDecoration());
+        StickyGroupAdapter stickyAdapter = new StickyGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(stickyAdapter);
 
         stickyAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

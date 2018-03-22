@@ -1,6 +1,6 @@
 package com.sunfusheng;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,16 +13,16 @@ abstract public class ExpandableGroupRecyclerViewAdapter<T> extends GroupRecycle
 
     private Map<Integer, List<T>> cache = new HashMap<>();
 
-    public ExpandableGroupRecyclerViewAdapter(RecyclerView recyclerView) {
-        super(recyclerView);
+    public ExpandableGroupRecyclerViewAdapter(Context context) {
+        super(context);
     }
 
-    public ExpandableGroupRecyclerViewAdapter(RecyclerView recyclerView, T[][] groups) {
-        super(recyclerView, groups);
+    public ExpandableGroupRecyclerViewAdapter(Context context, T[][] groups) {
+        super(context, groups);
     }
 
-    public ExpandableGroupRecyclerViewAdapter(RecyclerView recyclerView, List<List<T>> groups) {
-        super(recyclerView, groups);
+    public ExpandableGroupRecyclerViewAdapter(Context context, List<List<T>> groups) {
+        super(context, groups);
     }
 
     public boolean isExpand(int groupPosition) {

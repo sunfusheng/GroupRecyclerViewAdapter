@@ -36,7 +36,7 @@ public class ExpandCollapseActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(recyclerView, DataSource.items);
+        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(expandableAdapter);
 
         expandableAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

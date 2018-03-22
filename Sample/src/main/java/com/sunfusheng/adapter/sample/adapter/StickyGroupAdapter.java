@@ -1,18 +1,18 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 
+import com.sunfusheng.GroupRecyclerViewAdapter;
 import com.sunfusheng.GroupViewHolder;
-import com.sunfusheng.StickyGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 
 /**
  * @author sunfusheng on 2018/3/7.
  */
-public class StickyGroupAdapter extends StickyGroupRecyclerViewAdapter<String> {
+public class StickyGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
-    public StickyGroupAdapter(RecyclerView recyclerView, String[][] groups) {
-        super(recyclerView, groups);
+    public StickyGroupAdapter(Context context, String[][] groups) {
+        super(context, groups);
     }
 
     @Override

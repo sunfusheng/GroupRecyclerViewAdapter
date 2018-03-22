@@ -42,7 +42,7 @@ public class InsertRemoveUpdateActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new HeaderFooterGroupAdapter(recyclerView, DataSource.items);
+        mAdapter = new HeaderFooterGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

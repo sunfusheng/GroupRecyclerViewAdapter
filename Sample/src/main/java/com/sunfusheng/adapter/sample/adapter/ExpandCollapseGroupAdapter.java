@@ -1,6 +1,6 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 
 import com.sunfusheng.ExpandableGroupRecyclerViewAdapter;
 import com.sunfusheng.GroupViewHolder;
@@ -12,8 +12,8 @@ import com.sunfusheng.adapter.sample.util.DataSource;
  */
 public class ExpandCollapseGroupAdapter extends ExpandableGroupRecyclerViewAdapter<String> {
 
-    public ExpandCollapseGroupAdapter(RecyclerView recyclerView, String[][] groups) {
-        super(recyclerView, groups);
+    public ExpandCollapseGroupAdapter(Context context, String[][] groups) {
+        super(context, groups);
     }
 
     @Override

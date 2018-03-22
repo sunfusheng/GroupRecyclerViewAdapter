@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MainGroupAdapter mainAdapter = new MainGroupAdapter(recyclerView, DataSource.mainItems);
+        MainGroupAdapter mainAdapter = new MainGroupAdapter(this, DataSource.mainItems);
         recyclerView.setAdapter(mainAdapter);
 
         mainAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

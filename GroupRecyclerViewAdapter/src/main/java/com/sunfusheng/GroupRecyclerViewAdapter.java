@@ -20,28 +20,26 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<G
     public static final int TYPE_CHILD = 1;
     public static final int TYPE_FOOTER = 2;
 
-    protected RecyclerView recyclerView;
     protected Context context;
     protected LayoutInflater inflater;
     protected List<List<T>> groups;
     protected int itemPosition;
 
-    public GroupRecyclerViewAdapter(RecyclerView recyclerView) {
-        this(recyclerView, new ArrayList<>());
+    public GroupRecyclerViewAdapter(Context context) {
+        this(context, new ArrayList<>());
     }
 
-    public GroupRecyclerViewAdapter(RecyclerView recyclerView, T[][] groups) {
-        init(recyclerView, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
+    public GroupRecyclerViewAdapter(Context context, T[][] groups) {
+        init(context, GroupAdapterUtils.convertGroupsData(groups, minCountPerGroup()));
     }
 
-    public GroupRecyclerViewAdapter(RecyclerView recyclerView, List<List<T>> groups) {
-        init(recyclerView, groups);
+    public GroupRecyclerViewAdapter(Context context, List<List<T>> groups) {
+        init(context, groups);
     }
 
-    private void init(RecyclerView recyclerView, List<List<T>> groups) {
+    private void init(Context context, List<List<T>> groups) {
         GroupAdapterUtils.checkGroupsData(groups, minCountPerGroup());
-        this.recyclerView = recyclerView;
-        this.context = recyclerView.getContext();
+        this.context = context;
         this.groups = groups;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

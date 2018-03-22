@@ -22,7 +22,7 @@ public class WeChatNewMessageActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(recyclerView, DataSource.weChatNewMessageItems);
+        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(this, DataSource.weChatNewMessageItems);
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

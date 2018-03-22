@@ -24,7 +24,7 @@ public class WeChatMeActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(recyclerView, DataSource.weChatMeItems);
+        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, DataSource.weChatMeItems);
         recyclerView.setAdapter(weChatAdapter);
 
         weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {

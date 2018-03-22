@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * @author sunfusheng on 2018/3/7.
  */
 @SuppressWarnings("unchecked")
-public class StickyItemDecoration extends RecyclerView.ItemDecoration {
+public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
     private GroupRecyclerViewAdapter groupAdapter;
     private GroupViewHolder viewHolder;

@@ -1,6 +1,6 @@
 package com.sunfusheng.adapter.sample.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
@@ -11,8 +11,8 @@ import com.sunfusheng.adapter.sample.R;
  */
 public class HeaderGroupAdapter extends HeaderGroupRecyclerViewAdapter<String> {
 
-    public HeaderGroupAdapter(RecyclerView recyclerView, String[][] items) {
-        super(recyclerView, items);
+    public HeaderGroupAdapter(Context context, String[][] items) {
+        super(context, items);
     }
 
     @Override
