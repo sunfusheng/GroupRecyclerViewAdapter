@@ -3,12 +3,12 @@ package com.sunfusheng.adapter.sample.adapter;
 import android.content.Context;
 import android.view.View;
 
-import com.kyleduo.switchbutton.SwitchButton;
 import com.sunfusheng.GroupAdapterUtils;
 import com.sunfusheng.GroupViewHolder;
 import com.sunfusheng.HeaderGroupRecyclerViewAdapter;
 import com.sunfusheng.adapter.sample.R;
 import com.sunfusheng.adapter.sample.util.DataSource;
+import com.sunfusheng.adapter.sample.widget.SwitchButton;
 
 import java.util.List;
 

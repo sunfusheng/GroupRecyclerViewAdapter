@@ -63,7 +63,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
     implementation 'com.android.support:design:' + gradle.supportLibraryVersion
-    implementation 'com.kyleduo.switchbutton:library:2.0.0'
 
     implementation project(':GroupRecyclerViewAdapter')
     implementation 'com.sunfusheng:FirUpdater:1.0.4'

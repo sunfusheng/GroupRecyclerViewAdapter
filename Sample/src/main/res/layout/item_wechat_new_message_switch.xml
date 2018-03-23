@@ -25,7 +25,7 @@
             android:textColor="@color/font1"
             android:textSize="16sp"/>
 
-        <com.kyleduo.switchbutton.SwitchButton
+        <com.sunfusheng.adapter.sample.widget.SwitchButton
             android:id="@+id/switch_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
