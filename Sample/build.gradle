@@ -4,15 +4,13 @@ Properties signingProperties = new Properties()
 signingProperties.load(new FileInputStream(file("../signings/signing.properties")))
 
 android {
-    compileSdkVersion gradle.compileSdkVersion
-    buildToolsVersion gradle.buildToolsVersion
-
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "com.sunfusheng.adapter.sample"
-        minSdkVersion gradle.minSdkVersion
-        targetSdkVersion gradle.targetSdkVersion
-        versionCode gradle.versionCode
-        versionName gradle.versionName
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
 
     compileOptions {
@@ -61,9 +59,9 @@ def generateApk(variant) {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:' + gradle.supportLibraryVersion
-    implementation 'com.android.support:design:' + gradle.supportLibraryVersion
+    implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
+    implementation 'com.android.support:design:' + rootProject.supportLibraryVersion
 
     implementation project(':GroupRecyclerViewAdapter')
-    implementation 'com.sunfusheng:FirUpdater:1.0.4'
+    implementation 'com.sunfusheng:FirUpdater:1.0.8'
 }
