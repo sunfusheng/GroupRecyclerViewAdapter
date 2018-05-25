@@ -194,6 +194,20 @@ abstract public class GroupRecyclerViewAdapter<T> extends RecyclerView.Adapter<G
     }
 
     /**
+     * @param groupPosition 组下标
+     * @param childPosition 组项下标
+     * @return 返回列表的position
+     */
+    public int getPosition(int groupPosition, int childPosition) {
+        int position = 0;
+        for (int i = 0; i < groupPosition; i++) {
+            position += GroupAdapterUtils.countGroupItems(getGroups(), groupPosition);
+        }
+        position += childPosition;
+        return position;
+    }
+
+    /**
      * @param itemPosition 列表下标
      * @return 返回所在组
      */
