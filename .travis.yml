@@ -50,12 +50,12 @@ deploy:
   file: Sample/outputs/GroupAdapter.apk
   skip_cleanup: true
   on:
-    repo: sfsheng0322/GroupRecyclerViewAdapter
+    repo: sunfusheng/GroupRecyclerViewAdapter
     tags: true
     all_branches: true
 
 after_deploy:
-- "./gradlew clean build bintrayUpload -PbintrayUser=sfsheng0322 -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false"
+- "./gradlew clean build bintrayUpload -PbintrayUser=sunfusheng -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false"
 - fir p Sample/outputs/GroupAdapter.apk -T $FIR_TOKEN -c "丰富分组列表库功能"
 
 notifications:

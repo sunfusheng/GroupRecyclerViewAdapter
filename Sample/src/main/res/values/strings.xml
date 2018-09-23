@@ -7,6 +7,7 @@
     <string name="sticky">吸附、悬浮</string>
     <string name="wechat_me">微信-我</string>
     <string name="wechat_new_message">微信-新消息提醒</string>
+    <string name="bottom_sheet">BottomSheetDialog</string>
 
     <string name="wechat_name">孙福生</string>
     <string name="wechat_id">微信号：sfs321</string>

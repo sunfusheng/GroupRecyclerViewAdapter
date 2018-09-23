@@ -1,5 +1,6 @@
 package com.sunfusheng.adapter.sample.util;
 
+import com.sunfusheng.adapter.sample.BottomSheetDialogActivity;
 import com.sunfusheng.adapter.sample.ExpandCollapseActivity;
 import com.sunfusheng.adapter.sample.InsertRemoveUpdateActivity;
 import com.sunfusheng.adapter.sample.R;
@@ -33,7 +34,8 @@ public class DataSource {
 
     public static MainItemConfig[][] mainItems = {
             {MainItemConfig.NULL, MainItemConfig.INSERT_REMOVE_UPDATE, MainItemConfig.EXPAND_COLLAPSE, MainItemConfig.STICKY},
-            {MainItemConfig.NULL, MainItemConfig.WECHAT_ME, MainItemConfig.WECHAT_NEW_MESSAGE}
+            {MainItemConfig.NULL, MainItemConfig.WECHAT_ME, MainItemConfig.WECHAT_NEW_MESSAGE},
+            {MainItemConfig.NULL, MainItemConfig.BOTTOM_SHEET}
     };
 
     public enum MainItemConfig {
@@ -41,8 +43,11 @@ public class DataSource {
         INSERT_REMOVE_UPDATE(R.string.insert_remove_update, InsertRemoveUpdateActivity.class),
         EXPAND_COLLAPSE(R.string.expand_collapse, ExpandCollapseActivity.class),
         STICKY(R.string.sticky, StickyActivity.class),
+
         WECHAT_ME(R.string.wechat_me, WeChatMeActivity.class),
-        WECHAT_NEW_MESSAGE(R.string.wechat_new_message, WeChatNewMessageActivity.class);
+        WECHAT_NEW_MESSAGE(R.string.wechat_new_message, WeChatNewMessageActivity.class),
+
+        BOTTOM_SHEET(R.string.bottom_sheet, BottomSheetDialogActivity.class);
 
         public int titleId;
         public Class<?> intentClass;
