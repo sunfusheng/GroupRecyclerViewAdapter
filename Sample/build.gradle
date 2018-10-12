@@ -5,6 +5,7 @@ signingProperties.load(new FileInputStream(file("../signings/signing.properties"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.sunfusheng.adapter.sample"
         minSdkVersion rootProject.minSdkVersion

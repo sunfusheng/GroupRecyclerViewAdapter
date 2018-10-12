@@ -1,12 +1,13 @@
 buildscript {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://dl.bintray.com/sfsheng0322/maven' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.novoda:bintray-release:0.8.1'
     }
 }
@@ -14,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://dl.bintray.com/sfsheng0322/maven' }
     }
@@ -24,12 +26,12 @@ task clean(type: Delete) {
 }
 
 ext {
-    compileSdkVersion = 27
-    buildToolsVersion = '27.1.1'
-    supportLibraryVersion = '27.1.1'
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.3'
+    supportLibraryVersion = '28.0.0'
 
     minSdkVersion = 14
-    targetSdkVersion = 27
-    versionCode = 8
-    versionName = "1.0.7"
+    targetSdkVersion = 28
+    versionCode = 9
+    versionName = "1.0.8"
 }
