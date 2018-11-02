@@ -38,9 +38,9 @@ public class BottomSheetDialogActivity extends BaseActivity {
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
         int height = getWindowManager().getDefaultDisplay().getHeight();
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) bottomSheetView.getLayoutParams();
-        layoutParams.height = height * 2 / 3;
+        layoutParams.height = height / 2;
         bottomSheetView.setLayoutParams(layoutParams);
-        bottomSheetBehavior.setPeekHeight(height / 3);
+//        bottomSheetBehavior.setPeekHeight(height / 3);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         bottomSheetDialog.show();
 

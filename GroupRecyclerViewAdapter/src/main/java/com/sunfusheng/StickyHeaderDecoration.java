@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,8 +25,8 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     private GestureDetector gestureDetector;
 
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        super.onDrawOver(c, parent, state);
+    public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+        super.onDrawOver(canvas, parent, state);
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         RecyclerView.Adapter adapter = parent.getAdapter();
         if (layoutManager == null || adapter == null) {
@@ -51,7 +52,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         RecyclerView.ViewHolder currViewHolder = parent.findViewHolderForAdapterPosition(currStickyPosition);
-        if (currViewHolder != null && currViewHolder.itemView != null) {
+        if (currViewHolder != null) {
             currStickyView = currViewHolder.itemView;
             currStickyView.setTag(currGroupPosition);
         }
@@ -61,7 +62,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         RecyclerView.ViewHolder nextViewHolder = parent.findViewHolderForLayoutPosition(nextStickyPosition);
-        if (nextViewHolder != null && nextViewHolder.itemView != null) {
+        if (nextViewHolder != null) {
             nextStickyView = nextViewHolder.itemView;
             nextStickyView.setTag(nextGroupPosition);
         }
@@ -72,6 +73,8 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         if (nextStickyView != null) {
             nextStickyViewTop = nextStickyView.getTop();
         }
+
+//        Log.d("--->", "currStickyView.getTag(): " + currStickyView.getTag() + " currGroupPosition: " + currGroupPosition);
 
         if ((int) currStickyView.getTag() != currGroupPosition) {
             if (viewHolder == null) {
@@ -88,11 +91,12 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         int translateY = 0;
-        if (nextStickyViewTop < stickyViewHeight) {
+        if (nextStickyViewTop > 0 && nextStickyViewTop < stickyViewHeight && nextGroupPosition < groupAdapter.getGroups().size()) {
             translateY = nextStickyViewTop - stickyViewHeight;
-            c.translate(0, translateY);
         }
-        currStickyView.draw(c);
+        canvas.translate(0, translateY);
+        Log.d("--->", "nextStickyViewTop: " + nextStickyViewTop + " translateY: " + translateY);
+        currStickyView.draw(canvas);
 
         stickyRect.left = 0;
         stickyRect.top = 0;
