@@ -2,6 +2,7 @@ package com.sunfusheng;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +26,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     private GestureDetector gestureDetector;
 
     @Override
-    public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(canvas, parent, state);
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         RecyclerView.Adapter adapter = parent.getAdapter();
@@ -43,7 +44,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         currGroupPosition = groupAdapter.getGroupPosition(currItemPosition);
-        int currChildPosition = groupAdapter.getGroupChildPosition(currGroupPosition, currItemPosition);
         int nextGroupPosition = currGroupPosition + 1;
         int currStickyPosition = groupAdapter.getGroupHeaderPosition(currGroupPosition);
         int nextStickyPosition = groupAdapter.getGroupHeaderPosition(nextGroupPosition);
@@ -74,8 +74,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             nextStickyViewTop = nextStickyView.getTop();
         }
 
-//        Log.d("--->", "currStickyView.getTag(): " + currStickyView.getTag() + " currGroupPosition: " + currGroupPosition);
-
         if ((int) currStickyView.getTag() != currGroupPosition) {
             if (viewHolder == null) {
                 viewHolder = new GroupViewHolder(groupAdapter.inflater.inflate(groupAdapter.getHeaderLayoutId(GroupRecyclerViewAdapter.TYPE_HEADER), parent, false));
@@ -95,7 +93,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             translateY = nextStickyViewTop - stickyViewHeight;
         }
         canvas.translate(0, translateY);
-        Log.d("--->", "nextStickyViewTop: " + nextStickyViewTop + " translateY: " + translateY);
         currStickyView.draw(canvas);
 
         stickyRect.left = 0;
@@ -107,7 +104,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             gestureDetector = new GestureDetector(parent.getContext(), simpleOnGestureListener);
             parent.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
                 @Override
-                public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                     if (currStickyView != null && currStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
                         currStickyView.setPressed(false);
                     }
@@ -115,7 +112,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                 }
 
                 @Override
-                public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+                public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                     super.onTouchEvent(rv, e);
                     if (currStickyView != null && currStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
                         currStickyView.setPressed(false);
