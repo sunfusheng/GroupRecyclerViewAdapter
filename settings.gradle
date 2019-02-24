@@ -1,1 +1,2 @@
-include ':Sample', ':GroupRecyclerViewAdapter'
+include ':GroupRecyclerViewAdapter',
+        ':Sample'

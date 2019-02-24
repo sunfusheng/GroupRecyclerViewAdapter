@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GroupRecyclerViewAdapter.iml" filepath="$PROJECT_DIR$/GroupRecyclerViewAdapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GitHub-GroupRecyclerViewAdapter.iml" filepath="$PROJECT_DIR$/GitHub-GroupRecyclerViewAdapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/GroupRecyclerViewAdapter/GroupRecyclerViewAdapter-GroupRecyclerViewAdapter.iml" filepath="$PROJECT_DIR$/GroupRecyclerViewAdapter/GroupRecyclerViewAdapter-GroupRecyclerViewAdapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sample/Sample.iml" filepath="$PROJECT_DIR$/Sample/Sample.iml" />
     </modules>
