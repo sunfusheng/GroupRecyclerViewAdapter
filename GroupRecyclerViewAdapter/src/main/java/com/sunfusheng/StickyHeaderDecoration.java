@@ -52,7 +52,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         RecyclerView.ViewHolder currViewHolder = parent.findViewHolderForAdapterPosition(currStickyPosition);
-        if (currViewHolder != null) {
+        if (currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != currGroupPosition)) {
             currStickyView = currViewHolder.itemView;
             currStickyView.setTag(currGroupPosition);
         }
