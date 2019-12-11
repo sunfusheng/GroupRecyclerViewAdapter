@@ -38,12 +38,21 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         groupAdapter = (GroupRecyclerViewAdapter) adapter;
 
         int itemCount = state.getItemCount();
-        int currItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        if (currItemPosition == RecyclerView.NO_POSITION) {
+        if (itemCount <= 0) {
             return;
         }
 
-        currGroupPosition = groupAdapter.getGroupPosition(currItemPosition);
+        int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+        if (firstVisibleItemPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+
+        int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+        if (lastVisibleItemPosition == RecyclerView.NO_POSITION) {
+            return;
+        }
+
+        currGroupPosition = groupAdapter.getGroupPosition(firstVisibleItemPosition);
         int nextGroupPosition = currGroupPosition + 1;
         int currStickyPosition = groupAdapter.getGroupHeaderPosition(currGroupPosition);
         int nextStickyPosition = groupAdapter.getGroupHeaderPosition(nextGroupPosition);
@@ -51,10 +60,14 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             nextStickyPosition = currStickyPosition;
         }
 
+        Log.d("sfs", "nextGroupPosition:" + nextGroupPosition + ", nextStickyPosition:" + nextStickyPosition);
+
         RecyclerView.ViewHolder currViewHolder = parent.findViewHolderForAdapterPosition(currStickyPosition);
+//        boolean isSameGroup = !(currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != currGroupPosition));
         if (currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != currGroupPosition)) {
             currStickyView = currViewHolder.itemView;
             currStickyView.setTag(currGroupPosition);
+            Log.w("sfs", "currStickyView = currViewHolder.itemView;");
         }
 
         if (currStickyView == null) {
@@ -66,6 +79,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             nextStickyView = nextViewHolder.itemView;
             nextStickyView.setTag(nextGroupPosition);
         }
+//        Log.d("sfs", "currGroupPosition:" + currGroupPosition + ", currStickyView.getTag():" + currStickyView.getTag());
 
         int stickyViewWidth = currStickyView.getWidth();
         int stickyViewHeight = currStickyView.getHeight();
@@ -84,8 +98,9 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             itemView.setLayoutParams(layoutParams);
             itemView.measure(View.MeasureSpec.makeMeasureSpec(stickyViewWidth, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(stickyViewHeight, View.MeasureSpec.EXACTLY));
             itemView.layout(0, -stickyViewHeight, stickyViewWidth, 0);
-            itemView.setTag(currGroupPosition);
             currStickyView = itemView;
+            currStickyView.setTag(currGroupPosition);
+            Log.w("sfs", "currStickyView = itemView;");
         }
 
         int translateY = 0;
