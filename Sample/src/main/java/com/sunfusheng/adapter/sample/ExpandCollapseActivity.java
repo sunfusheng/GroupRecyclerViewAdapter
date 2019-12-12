@@ -7,6 +7,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sunfusheng.StickyHeaderDecoration;
 import com.sunfusheng.adapter.sample.adapter.ExpandCollapseGroupAdapter;
 import com.sunfusheng.adapter.sample.util.DataSource;
 
@@ -36,6 +37,7 @@ public class ExpandCollapseActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new StickyHeaderDecoration());
         ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
         recyclerView.setAdapter(expandableAdapter);
 

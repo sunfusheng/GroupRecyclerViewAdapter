@@ -17,13 +17,17 @@ import android.view.ViewGroup;
 @SuppressWarnings("unchecked")
 public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
-    private GroupRecyclerViewAdapter groupAdapter;
-    private GroupViewHolder viewHolder;
-    private View currStickyView;
-    private View nextStickyView;
-    private int currGroupPosition;
-    private Rect stickyRect = new Rect();
-    private GestureDetector gestureDetector;
+    private GroupRecyclerViewAdapter mGroupAdapter;
+    private View vStickyView;
+    private View vCurrStickyView;
+    private View vNextStickyView;
+
+    private int mCurrGroupPosition;
+    private Rect mStickyRect = new Rect();
+    private GestureDetector mGestureDetector;
+
+    private String mCurrStickyViewHashCode;
+    private String mNextStickyViewHashCode;
 
     @Override
     public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -35,7 +39,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-        groupAdapter = (GroupRecyclerViewAdapter) adapter;
+        mGroupAdapter = (GroupRecyclerViewAdapter) adapter;
 
         int itemCount = state.getItemCount();
         if (itemCount <= 0) {
@@ -43,94 +47,100 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        if (firstVisibleItemPosition == RecyclerView.NO_POSITION) {
-            return;
-        }
-
         int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
-        if (lastVisibleItemPosition == RecyclerView.NO_POSITION) {
+        if (firstVisibleItemPosition == RecyclerView.NO_POSITION || lastVisibleItemPosition == RecyclerView.NO_POSITION) {
             return;
         }
 
-        currGroupPosition = groupAdapter.getGroupPosition(firstVisibleItemPosition);
-        int nextGroupPosition = currGroupPosition + 1;
-        int currStickyPosition = groupAdapter.getGroupHeaderPosition(currGroupPosition);
-        int nextStickyPosition = groupAdapter.getGroupHeaderPosition(nextGroupPosition);
+        mCurrGroupPosition = mGroupAdapter.getGroupPosition(firstVisibleItemPosition);
+        int nextGroupPosition = mCurrGroupPosition + 1;
+        int currStickyPosition = mGroupAdapter.getGroupHeaderPosition(mCurrGroupPosition);
+        int nextStickyPosition = mGroupAdapter.getGroupHeaderPosition(nextGroupPosition);
         if (nextStickyPosition >= itemCount) {
             nextStickyPosition = currStickyPosition;
         }
 
-        Log.d("sfs", "nextGroupPosition:" + nextGroupPosition + ", nextStickyPosition:" + nextStickyPosition);
-
         RecyclerView.ViewHolder currViewHolder = parent.findViewHolderForAdapterPosition(currStickyPosition);
-//        boolean isSameGroup = !(currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != currGroupPosition));
-        if (currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != currGroupPosition)) {
-            currStickyView = currViewHolder.itemView;
-            currStickyView.setTag(currGroupPosition);
-            Log.w("sfs", "currStickyView = currViewHolder.itemView;");
+        if (currViewHolder != null && (currViewHolder.itemView.getTag() == null || (int) currViewHolder.itemView.getTag() != mCurrGroupPosition)) {
+            vCurrStickyView = currViewHolder.itemView;
+            vCurrStickyView.setTag(mCurrGroupPosition);
         }
 
-        if (currStickyView == null) {
+        if (vCurrStickyView == null) {
             return;
+        }
+        int stickyViewWidth = vCurrStickyView.getWidth();
+        int stickyViewHeight = vCurrStickyView.getHeight();
+
+        if (mCurrStickyViewHashCode == null || mCurrStickyViewHashCode.equals(mNextStickyViewHashCode)) {
+            vCurrStickyView = loadStickyView(parent, currStickyPosition, stickyViewWidth, stickyViewHeight);
+            vCurrStickyView.setTag(mCurrGroupPosition);
+        }
+
+        if ((int) vCurrStickyView.getTag() != mCurrGroupPosition) {
+            vCurrStickyView = loadStickyView(parent, currStickyPosition, stickyViewWidth, stickyViewHeight);
+            vCurrStickyView.setTag(mCurrGroupPosition);
         }
 
         RecyclerView.ViewHolder nextViewHolder = parent.findViewHolderForLayoutPosition(nextStickyPosition);
         if (nextViewHolder != null) {
-            nextStickyView = nextViewHolder.itemView;
-            nextStickyView.setTag(nextGroupPosition);
+            vNextStickyView = nextViewHolder.itemView;
+            vNextStickyView.setTag(nextGroupPosition);
         }
-//        Log.d("sfs", "currGroupPosition:" + currGroupPosition + ", currStickyView.getTag():" + currStickyView.getTag());
 
-        int stickyViewWidth = currStickyView.getWidth();
-        int stickyViewHeight = currStickyView.getHeight();
+        mCurrStickyViewHashCode = Integer.toHexString(System.identityHashCode(vCurrStickyView));
+        mNextStickyViewHashCode = Integer.toHexString(System.identityHashCode(vNextStickyView));
+
         int nextStickyViewTop = -1;
-        if (nextStickyView != null) {
-            nextStickyViewTop = nextStickyView.getTop();
-        }
-
-        if ((int) currStickyView.getTag() != currGroupPosition) {
-            if (viewHolder == null) {
-                viewHolder = new GroupViewHolder(groupAdapter.inflater.inflate(groupAdapter.getHeaderLayoutId(GroupRecyclerViewAdapter.TYPE_HEADER), parent, false));
-            }
-            groupAdapter.onBindViewHolder(viewHolder, currStickyPosition);
-            View itemView = viewHolder.itemView;
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(stickyViewWidth, stickyViewHeight);
-            itemView.setLayoutParams(layoutParams);
-            itemView.measure(View.MeasureSpec.makeMeasureSpec(stickyViewWidth, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(stickyViewHeight, View.MeasureSpec.EXACTLY));
-            itemView.layout(0, -stickyViewHeight, stickyViewWidth, 0);
-            currStickyView = itemView;
-            currStickyView.setTag(currGroupPosition);
-            Log.w("sfs", "currStickyView = itemView;");
+        if (vNextStickyView != null) {
+            nextStickyViewTop = vNextStickyView.getTop();
         }
 
         int translateY = 0;
-        if (nextStickyViewTop > 0 && nextStickyViewTop < stickyViewHeight && nextGroupPosition < groupAdapter.getGroups().size()) {
+        if (nextStickyViewTop > 0 && nextStickyViewTop < stickyViewHeight && nextGroupPosition < mGroupAdapter.getGroups().size()) {
             translateY = nextStickyViewTop - stickyViewHeight;
         }
         canvas.translate(0, translateY);
-        currStickyView.draw(canvas);
+        vCurrStickyView.draw(canvas);
 
-        stickyRect.left = 0;
-        stickyRect.top = 0;
-        stickyRect.right = stickyViewWidth;
-        stickyRect.bottom = stickyViewHeight + translateY;
+        mStickyRect.left = 0;
+        mStickyRect.top = 0;
+        mStickyRect.right = stickyViewWidth;
+        mStickyRect.bottom = stickyViewHeight + translateY;
+        handleGestureDetector(parent);
+    }
 
-        if (gestureDetector == null) {
-            gestureDetector = new GestureDetector(parent.getContext(), simpleOnGestureListener);
+    private View loadStickyView(@NonNull RecyclerView parent, int currStickyPosition, int width, int height) {
+        if (vStickyView == null) {
+            vStickyView = mGroupAdapter.inflater.inflate(mGroupAdapter.getHeaderLayoutId(GroupRecyclerViewAdapter.TYPE_HEADER), parent, false);
+        }
+        GroupViewHolder viewHolder = new GroupViewHolder(vStickyView);
+        mGroupAdapter.onBindViewHolder(viewHolder, currStickyPosition);
+        View itemView = viewHolder.itemView;
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
+        itemView.setLayoutParams(layoutParams);
+        itemView.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
+        itemView.layout(0, -height, width, 0);
+        return itemView;
+    }
+
+    private void handleGestureDetector(@NonNull RecyclerView parent) {
+        if (mGestureDetector == null) {
+            mGestureDetector = new GestureDetector(parent.getContext(), simpleOnGestureListener);
             parent.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
                 @Override
                 public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                    if (currStickyView != null && currStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
-                        currStickyView.setPressed(false);
+                    if (vCurrStickyView != null && vCurrStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
+                        vCurrStickyView.setPressed(false);
                     }
-                    return gestureDetector.onTouchEvent(e);
+                    return mGestureDetector.onTouchEvent(e);
                 }
 
                 @Override
                 public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                     super.onTouchEvent(rv, e);
-                    if (currStickyView != null && currStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
-                        currStickyView.setPressed(false);
+                    if (vCurrStickyView != null && vCurrStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
+                        vCurrStickyView.setPressed(false);
                     }
                 }
             });
@@ -142,17 +152,17 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         public boolean onDown(MotionEvent e) {
             boolean isValidTouch = isValidTouch(e);
             if (isValidTouch) {
-                currStickyView.setPressed(true);
+                vCurrStickyView.setPressed(true);
             }
             return isValidTouch;
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            GroupRecyclerViewAdapter adapter = groupAdapter;
+            GroupRecyclerViewAdapter adapter = mGroupAdapter;
             if (isValidTouch(e) && adapter != null && adapter.onItemClickListener != null) {
-                currStickyView.setPressed(false);
-                adapter.onItemClickListener.onItemClick(adapter, adapter.getItem(currGroupPosition, 0), currGroupPosition, 0);
+                vCurrStickyView.setPressed(false);
+                adapter.onItemClickListener.onItemClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
                 return true;
             }
             return super.onSingleTapUp(e);
@@ -161,15 +171,15 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         @Override
         public void onLongPress(MotionEvent e) {
             super.onLongPress(e);
-            GroupRecyclerViewAdapter adapter = groupAdapter;
+            GroupRecyclerViewAdapter adapter = mGroupAdapter;
             if (isValidTouch(e) && adapter != null && adapter.onItemLongClickListener != null) {
-                currStickyView.setPressed(false);
-                adapter.onItemLongClickListener.onItemLongClick(adapter, adapter.getItem(currGroupPosition, 0), currGroupPosition, 0);
+                vCurrStickyView.setPressed(false);
+                adapter.onItemLongClickListener.onItemLongClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
             }
         }
 
         private boolean isValidTouch(MotionEvent e) {
-            Rect rect = stickyRect;
+            Rect rect = mStickyRect;
             float x = e.getX();
             float y = e.getY();
             return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
