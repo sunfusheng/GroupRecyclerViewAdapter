@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.sunfusheng.adapter.sample"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sunfusheng.adapter.sample">
 
     <application
         android:allowBackup="true"
@@ -8,38 +9,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".InsertRemoveUpdateActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ExpandCollapseActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".StickyActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".WeChatMeActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".WeChatNewMessageActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".BottomSheetDialogActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
