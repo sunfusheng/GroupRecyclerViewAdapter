@@ -1,12 +1,15 @@
 package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.sunfusheng.GroupRecyclerViewAdapter;
 import com.sunfusheng.StickyHeaderDecoration;
 import com.sunfusheng.adapter.sample.adapter.ExpandCollapseGroupAdapter;
 import com.sunfusheng.adapter.sample.util.DataSource;
@@ -38,9 +41,8 @@ public class ExpandCollapseActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new StickyHeaderDecoration());
-        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
-        recyclerView.setAdapter(expandableAdapter);
 
+        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
         expandableAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
             if (adapter.isHeader(groupPosition, childPosition)) {
                 if (expandableAdapter.isExpand(groupPosition)) {
@@ -53,6 +55,10 @@ public class ExpandCollapseActivity extends BaseActivity {
                 }
             }
         });
+        expandableAdapter.setOnItemLongClickListener((adapter, data, groupPosition, childPosition) -> {
+            Toast.makeText(this, "LongClick groupPosition:" + groupPosition + ", childPosition:" + childPosition, Toast.LENGTH_SHORT).show();
+        });
+        recyclerView.setAdapter(expandableAdapter);
     }
 
 }

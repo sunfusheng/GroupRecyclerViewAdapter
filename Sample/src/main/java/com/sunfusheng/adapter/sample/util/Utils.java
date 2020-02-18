@@ -2,9 +2,10 @@ package com.sunfusheng.adapter.sample.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import androidx.annotation.StringRes;
 
 /**
  * @author sunfusheng on 2018/2/3.

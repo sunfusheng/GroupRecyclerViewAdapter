@@ -2,11 +2,12 @@ package com.sunfusheng;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author sunfusheng on 2018/2/1.

@@ -1,12 +1,13 @@
 package com.sunfusheng.adapter.sample;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author sunfusheng on 2018/2/9.

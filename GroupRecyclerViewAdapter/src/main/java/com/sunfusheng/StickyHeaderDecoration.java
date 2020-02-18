@@ -2,14 +2,15 @@ package com.sunfusheng;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author sunfusheng on 2018/3/7.
@@ -128,6 +129,8 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         if (mGestureDetector == null) {
             mGestureDetector = new GestureDetector(parent.getContext(), simpleOnGestureListener);
             parent.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+                long startTime;
+
                 @Override
                 public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                     if (vCurrStickyView != null && vCurrStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
@@ -139,30 +142,80 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                 @Override
                 public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                     super.onTouchEvent(rv, e);
-                    if (vCurrStickyView != null && vCurrStickyView.isPressed() && e.getAction() == MotionEvent.ACTION_UP) {
-                        vCurrStickyView.setPressed(false);
+                    if (vCurrStickyView == null) {
+                        return;
+                    }
+
+                    if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                        onSingleTapUpCalled = false;
+                        onLongPressCalled = false;
+                        startTime = System.currentTimeMillis();
+                        if (!vCurrStickyView.isPressed()) {
+                            vCurrStickyView.setPressed(true);
+                        }
+                    } else if (e.getAction() == MotionEvent.ACTION_UP) {
+                        long timeInterval = System.currentTimeMillis() - startTime;
+                        if (vCurrStickyView.isPressed()) {
+                            vCurrStickyView.setPressed(false);
+                        }
+
+                        if (timeInterval < 400) {
+                            onLongPressCalled = true;
+                            click(e);
+                        } else {
+                            onSingleTapUpCalled = true;
+                            longClick(e);
+                        }
                     }
                 }
             });
         }
     }
 
+    private boolean onSingleTapUpCalled;
+    private boolean onLongPressCalled;
+
+    private boolean click(MotionEvent e) {
+        GroupRecyclerViewAdapter adapter = mGroupAdapter;
+        if (isValidTouch(e) && adapter != null && adapter.onItemClickListener != null) {
+            if (onSingleTapUpCalled) {
+                return false;
+            }
+            onSingleTapUpCalled = true;
+            vCurrStickyView.setPressed(false);
+            adapter.onItemClickListener.onItemClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
+            return true;
+        }
+        return false;
+    }
+
+    private void longClick(MotionEvent e) {
+        GroupRecyclerViewAdapter adapter = mGroupAdapter;
+        if (isValidTouch(e) && adapter != null && adapter.onItemLongClickListener != null) {
+            if (onLongPressCalled) {
+                return;
+            }
+            onLongPressCalled = true;
+            vCurrStickyView.setPressed(false);
+            adapter.onItemLongClickListener.onItemLongClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
+        }
+    }
+
     private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onDown(MotionEvent e) {
-            boolean isValidTouch = isValidTouch(e);
-            if (isValidTouch) {
+            onSingleTapUpCalled = false;
+            onLongPressCalled = false;
+            if (isValidTouch(e)) {
                 vCurrStickyView.setPressed(true);
+                return true;
             }
-            return isValidTouch;
+            return super.onDown(e);
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            GroupRecyclerViewAdapter adapter = mGroupAdapter;
-            if (isValidTouch(e) && adapter != null && adapter.onItemClickListener != null) {
-                vCurrStickyView.setPressed(false);
-                adapter.onItemClickListener.onItemClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
+            if (click(e)) {
                 return true;
             }
             return super.onSingleTapUp(e);
@@ -171,18 +224,14 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         @Override
         public void onLongPress(MotionEvent e) {
             super.onLongPress(e);
-            GroupRecyclerViewAdapter adapter = mGroupAdapter;
-            if (isValidTouch(e) && adapter != null && adapter.onItemLongClickListener != null) {
-                vCurrStickyView.setPressed(false);
-                adapter.onItemLongClickListener.onItemLongClick(adapter, adapter.getItem(mCurrGroupPosition, 0), mCurrGroupPosition, 0);
-            }
-        }
-
-        private boolean isValidTouch(MotionEvent e) {
-            Rect rect = mStickyRect;
-            float x = e.getX();
-            float y = e.getY();
-            return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
+            longClick(e);
         }
     };
+
+    private boolean isValidTouch(MotionEvent e) {
+        Rect rect = mStickyRect;
+        float x = e.getX();
+        float y = e.getY();
+        return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
+    }
 }

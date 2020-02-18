@@ -1,8 +1,9 @@
 package com.sunfusheng.adapter.sample;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sunfusheng.adapter.sample.adapter.WeChatNewMessageGroupAdapter;
 import com.sunfusheng.adapter.sample.util.DataSource;

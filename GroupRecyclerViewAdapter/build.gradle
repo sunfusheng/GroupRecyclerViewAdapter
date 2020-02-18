@@ -2,13 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    compileSdkVersion compile_sdk_version
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
     }
 
     compileOptions {
@@ -29,14 +28,14 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:recyclerview-v7:' + rootProject.supportLibraryVersion
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
 
 publish {
     userOrg = 'sfsheng0322'
     groupId = 'com.sunfusheng'
     artifactId = 'GroupRecyclerViewAdapter'
-    publishVersion = rootProject.versionName
+    publishVersion = version_name
     desc = 'A group adapter for RecyclerView with the data of T[][] or List<List<T>>.'
     website = 'https://github.com/sunfusheng/GroupRecyclerViewAdapter'
 }
