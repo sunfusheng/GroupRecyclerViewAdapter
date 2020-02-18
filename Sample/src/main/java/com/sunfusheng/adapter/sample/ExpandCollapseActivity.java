@@ -43,6 +43,7 @@ public class ExpandCollapseActivity extends BaseActivity {
         recyclerView.addItemDecoration(new StickyHeaderDecoration());
 
         ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
+        recyclerView.setAdapter(expandableAdapter);
         expandableAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
             if (adapter.isHeader(groupPosition, childPosition)) {
                 if (expandableAdapter.isExpand(groupPosition)) {
@@ -58,7 +59,6 @@ public class ExpandCollapseActivity extends BaseActivity {
         expandableAdapter.setOnItemLongClickListener((adapter, data, groupPosition, childPosition) -> {
             Toast.makeText(this, "LongClick groupPosition:" + groupPosition + ", childPosition:" + childPosition, Toast.LENGTH_SHORT).show();
         });
-        recyclerView.setAdapter(expandableAdapter);
     }
 
 }
