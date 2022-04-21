@@ -14,33 +14,33 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    protected void initActionBar(int titleId, boolean showHomeAsUp) {
-        setTitle(titleId);
-        ActionBar actionBar = getSupportActionBar();
-        if (null != actionBar) {
-            actionBar.setDisplayHomeAsUpEnabled(showHomeAsUp);
-        }
+  protected void initActionBar(int titleId, boolean showHomeAsUp) {
+    setTitle(titleId);
+    ActionBar actionBar = getSupportActionBar();
+    if (null != actionBar) {
+      actionBar.setDisplayHomeAsUpEnabled(showHomeAsUp);
     }
+  }
 
-    protected View setCustomActionBarLayout(@LayoutRes int layoutId) {
-        ActionBar actionBar = getSupportActionBar();
-        if (null != actionBar) {
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(layoutId, null);
-            ActionBar.LayoutParams layout = new ActionBar.LayoutParams(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
-            actionBar.setCustomView(view, layout);
-            return view;
-        }
-        return null;
+  protected View setCustomActionBarLayout(@LayoutRes int layoutId) {
+    ActionBar actionBar = getSupportActionBar();
+    if (null != actionBar) {
+      actionBar.setDisplayShowHomeEnabled(false);
+      actionBar.setDisplayShowCustomEnabled(true);
+      LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View view = inflater.inflate(layoutId, null);
+      ActionBar.LayoutParams layout = new ActionBar.LayoutParams(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT);
+      actionBar.setCustomView(view, layout);
+      return view;
     }
+    return null;
+  }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      finish();
+      return true;
     }
+    return super.onOptionsItemSelected(item);
+  }
 }

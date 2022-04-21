@@ -20,38 +20,38 @@ import com.sunfusheng.adapter.sample.util.DataSource;
  */
 public class BottomSheetDialogActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom_sheet);
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_bottom_sheet);
 
-        initActionBar(R.string.bottom_sheet, true);
+    initActionBar(R.string.bottom_sheet, true);
 
-        View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_recycler_view, null, false);
-        RecyclerView recyclerView = bottomSheetView.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new StickyHeaderDecoration());
-        StickyGroupAdapter stickyAdapter = new StickyGroupAdapter(this, DataSource.items);
-        recyclerView.setAdapter(stickyAdapter);
+    View bottomSheetView = LayoutInflater.from(this).inflate(R.layout.layout_recycler_view, null, false);
+    RecyclerView recyclerView = bottomSheetView.findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.addItemDecoration(new StickyHeaderDecoration());
+    StickyGroupAdapter stickyAdapter = new StickyGroupAdapter(this, DataSource.items);
+    recyclerView.setAdapter(stickyAdapter);
 
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(bottomSheetView);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
-        int height = getWindowManager().getDefaultDisplay().getHeight();
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) bottomSheetView.getLayoutParams();
-        layoutParams.height = height / 2;
-        bottomSheetView.setLayoutParams(layoutParams);
+    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+    bottomSheetDialog.setContentView(bottomSheetView);
+    BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
+    int height = getWindowManager().getDefaultDisplay().getHeight();
+    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) bottomSheetView.getLayoutParams();
+    layoutParams.height = height / 2;
+    bottomSheetView.setLayoutParams(layoutParams);
 //        bottomSheetBehavior.setPeekHeight(height / 3);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        bottomSheetDialog.show();
+    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    bottomSheetDialog.show();
 
-        bottomSheetDialog.setOnDismissListener(dialog -> {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        });
+    bottomSheetDialog.setOnDismissListener(dialog -> {
+      bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    });
 
-        findViewById(R.id.text).setOnClickListener(v -> {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            bottomSheetDialog.show();
-        });
-    }
+    findViewById(R.id.text).setOnClickListener(v -> {
+      bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+      bottomSheetDialog.show();
+    });
+  }
 }

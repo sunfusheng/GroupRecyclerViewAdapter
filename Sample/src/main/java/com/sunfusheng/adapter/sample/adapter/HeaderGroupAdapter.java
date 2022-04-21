@@ -11,28 +11,28 @@ import com.sunfusheng.adapter.sample.R;
  */
 public class HeaderGroupAdapter extends HeaderGroupRecyclerViewAdapter<String> {
 
-    public HeaderGroupAdapter(Context context, String[][] items) {
-        super(context, items);
-    }
+  public HeaderGroupAdapter(Context context, String[][] items) {
+    super(context, items);
+  }
 
-    @Override
-    public int getHeaderLayoutId(int viewType) {
-        return R.layout.item_header_layout;
-    }
+  @Override
+  public int getHeaderLayoutId(int viewType) {
+    return R.layout.item_header_layout;
+  }
 
-    @Override
-    public int getChildLayoutId(int viewType) {
-        return R.layout.item_child_layout;
-    }
+  @Override
+  public int getChildLayoutId(int viewType) {
+    return R.layout.item_child_layout;
+  }
 
-    @Override
-    public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_title, item);
-    }
+  @Override
+  public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+    holder.setText(R.id.tv_title, item);
+  }
 
-    @Override
-    public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_title, item);
-    }
+  @Override
+  public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
+    holder.setText(R.id.tv_title, item);
+  }
 
 }

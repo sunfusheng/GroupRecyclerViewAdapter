@@ -1,33 +1,50 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion compile_sdk_version
-    defaultConfig {
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
-        versionCode version_code
-        versionName version_name
-    }
+  compileSdkVersion compile_sdk_version
+  defaultConfig {
+    minSdkVersion min_sdk_version
+    targetSdkVersion target_sdk_version
+    versionCode version_code
+    versionName version_name
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    lintOptions {
-        abortOnError false
-    }
+  lintOptions {
+    abortOnError false
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
 }
 
 dependencies {
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+  implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
 
-apply from: 'publish.gradle'
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
+  }
+}
+
+allprojects {
+  plugins.withId("com.vanniktech.maven.publish") {
+    mavenPublish {
+      sonatypeHost = "S01"
+    }
+  }
+}
+
+apply plugin: "com.vanniktech.maven.publish"

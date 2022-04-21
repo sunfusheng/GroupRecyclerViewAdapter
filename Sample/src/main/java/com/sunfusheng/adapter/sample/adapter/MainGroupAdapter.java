@@ -12,28 +12,28 @@ import com.sunfusheng.adapter.sample.util.DataSource;
  */
 public class MainGroupAdapter extends HeaderGroupRecyclerViewAdapter<DataSource.MainItemConfig> {
 
-    public MainGroupAdapter(Context context, DataSource.MainItemConfig[][] items) {
-        super(context, items);
-    }
+  public MainGroupAdapter(Context context, DataSource.MainItemConfig[][] items) {
+    super(context, items);
+  }
 
-    @Override
-    public int getHeaderLayoutId(int viewType) {
-        return R.layout.divider_20dp;
-    }
+  @Override
+  public int getHeaderLayoutId(int viewType) {
+    return R.layout.divider_20dp;
+  }
 
-    @Override
-    public int getChildLayoutId(int viewType) {
-        return R.layout.item_child_layout;
-    }
+  @Override
+  public int getChildLayoutId(int viewType) {
+    return R.layout.item_child_layout;
+  }
 
-    @Override
-    public void onBindHeaderViewHolder(GroupViewHolder holder, DataSource.MainItemConfig item, int groupPosition) {
+  @Override
+  public void onBindHeaderViewHolder(GroupViewHolder holder, DataSource.MainItemConfig item, int groupPosition) {
 
-    }
+  }
 
-    @Override
-    public void onBindChildViewHolder(GroupViewHolder holder, DataSource.MainItemConfig item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_title, item.titleId);
-        holder.setVisible(R.id.divider, !isGroupLastItem(groupPosition, childPosition));
-    }
+  @Override
+  public void onBindChildViewHolder(GroupViewHolder holder, DataSource.MainItemConfig item, int groupPosition, int childPosition) {
+    holder.setText(R.id.tv_title, item.titleId);
+    holder.setVisible(R.id.divider, !isGroupLastItem(groupPosition, childPosition));
+  }
 }

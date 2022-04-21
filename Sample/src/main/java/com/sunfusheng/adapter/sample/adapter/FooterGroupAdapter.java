@@ -12,27 +12,27 @@ import com.sunfusheng.adapter.sample.util.DataSource;
  */
 public class FooterGroupAdapter extends FooterGroupRecyclerViewAdapter<String> {
 
-    public FooterGroupAdapter(Context context, String[][] items) {
-        super(context, items);
-    }
+  public FooterGroupAdapter(Context context, String[][] items) {
+    super(context, items);
+  }
 
-    @Override
-    public int getChildLayoutId(int viewType) {
-        return R.layout.item_child_layout;
-    }
+  @Override
+  public int getChildLayoutId(int viewType) {
+    return R.layout.item_child_layout;
+  }
 
-    @Override
-    public int getFooterLayoutId(int viewType) {
-        return R.layout.item_footer_layout;
-    }
+  @Override
+  public int getFooterLayoutId(int viewType) {
+    return R.layout.item_footer_layout;
+  }
 
-    @Override
-    public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_title, item);
-    }
+  @Override
+  public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
+    holder.setText(R.id.tv_title, item);
+  }
 
-    @Override
-    public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_title, item + DataSource.FOOTER_SUFFIX);
-    }
+  @Override
+  public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+    holder.setText(R.id.tv_title, item + DataSource.FOOTER_SUFFIX);
+  }
 }

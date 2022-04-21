@@ -1,4 +1,4 @@
-# GroupRecyclerViewAdapter [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/GroupRecyclerViewAdapter/images/download.svg) ](https://bintray.com/sfsheng0322/maven/GroupRecyclerViewAdapter/_latestVersion)
+# GroupRecyclerViewAdapter
 
 可增删改查、可动画展开收起、可吸附悬浮动态可配置的分组列表，轻松帮你实现【微信-我】等类似页面。
 
@@ -12,7 +12,7 @@
 
 ### Gradle:
 
-    compile 'com.sunfusheng:GroupRecyclerViewAdapter:<latest-version>'
+    implementation 'com.sunfusheng:GroupRecyclerViewAdapter:1.0.0'
 
 <br/>
 
@@ -25,12 +25,6 @@
 ### 个人微信公众号
 
 <img src="http://sunfusheng.com/assets/wx_gongzhonghao.png">
-
-<br/>
-
-### 请作者喝杯咖啡^_^
-
-<img src="http://sunfusheng.com/assets/wx_shoukuanma.png" >
 
 <br/>
 

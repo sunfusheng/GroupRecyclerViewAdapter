@@ -11,43 +11,43 @@ import com.sunfusheng.adapter.sample.R;
  */
 public class StickyGroupAdapter extends GroupRecyclerViewAdapter<String> {
 
-    public StickyGroupAdapter(Context context, String[][] groups) {
-        super(context, groups);
-    }
+  public StickyGroupAdapter(Context context, String[][] groups) {
+    super(context, groups);
+  }
 
-    @Override
-    public boolean showFooter() {
-        return false;
-    }
+  @Override
+  public boolean showFooter() {
+    return false;
+  }
 
-    @Override
-    public int getHeaderLayoutId(int viewType) {
-        return R.layout.item_header_layout;
-    }
+  @Override
+  public int getHeaderLayoutId(int viewType) {
+    return R.layout.item_header_layout;
+  }
 
-    @Override
-    public int getChildLayoutId(int viewType) {
-        return R.layout.item_child_layout;
-    }
+  @Override
+  public int getChildLayoutId(int viewType) {
+    return R.layout.item_child_layout;
+  }
 
-    @Override
-    public int getFooterLayoutId(int viewType) {
-        return 0;
-    }
+  @Override
+  public int getFooterLayoutId(int viewType) {
+    return 0;
+  }
 
-    @Override
-    public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
-        holder.setText(R.id.tv_title, item);
-    }
+  @Override
+  public void onBindHeaderViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+    holder.setText(R.id.tv_title, item);
+  }
 
-    @Override
-    public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
-        holder.setText(R.id.tv_title, item);
-    }
+  @Override
+  public void onBindChildViewHolder(GroupViewHolder holder, String item, int groupPosition, int childPosition) {
+    holder.setText(R.id.tv_title, item);
+  }
 
-    @Override
-    public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
+  @Override
+  public void onBindFooterViewHolder(GroupViewHolder holder, String item, int groupPosition) {
 
-    }
+  }
 
 }

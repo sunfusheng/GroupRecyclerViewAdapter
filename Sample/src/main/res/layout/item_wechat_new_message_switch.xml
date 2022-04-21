@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_centerVertical="true"
             android:text="@string/notify_detail"
             android:textColor="@color/font1"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <com.sunfusheng.adapter.sample.widget.SwitchButton
             android:id="@+id/switch_button"
@@ -36,7 +35,7 @@
             app:kswThumbHeight="18dp"
             app:kswThumbRangeRatio="2"
             app:kswThumbWidth="18dp"
-            tools:ignore="RtlHardcoded"/>
+            tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 
     <TextView
@@ -46,12 +45,12 @@
         android:layout_marginTop="5dp"
         android:text="@string/notify_detail_subtitle"
         android:textColor="@color/font2"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
 
     <include
         layout="@layout/divider_1px"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller"/>
+        android:layout_marginTop="@dimen/list_item_margin_top_bottom_smaller" />
 
 </LinearLayout>

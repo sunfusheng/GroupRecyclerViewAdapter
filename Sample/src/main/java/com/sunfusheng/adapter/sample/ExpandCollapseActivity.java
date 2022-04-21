@@ -19,46 +19,46 @@ import com.sunfusheng.adapter.sample.util.DataSource;
  */
 public class ExpandCollapseActivity extends BaseActivity {
 
-    private boolean withAnim = true;
+  private boolean withAnim = true;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_recycler_view);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.layout_recycler_view);
 
-        View view = setCustomActionBarLayout(R.layout.layout_switch_actionbar);
-        if (null != view) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            TextView tvTitle = view.findViewById(R.id.tv_title);
-            tvTitle.setText(R.string.expand_collapse);
-            SwitchCompat switchCompat = view.findViewById(R.id.switchCompat);
-            switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                withAnim = isChecked;
-            });
-            switchCompat.setChecked(withAnim);
-        }
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new StickyHeaderDecoration());
-
-        ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
-        recyclerView.setAdapter(expandableAdapter);
-        expandableAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
-            if (adapter.isHeader(groupPosition, childPosition)) {
-                if (expandableAdapter.isExpand(groupPosition)) {
-                    expandableAdapter.collapseGroup(groupPosition, withAnim);
-                } else {
-                    expandableAdapter.expandGroup(groupPosition, withAnim);
-                }
-                if (withAnim) {
-                    expandableAdapter.updateItem(groupPosition, childPosition, expandableAdapter.getItem(groupPosition, childPosition));
-                }
-            }
-        });
-        expandableAdapter.setOnItemLongClickListener((adapter, data, groupPosition, childPosition) -> {
-            Toast.makeText(this, "LongClick groupPosition:" + groupPosition + ", childPosition:" + childPosition, Toast.LENGTH_SHORT).show();
-        });
+    View view = setCustomActionBarLayout(R.layout.layout_switch_actionbar);
+    if (null != view) {
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      TextView tvTitle = view.findViewById(R.id.tv_title);
+      tvTitle.setText(R.string.expand_collapse);
+      SwitchCompat switchCompat = view.findViewById(R.id.switchCompat);
+      switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        withAnim = isChecked;
+      });
+      switchCompat.setChecked(withAnim);
     }
+
+    RecyclerView recyclerView = findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.addItemDecoration(new StickyHeaderDecoration());
+
+    ExpandCollapseGroupAdapter expandableAdapter = new ExpandCollapseGroupAdapter(this, DataSource.items);
+    recyclerView.setAdapter(expandableAdapter);
+    expandableAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+      if (adapter.isHeader(groupPosition, childPosition)) {
+        if (expandableAdapter.isExpand(groupPosition)) {
+          expandableAdapter.collapseGroup(groupPosition, withAnim);
+        } else {
+          expandableAdapter.expandGroup(groupPosition, withAnim);
+        }
+        if (withAnim) {
+          expandableAdapter.updateItem(groupPosition, childPosition, expandableAdapter.getItem(groupPosition, childPosition));
+        }
+      }
+    });
+    expandableAdapter.setOnItemLongClickListener((adapter, data, groupPosition, childPosition) -> {
+      Toast.makeText(this, "LongClick groupPosition:" + groupPosition + ", childPosition:" + childPosition, Toast.LENGTH_SHORT).show();
+    });
+  }
 
 }

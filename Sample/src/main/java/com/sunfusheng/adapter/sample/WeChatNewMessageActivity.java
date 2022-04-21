@@ -14,26 +14,26 @@ import com.sunfusheng.adapter.sample.util.Utils;
  */
 public class WeChatNewMessageActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_recycler_view);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.layout_recycler_view);
 
-        initActionBar(R.string.wechat_new_message, true);
+    initActionBar(R.string.wechat_new_message, true);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(this, DataSource.weChatNewMessageItems);
-        recyclerView.setAdapter(weChatAdapter);
+    RecyclerView recyclerView = findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    WeChatNewMessageGroupAdapter weChatAdapter = new WeChatNewMessageGroupAdapter(this, DataSource.weChatNewMessageItems);
+    recyclerView.setAdapter(weChatAdapter);
 
-        weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
-            if (null == data || 0 == data.key) {
-                return;
-            }
+    weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+      if (null == data || 0 == data.key) {
+        return;
+      }
 
-            if (R.attr.key_new_message_voice == data.key) {
-                Utils.toastLong(this, "你是我的小呀小苹果^_^");
-            }
-        });
-    }
+      if (R.attr.key_new_message_voice == data.key) {
+        Utils.toastLong(this, "你是我的小呀小苹果^_^");
+      }
+    });
+  }
 }

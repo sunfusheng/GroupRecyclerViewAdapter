@@ -14,30 +14,30 @@ import com.sunfusheng.adapter.sample.util.Utils;
  */
 public class WeChatMeActivity extends BaseActivity {
 
-    private int clickProfileCount = 0;
+  private int clickProfileCount = 0;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_recycler_view);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.layout_recycler_view);
 
-        initActionBar(R.string.wechat_me, true);
+    initActionBar(R.string.wechat_me, true);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, DataSource.weChatMeItems);
-        recyclerView.setAdapter(weChatAdapter);
+    RecyclerView recyclerView = findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    WeChatMeGroupAdapter weChatAdapter = new WeChatMeGroupAdapter(this, DataSource.weChatMeItems);
+    recyclerView.setAdapter(weChatAdapter);
 
-        weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
-            if (null == data || 0 == data.key) {
-                return;
-            }
+    weChatAdapter.setOnItemClickListener((adapter, data, groupPosition, childPosition) -> {
+      if (null == data || 0 == data.key) {
+        return;
+      }
 
-            if (R.attr.key_profile == data.key) {
-                Utils.toast(this, "惊喜 +" + (++clickProfileCount));
-            } else {
-                Utils.toast(this, data.titleId);
-            }
-        });
-    }
+      if (R.attr.key_profile == data.key) {
+        Utils.toast(this, "惊喜 +" + (++clickProfileCount));
+      } else {
+        Utils.toast(this, data.titleId);
+      }
+    });
+  }
 }
